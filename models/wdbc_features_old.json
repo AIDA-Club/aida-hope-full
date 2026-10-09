@@ -1,0 +1,32 @@
+[
+  {
+    "name": "mean radius",
+    "min": 6.981,
+    "max": 28.11,
+    "median": 13.37
+  },
+  {
+    "name": "mean texture",
+    "min": 9.71,
+    "max": 39.28,
+    "median": 18.84
+  },
+  {
+    "name": "mean smoothness",
+    "min": 0.05263,
+    "max": 0.1634,
+    "median": 0.09587
+  },
+  {
+    "name": "mean concavity",
+    "min": 0.0,
+    "max": 0.4268,
+    "median": 0.06154
+  },
+  {
+    "name": "worst concave points",
+    "min": 0.0,
+    "max": 0.291,
+    "median": 0.09993
+  }
+]

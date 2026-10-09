@@ -1,0 +1,78 @@
+{
+  "n_test": 68,
+  "test_counts": {
+    "normal": 10,
+    "benign": 34,
+    "malignant": 24
+  },
+  "accuracy": 0.8382,
+  "macro_f1": 0.8295,
+  "malignant_sensitivity": 0.875,
+  "malignant_sensitivity_95ci": [
+    0.69,
+    0.9566
+  ],
+  "malignant_caught": 21,
+  "malignant_missed": 3,
+  "false_alarms": 3,
+  "per_class": {
+    "normal": {
+      "precision": 0.6923,
+      "recall": 0.9,
+      "f1": 0.7826,
+      "support": 10
+    },
+    "benign": {
+      "precision": 0.871,
+      "recall": 0.7941,
+      "f1": 0.8308,
+      "support": 34
+    },
+    "malignant": {
+      "precision": 0.875,
+      "recall": 0.875,
+      "f1": 0.875,
+      "support": 24
+    }
+  },
+  "roc_auc_ovr_macro": 0.955,
+  "roc_auc_ovr_per_class": {
+    "normal": 0.9776,
+    "benign": 0.9394,
+    "malignant": 0.9479
+  },
+  "confusion_matrix": {
+    "rows_truth_cols_pred": [
+      "normal",
+      "benign",
+      "malignant"
+    ],
+    "matrix": [
+      [
+        9,
+        1,
+        0
+      ],
+      [
+        4,
+        27,
+        3
+      ],
+      [
+        0,
+        3,
+        21
+      ]
+    ]
+  },
+  "best_epoch": 7,
+  "val_macro_f1": 0.8415,
+  "dataset_layout": "curated",
+  "near_duplicate_pairs": 1,
+  "split_sizes": {
+    "train": 314,
+    "val": 68,
+    "test": 68
+  },
+  "seed": 42
+}

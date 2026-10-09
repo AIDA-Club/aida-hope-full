@@ -1,0 +1,14 @@
+{
+  "headless_server": "started",
+  "case01": "rendered; Enter/M/R/K/T shortcuts passed; three images and overlap shown",
+  "case01_result_bounds": {
+    "x": 380,
+    "y": 849.078125,
+    "width": 1460,
+    "height": 101.15625
+  },
+  "normal_case02": "rendered; Esc/N/R/C/N/T shortcuts passed; null overlap hidden",
+  "ai_error_case17": "B shortcut passed; pink error note and low-overlap result rendered",
+  "wdbc": "real model rendered; benign/malignant median resets each show 99%",
+  "headless_server_stopped": true
+}

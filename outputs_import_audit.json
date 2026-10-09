@@ -1,0 +1,2859 @@
+{
+  "archive": "outputs-20261009T181041Z-1-001.zip",
+  "archive_sha256": "6d714fdc006defd5870bb18c6b5c4fc23d5c63be82f85a106be60f651a61eedd",
+  "protected": {
+    "data/results.csv": "03c9458fead979669b9d419daabb6e4d4ee36ad8061fbd06ddfefe7860f946bc",
+    "Home.py": "cf6a2746a4e4bd309f318a52a4acd227eca4d07156e9c9a1685cb1937edfbecc",
+    "booth.py": "02d0412ec93f8d7b921ceab17279f5630e48dba68c591661e0caaebb036f6721",
+    "requirements.txt": "dd42d6a053473f216ad04ca44a5866f57164d53c86c7b2dc748a307d901c7872",
+    "pages/1_Challenge_Reveal.py": "114679843ebbba067bea142cb5eb58ccf27b8b04d2358809836afb2ecab218a9",
+    "pages/2_Tweak_the_Tumor.py": "3295a9074e0a7ceb05e6caca691b9253b061230d311f680fb27ca121cdad2a92",
+    "pages/3_Ask_AIDA.py": "565e3b24543a61251d2bf23b41656f1d3430a402117556a7d6b62208c53ce433",
+    "kb/fallback_ar.md": "bf6943a35cf2b5240f424bad935f55233c35e022402547bbac9533725646e284",
+    "kb/fallback_en.md": "e2ffe8e537ba05a3ea409cd8435dafc6f7fda49e0b859e2ef35383b10737e96f",
+    "i18n/ar.json": "dca118cfb7a3c28eee6df1a6b0a2a30edc41fb27cf012b41afddeb9bc342a8bc",
+    "i18n/en.json": "729c1fdf3905e9d6ba4f995764f8ed74a1397a3435c00f3ec5b7f48688dc0d64"
+  },
+  "copies": [
+    {
+      "source": "export/booth_set.json",
+      "destination": "data/booth_set_new.json",
+      "sha256": "433e4cca0243ba153892ac0d0fe57756098c22a171692a4743479e335e54fba5"
+    },
+    {
+      "source": "export/images/case01.png",
+      "destination": "data/images/case01.png",
+      "sha256": "1aeaff8e11db2b38212926872ef1cc3422575db2fbdd4fa5b56a876246c87729"
+    },
+    {
+      "source": "export/images/case02.png",
+      "destination": "data/images/case02.png",
+      "sha256": "f3f85fbfcebc8452a64e20cd8baba794dbb3a6e1ffa6c06633c349f929bace2b"
+    },
+    {
+      "source": "export/images/case03.png",
+      "destination": "data/images/case03.png",
+      "sha256": "1645b31543b76f3814fab72d92c98d40825f500663f3cc756ff5691a8b8ed64b"
+    },
+    {
+      "source": "export/images/case04.png",
+      "destination": "data/images/case04.png",
+      "sha256": "e4ed0d67b6869354f5c78c54defb70a582e75c80d0a3fb34e29060b68cb01f29"
+    },
+    {
+      "source": "export/images/case05.png",
+      "destination": "data/images/case05.png",
+      "sha256": "d78f9ba21bb4163b15f6931344f744d486fcae78c6821c31af96b69179e5c361"
+    },
+    {
+      "source": "export/images/case06.png",
+      "destination": "data/images/case06.png",
+      "sha256": "c5eacc8334b7b9355222a9de0d36f899ee88b468b988f5cb6367cf9b709240e8"
+    },
+    {
+      "source": "export/images/case07.png",
+      "destination": "data/images/case07.png",
+      "sha256": "cee8a549948638d0453410123802e1b825ff9b568d52a0cc0f7640bd0b09447e"
+    },
+    {
+      "source": "export/images/case08.png",
+      "destination": "data/images/case08.png",
+      "sha256": "c6e6e11ad14269157e5d64ae6d1951b024cec7fbde814b61ff87a2986ccdb5fe"
+    },
+    {
+      "source": "export/images/case09.png",
+      "destination": "data/images/case09.png",
+      "sha256": "9b77fca90386a5c2a246a9e2949dfd46ac7354da0d94b227c18783147284fa71"
+    },
+    {
+      "source": "export/images/case10.png",
+      "destination": "data/images/case10.png",
+      "sha256": "6c89ee66e22b68a2ba8c35531f9ffca80536d33ff9f1e541e4659c7b32d29ab1"
+    },
+    {
+      "source": "export/images/case11.png",
+      "destination": "data/images/case11.png",
+      "sha256": "526b1bd939463f252ca6bff6d598f3f992defba8ab2ac0b62d4b202a2da8540c"
+    },
+    {
+      "source": "export/images/case12.png",
+      "destination": "data/images/case12.png",
+      "sha256": "4286a2268c4a55d4c94046102e013fdfe615aeffe69c64517bea136c64bc00cd"
+    },
+    {
+      "source": "export/images/case13.png",
+      "destination": "data/images/case13.png",
+      "sha256": "b196719a0e526f226410471efe21ebf41868e7ae59eaccb01e626e778032788d"
+    },
+    {
+      "source": "export/images/case14.png",
+      "destination": "data/images/case14.png",
+      "sha256": "08d903c6b73faf1b26be417c1b03805682664c3bf0cfdbee2eb200c150fabb0e"
+    },
+    {
+      "source": "export/images/case15.png",
+      "destination": "data/images/case15.png",
+      "sha256": "7ac92538b90ca73a2c18759c07a829dde0a4d65c10e27dfc98f3cfb345dfc63a"
+    },
+    {
+      "source": "export/images/case16.png",
+      "destination": "data/images/case16.png",
+      "sha256": "408057a1c8176788e8cf36371d7050f30e6f8a9568d8702af3d4e1766830eb5c"
+    },
+    {
+      "source": "export/images/case17.png",
+      "destination": "data/images/case17.png",
+      "sha256": "b47883d456e3cfb7dc23e736aee84fad5385d75fd0a63906e1aceacee7fcc73d"
+    },
+    {
+      "source": "export/images/case18.png",
+      "destination": "data/images/case18.png",
+      "sha256": "7a6eb9f91ce480f8ace9bf13e736f20dad4c80f2c24977e1da1395df65c52ca1"
+    },
+    {
+      "source": "export/images/case19.png",
+      "destination": "data/images/case19.png",
+      "sha256": "b02e61a9d4042e275d986576961399949f09e612aaebaa9d054cb5ef15dc4061"
+    },
+    {
+      "source": "export/images/case20.png",
+      "destination": "data/images/case20.png",
+      "sha256": "ba26794700cbefbb8ea1cabd6210bc70f12bba4657f6996327e102391bbb726e"
+    },
+    {
+      "source": "export/images/case21.png",
+      "destination": "data/images/case21.png",
+      "sha256": "a1802592a5653bf736975c43c1f498183c06383b46c934fbe9e05833d99163b2"
+    },
+    {
+      "source": "export/images/case22.png",
+      "destination": "data/images/case22.png",
+      "sha256": "142b886031ce9a2818bf739034b2285a0b937973880d566b74763240f0b0c3c8"
+    },
+    {
+      "source": "export/images/case23.png",
+      "destination": "data/images/case23.png",
+      "sha256": "49dfa025fc62fb946de48e06c87b0896928a3a6b7e8d42f7fd1be8539db756f9"
+    },
+    {
+      "source": "export/images/case24.png",
+      "destination": "data/images/case24.png",
+      "sha256": "cda6b00369d7f7a7b1fb003aa3fa0c26caead35f4aa45e1711d895841e850474"
+    },
+    {
+      "source": "export/images/case25.png",
+      "destination": "data/images/case25.png",
+      "sha256": "6859abf8652fbbeb24704004fa2e1f9785e6522105fb9f50140e10ff1fd8f47b"
+    },
+    {
+      "source": "export/images/case26.png",
+      "destination": "data/images/case26.png",
+      "sha256": "2920f5f4f4240732c22d0c12ad4c07a9cbc821c66ab1495a62f302d9ccc6d8b2"
+    },
+    {
+      "source": "export/images/case27.png",
+      "destination": "data/images/case27.png",
+      "sha256": "3659a36df0caf2462f6fc891edc2718fb79ed6431fb4a7cdfac6f0ea781943a9"
+    },
+    {
+      "source": "export/images/case28.png",
+      "destination": "data/images/case28.png",
+      "sha256": "6f22b0c2cf4d8dba45ece3d0f9079d3004f4aba3f072c9d6fc91adc57f98c448"
+    },
+    {
+      "source": "export/images/case29.png",
+      "destination": "data/images/case29.png",
+      "sha256": "f441313cab60a04074d36d55e7f6f1ee5073fc9aa6c891e208f556ea80e5d3bd"
+    },
+    {
+      "source": "export/images/case30.png",
+      "destination": "data/images/case30.png",
+      "sha256": "71aec42ed3063aada7ddf8e7b3d974053076ee4ae71990e830ab5b043708d6d8"
+    },
+    {
+      "source": "export/heatmaps/case01.png",
+      "destination": "data/heatmaps/case01.png",
+      "sha256": "2aa3004db03f031040d4ec99fe9674dc13c7ff302c1f7eb7bfdd59aaffdbf671"
+    },
+    {
+      "source": "export/heatmaps/case02.png",
+      "destination": "data/heatmaps/case02.png",
+      "sha256": "bd9885787ef13dce59a04172735d16a0d81cee9d41a5755dbb532324de15c784"
+    },
+    {
+      "source": "export/heatmaps/case03.png",
+      "destination": "data/heatmaps/case03.png",
+      "sha256": "6e4fe178e5f43b1e0b345abbc4cda99169f487d5d2bca5b44b778c6a17864c6f"
+    },
+    {
+      "source": "export/heatmaps/case04.png",
+      "destination": "data/heatmaps/case04.png",
+      "sha256": "8fec22f8fd17d04748014f790a061d98a08f5662901b9712acaac11c54b4860c"
+    },
+    {
+      "source": "export/heatmaps/case05.png",
+      "destination": "data/heatmaps/case05.png",
+      "sha256": "bdb2111828e46f19817989f4bf29989536ecbd084ac72f33cf1054ef12c3107c"
+    },
+    {
+      "source": "export/heatmaps/case06.png",
+      "destination": "data/heatmaps/case06.png",
+      "sha256": "6db0b17951da665e1355d0ea5a9640047f35430303b75965907cc406f495a39d"
+    },
+    {
+      "source": "export/heatmaps/case07.png",
+      "destination": "data/heatmaps/case07.png",
+      "sha256": "5798762a58fa061b3ecb5e667ca4aceb762f0526103c3f4bab4327abd8089e2c"
+    },
+    {
+      "source": "export/heatmaps/case08.png",
+      "destination": "data/heatmaps/case08.png",
+      "sha256": "21518d026c35a80b535529f236b39d5deb0c9ee93f3cc89242857f82f724d7ca"
+    },
+    {
+      "source": "export/heatmaps/case09.png",
+      "destination": "data/heatmaps/case09.png",
+      "sha256": "eb08ade0bd3a402f7594c96e9cddf1c491bea2bb3be09de2ad6b308a9653ecb8"
+    },
+    {
+      "source": "export/heatmaps/case10.png",
+      "destination": "data/heatmaps/case10.png",
+      "sha256": "a48104c70853ac20c2eec4cd4ccf4cd8b9305459fcd4056d404f743d83e5f0e6"
+    },
+    {
+      "source": "export/heatmaps/case11.png",
+      "destination": "data/heatmaps/case11.png",
+      "sha256": "7a190c2fb418bd3280b056f144356e0b11f2fe3085ef49a6cef5bb0598353404"
+    },
+    {
+      "source": "export/heatmaps/case12.png",
+      "destination": "data/heatmaps/case12.png",
+      "sha256": "15d596f6e92aa409e4f9949ba7f252e26097712a8f11dd7c943eaf41f6477892"
+    },
+    {
+      "source": "export/heatmaps/case13.png",
+      "destination": "data/heatmaps/case13.png",
+      "sha256": "d6f58e7b53d8cb1de100fe4a2d390381eeaefa259578afec8b5e98502d75e0e7"
+    },
+    {
+      "source": "export/heatmaps/case14.png",
+      "destination": "data/heatmaps/case14.png",
+      "sha256": "e02bb9f87e7ac7515bc925b0b3c81f42915f3b833835671a411d2429db9274b2"
+    },
+    {
+      "source": "export/heatmaps/case15.png",
+      "destination": "data/heatmaps/case15.png",
+      "sha256": "5dbc30e696e24f66e8f765741bdb10cc71522f7be7459ebe8d1a4166731fe5f5"
+    },
+    {
+      "source": "export/heatmaps/case16.png",
+      "destination": "data/heatmaps/case16.png",
+      "sha256": "9eacc78d839ee5ffc31abf110c6d3d904c1f651b032d1776c3e82727634c018a"
+    },
+    {
+      "source": "export/heatmaps/case17.png",
+      "destination": "data/heatmaps/case17.png",
+      "sha256": "e9d264992b1f138004a6d8d9103581b456f06cd3fa2033d929f0f67040177b75"
+    },
+    {
+      "source": "export/heatmaps/case18.png",
+      "destination": "data/heatmaps/case18.png",
+      "sha256": "41b457ff08b1e269746faf8f6c1c8584fda07a91bd84b9de4610434807a5a203"
+    },
+    {
+      "source": "export/heatmaps/case19.png",
+      "destination": "data/heatmaps/case19.png",
+      "sha256": "b0ea8cb8178132c1a568a70af1336a2ad1619d1410b260cb0a33f18ae340b840"
+    },
+    {
+      "source": "export/heatmaps/case20.png",
+      "destination": "data/heatmaps/case20.png",
+      "sha256": "f695eb89b8a0766426054f39c76b88d6a5340ae884cc0b41eb1db91b4416cd1e"
+    },
+    {
+      "source": "export/heatmaps/case21.png",
+      "destination": "data/heatmaps/case21.png",
+      "sha256": "4e226d1b8eacd2914be49f63dee83ea48200d729b8d232c1fb0ab6c86452597a"
+    },
+    {
+      "source": "export/heatmaps/case22.png",
+      "destination": "data/heatmaps/case22.png",
+      "sha256": "5b8bd41567bd38ccaa43d8e7678059ca1ec18c44cb93618fe17bad5bd06653b0"
+    },
+    {
+      "source": "export/heatmaps/case23.png",
+      "destination": "data/heatmaps/case23.png",
+      "sha256": "48506eea89b7562d75a91a991b414751bc205eff54ca994fdbc652b2138d105b"
+    },
+    {
+      "source": "export/heatmaps/case24.png",
+      "destination": "data/heatmaps/case24.png",
+      "sha256": "51e15a2052fc6f15161ee9f3d451a372a0c54deddd184a2fa751530c7661f6f3"
+    },
+    {
+      "source": "export/heatmaps/case25.png",
+      "destination": "data/heatmaps/case25.png",
+      "sha256": "44e9db66db1f5fb2747bd22b9b11e4d987fff5f85cefe5f24969fc55c348e5f1"
+    },
+    {
+      "source": "export/heatmaps/case26.png",
+      "destination": "data/heatmaps/case26.png",
+      "sha256": "f8b8ab24d42913202506f98686590f1f512b47d2b4d47700e854c2f8d2e93ad1"
+    },
+    {
+      "source": "export/heatmaps/case27.png",
+      "destination": "data/heatmaps/case27.png",
+      "sha256": "2a53b8eea6540b31778a059e4e395496b623cc9d5351f23821a59955699fa572"
+    },
+    {
+      "source": "export/heatmaps/case28.png",
+      "destination": "data/heatmaps/case28.png",
+      "sha256": "140050c53781256344b2f609a706ce5c599926e09cc4824ec2b4f4d77a6d33fd"
+    },
+    {
+      "source": "export/heatmaps/case29.png",
+      "destination": "data/heatmaps/case29.png",
+      "sha256": "b1ef51105ac2b89ff8969484303538fad73af2409feb8b1d691ab4f860cf72e2"
+    },
+    {
+      "source": "export/heatmaps/case30.png",
+      "destination": "data/heatmaps/case30.png",
+      "sha256": "c263fc6a62b3ed2d0dbdef76db5c6bf26c9355b485941af533f56bd9d88f7e05"
+    },
+    {
+      "source": "export/overlays/case01.png",
+      "destination": "data/overlays/case01.png",
+      "sha256": "97d85f33e2e11f65539c054a3dd10075392d2ddae3e759d79e2b035c46a0482f"
+    },
+    {
+      "source": "export/overlays/case02.png",
+      "destination": "data/overlays/case02.png",
+      "sha256": "bd9885787ef13dce59a04172735d16a0d81cee9d41a5755dbb532324de15c784"
+    },
+    {
+      "source": "export/overlays/case03.png",
+      "destination": "data/overlays/case03.png",
+      "sha256": "cf6906b9cd4b3945891911400bb759e513e6c17f8c7b3cf581016ad9ce867b79"
+    },
+    {
+      "source": "export/overlays/case04.png",
+      "destination": "data/overlays/case04.png",
+      "sha256": "236a59c0381875dfd838c810c9efc7f7f272fea6752429a2ed70c93c07e58686"
+    },
+    {
+      "source": "export/overlays/case05.png",
+      "destination": "data/overlays/case05.png",
+      "sha256": "ebdecb72317a6bf99a417475416e6dcabe8104add00df822ad8dabec6bf19aa6"
+    },
+    {
+      "source": "export/overlays/case06.png",
+      "destination": "data/overlays/case06.png",
+      "sha256": "d2b5a9d4005d175d679df4451048e82b59b7c18940b8e8479afe978cc6b4c744"
+    },
+    {
+      "source": "export/overlays/case07.png",
+      "destination": "data/overlays/case07.png",
+      "sha256": "f34b0f36da9a3c5bb880205edcb7fcc43c94415029740bc020e1592c5e191c4c"
+    },
+    {
+      "source": "export/overlays/case08.png",
+      "destination": "data/overlays/case08.png",
+      "sha256": "ddf40ecfcf6d339ee6325c6ed3c8719afa01aa74d2309981903b45b337f8dbe1"
+    },
+    {
+      "source": "export/overlays/case09.png",
+      "destination": "data/overlays/case09.png",
+      "sha256": "9631bf3b93daeb21185b9be0e96bb5bb53f08d05f986afd3d4f748ecdce37719"
+    },
+    {
+      "source": "export/overlays/case10.png",
+      "destination": "data/overlays/case10.png",
+      "sha256": "a48104c70853ac20c2eec4cd4ccf4cd8b9305459fcd4056d404f743d83e5f0e6"
+    },
+    {
+      "source": "export/overlays/case11.png",
+      "destination": "data/overlays/case11.png",
+      "sha256": "bbb3fd5ca4d7ff10889eb8d95c625b6e0b210bbd429b588fcc2c8cc620146f29"
+    },
+    {
+      "source": "export/overlays/case12.png",
+      "destination": "data/overlays/case12.png",
+      "sha256": "c5f10ceab36e36e48bc5b38826733eee2d60c74704bdc8628b61f8b148325643"
+    },
+    {
+      "source": "export/overlays/case13.png",
+      "destination": "data/overlays/case13.png",
+      "sha256": "d6f58e7b53d8cb1de100fe4a2d390381eeaefa259578afec8b5e98502d75e0e7"
+    },
+    {
+      "source": "export/overlays/case14.png",
+      "destination": "data/overlays/case14.png",
+      "sha256": "7c908893ca197f48c2a841fd1adb75ac352edb85144f6a3950c629d161d879a3"
+    },
+    {
+      "source": "export/overlays/case15.png",
+      "destination": "data/overlays/case15.png",
+      "sha256": "24aa2111311fe8e78d87d51389dda93d40dcc799444ca75294f1599b73b7fcbe"
+    },
+    {
+      "source": "export/overlays/case16.png",
+      "destination": "data/overlays/case16.png",
+      "sha256": "4d22e35b161cc9fde8595912d0d80596636e1f319ba3b9fc46d971ce22179d05"
+    },
+    {
+      "source": "export/overlays/case17.png",
+      "destination": "data/overlays/case17.png",
+      "sha256": "3e92a2d79d694c8f954e3ab7cf198aa51d4fcb571ec0feec185ad2c05b892415"
+    },
+    {
+      "source": "export/overlays/case18.png",
+      "destination": "data/overlays/case18.png",
+      "sha256": "41b457ff08b1e269746faf8f6c1c8584fda07a91bd84b9de4610434807a5a203"
+    },
+    {
+      "source": "export/overlays/case19.png",
+      "destination": "data/overlays/case19.png",
+      "sha256": "b0ea8cb8178132c1a568a70af1336a2ad1619d1410b260cb0a33f18ae340b840"
+    },
+    {
+      "source": "export/overlays/case20.png",
+      "destination": "data/overlays/case20.png",
+      "sha256": "3865d4df3fe81066490d51ffc7a8c001ad114cb526f9e5fefa3aeac646b77767"
+    },
+    {
+      "source": "export/overlays/case21.png",
+      "destination": "data/overlays/case21.png",
+      "sha256": "4e226d1b8eacd2914be49f63dee83ea48200d729b8d232c1fb0ab6c86452597a"
+    },
+    {
+      "source": "export/overlays/case22.png",
+      "destination": "data/overlays/case22.png",
+      "sha256": "5b8bd41567bd38ccaa43d8e7678059ca1ec18c44cb93618fe17bad5bd06653b0"
+    },
+    {
+      "source": "export/overlays/case23.png",
+      "destination": "data/overlays/case23.png",
+      "sha256": "48506eea89b7562d75a91a991b414751bc205eff54ca994fdbc652b2138d105b"
+    },
+    {
+      "source": "export/overlays/case24.png",
+      "destination": "data/overlays/case24.png",
+      "sha256": "20a003a0131dc3887c9f9875d6cef7a0de10a4386f25c3d966e39e788cbd0c0e"
+    },
+    {
+      "source": "export/overlays/case25.png",
+      "destination": "data/overlays/case25.png",
+      "sha256": "74b0c5da75a22a7149a87264c4808f482033c22b5c9886a3bac6924b24822ac5"
+    },
+    {
+      "source": "export/overlays/case26.png",
+      "destination": "data/overlays/case26.png",
+      "sha256": "0d5235e7c42604811beb364f1a5800e601aac5e5096e56cbbc2dbcc58bbb1b95"
+    },
+    {
+      "source": "export/overlays/case27.png",
+      "destination": "data/overlays/case27.png",
+      "sha256": "63824e3accf924f783fa2b5e59de987ea88e058e07efbd75176472049c20de20"
+    },
+    {
+      "source": "export/overlays/case28.png",
+      "destination": "data/overlays/case28.png",
+      "sha256": "2db54940e0e23c073e449d74cb330b293abf697036d587d522ae6b2e915c91df"
+    },
+    {
+      "source": "export/overlays/case29.png",
+      "destination": "data/overlays/case29.png",
+      "sha256": "b1ef51105ac2b89ff8969484303538fad73af2409feb8b1d691ab4f860cf72e2"
+    },
+    {
+      "source": "export/overlays/case30.png",
+      "destination": "data/overlays/case30.png",
+      "sha256": "c263fc6a62b3ed2d0dbdef76db5c6bf26c9355b485941af533f56bd9d88f7e05"
+    },
+    {
+      "source": "export/print/case01_A5.png",
+      "destination": "data/print/case01_A5.png",
+      "sha256": "3b7f6a8cecca4d1060e86fd3fc1cd9ad3c0fe971f8c078e12740d5b21a377671"
+    },
+    {
+      "source": "export/print/case02_A5.png",
+      "destination": "data/print/case02_A5.png",
+      "sha256": "189b437f1f2773e34680d3ca3c701d45bcc0438050522b0686ef306e18373565"
+    },
+    {
+      "source": "export/print/case03_A5.png",
+      "destination": "data/print/case03_A5.png",
+      "sha256": "121029b1c7cd1c2f08f3034ba85989fb6a58abfb8e29da8635287e1cf464f589"
+    },
+    {
+      "source": "export/print/case04_A5.png",
+      "destination": "data/print/case04_A5.png",
+      "sha256": "22ef1728250dee1a4200e3b6f7f5b641e9812f9ca38802d9fbccc736fbf44279"
+    },
+    {
+      "source": "export/print/case05_A5.png",
+      "destination": "data/print/case05_A5.png",
+      "sha256": "463111f40e1a25623369ebdb9772210b675f59a76d21d6f19af071a3b3602c23"
+    },
+    {
+      "source": "export/print/case06_A5.png",
+      "destination": "data/print/case06_A5.png",
+      "sha256": "9a3f3dc268669b7577d44f92bed31489c189c871b3c803f1f1fe2b4f5a23d7cc"
+    },
+    {
+      "source": "export/print/case07_A5.png",
+      "destination": "data/print/case07_A5.png",
+      "sha256": "5a72af29dcdb4aa77dfa1d6422de5da0f356775cff76e73eec8e184325e43630"
+    },
+    {
+      "source": "export/print/case08_A5.png",
+      "destination": "data/print/case08_A5.png",
+      "sha256": "b69be33ee460ab74f94504580821f8eea2c348d69c5fbe0f584d2bd5072440e0"
+    },
+    {
+      "source": "export/print/case09_A5.png",
+      "destination": "data/print/case09_A5.png",
+      "sha256": "05ac4886e72e194efe3ff82a2f8cfdf295e3b3a3ab189bd844b7527bd3a1d25a"
+    },
+    {
+      "source": "export/print/case10_A5.png",
+      "destination": "data/print/case10_A5.png",
+      "sha256": "ab2812315c9ee500f0d6d8dd30536e1da6ee6d38b97f1456045a359c2e82ad61"
+    },
+    {
+      "source": "export/print/case11_A5.png",
+      "destination": "data/print/case11_A5.png",
+      "sha256": "cbc1932e0f9047e4f58a3f92ca90add343de233d43d0bd1b8a9cdd5769a603f9"
+    },
+    {
+      "source": "export/print/case12_A5.png",
+      "destination": "data/print/case12_A5.png",
+      "sha256": "33bfbc6982cf311fac74957d964a63904645f99a6b8e5a91bc9b678e05d42d10"
+    },
+    {
+      "source": "export/print/case13_A5.png",
+      "destination": "data/print/case13_A5.png",
+      "sha256": "aaf46c8a3f222237c051062fe74ac7e595c85ecee4d8550dcabc0933d179e8b2"
+    },
+    {
+      "source": "export/print/case14_A5.png",
+      "destination": "data/print/case14_A5.png",
+      "sha256": "0dbd93314292e3a1d790070f7ff52cfce73d7d459639c8d1a11d88eab8f3d73a"
+    },
+    {
+      "source": "export/print/case15_A5.png",
+      "destination": "data/print/case15_A5.png",
+      "sha256": "8c451626dc49c7fe143b05ffb001e668f2532a489d0c782f34b51e9c31431753"
+    },
+    {
+      "source": "export/print/case16_A5.png",
+      "destination": "data/print/case16_A5.png",
+      "sha256": "2d778b351db12fd59fc2cf162c002d01bc187b605bffc72ebef523224937efad"
+    },
+    {
+      "source": "export/print/case17_A5.png",
+      "destination": "data/print/case17_A5.png",
+      "sha256": "7f0e35e5f95031102e9d50206acbf592fbb189a6c3a6215125598a762053cf27"
+    },
+    {
+      "source": "export/print/case18_A5.png",
+      "destination": "data/print/case18_A5.png",
+      "sha256": "0b6ee6c519c3a75360a42ced2f581245105e5870a42262aa987fba80b8ccf1f7"
+    },
+    {
+      "source": "export/print/case19_A5.png",
+      "destination": "data/print/case19_A5.png",
+      "sha256": "7bd94fc27eaa1fcf1ee10aa2be68d75823588fd89544c2a70a1b867fb73b9aa9"
+    },
+    {
+      "source": "export/print/case20_A5.png",
+      "destination": "data/print/case20_A5.png",
+      "sha256": "9fd0de4f0168b233a664a35e4af21c352121edd3bb62daf3765d62f66aca92ce"
+    },
+    {
+      "source": "export/print/case21_A5.png",
+      "destination": "data/print/case21_A5.png",
+      "sha256": "54fa1387744e00619a9a87625bd3e5ee0184182cd80dfce78d17fb06d5c03095"
+    },
+    {
+      "source": "export/print/case22_A5.png",
+      "destination": "data/print/case22_A5.png",
+      "sha256": "2836e3e925b6cc1359343ee315c2c3e15c1ee952fac0b4f5470bc28383d10e7c"
+    },
+    {
+      "source": "export/print/case23_A5.png",
+      "destination": "data/print/case23_A5.png",
+      "sha256": "67bbdc9adc3fdb8bc64d3965066986d95f76208756d869e35df8169dd1f4e1dc"
+    },
+    {
+      "source": "export/print/case24_A5.png",
+      "destination": "data/print/case24_A5.png",
+      "sha256": "b984e2a583da5116407b8a47481ead69f024256fe43a180ab9bb07fd6df33847"
+    },
+    {
+      "source": "export/print/case25_A5.png",
+      "destination": "data/print/case25_A5.png",
+      "sha256": "197ad7c0be5a033b81791fc84b5bccb3db377166a9e793062a9d70d8f3ec776c"
+    },
+    {
+      "source": "export/print/case26_A5.png",
+      "destination": "data/print/case26_A5.png",
+      "sha256": "5c4e277173c3413f1afdf62c4aa8f84dad399e3ad6d9c2a29dc78855ded22a2f"
+    },
+    {
+      "source": "export/print/case27_A5.png",
+      "destination": "data/print/case27_A5.png",
+      "sha256": "328172a9ce3115c11aa63051110220104328fbfe3e05c67b757c70876f7cc38b"
+    },
+    {
+      "source": "export/print/case28_A5.png",
+      "destination": "data/print/case28_A5.png",
+      "sha256": "4395404e24ccf32d9a273d37b0be884b073b36f2ae5f8f43cb0c31398c6e7e1d"
+    },
+    {
+      "source": "export/print/case29_A5.png",
+      "destination": "data/print/case29_A5.png",
+      "sha256": "727cb5e4b633046f19dd8524c4daced18024a4b55a6c9085a68c831304c850da"
+    },
+    {
+      "source": "export/print/case30_A5.png",
+      "destination": "data/print/case30_A5.png",
+      "sha256": "54be286147f88434d7dfdac47b629ad598498769bab31bbaa5406bff89ad2787"
+    },
+    {
+      "source": "models/busi_resnet18.pt",
+      "destination": "models/busi_resnet18_new.pt",
+      "sha256": "f35ef5aa2864532fb88f3448bad4ae5ba8b5738272123701ca1fd6ad81bb9406"
+    },
+    {
+      "source": "models/wdbc_model.pkl",
+      "destination": "models/wdbc_model_new.pkl",
+      "sha256": "83b8d549f42ab18d8862d26abb0c03c3fd0ecefb0b45a6e10cc4079b4975df24"
+    },
+    {
+      "source": "models/wdbc_features.json",
+      "destination": "models/wdbc_features_new.json",
+      "sha256": "c96e21e71794f16a5e6e6baf267aaa6fc67f5669d45bb256111e385b7aa54df4"
+    },
+    {
+      "source": "metrics.json",
+      "destination": "data/reports/metrics.json",
+      "sha256": "3cc1066857c0659735a6c0555d848012232b02af7f7ba9fe2ad6e2ca869c2fc2"
+    },
+    {
+      "source": "confusion_matrix.png",
+      "destination": "data/reports/confusion_matrix.png",
+      "sha256": "d836884bc50f8998322781374554ee634e6b2557cd08161c2f0c0be6d3263cf1"
+    },
+    {
+      "source": "predictions.csv",
+      "destination": "data/reports/predictions.csv",
+      "sha256": "03af0074e90b8d38f371cd486a154b55717090c65753d6bdfdf64b084e5cb247"
+    },
+    {
+      "source": "export/failure_candidates.csv",
+      "destination": "data/reports/failure_candidates.csv",
+      "sha256": "ef9e32bc70e9a97cc871677d5d2d3d9c9212410f705795b7cfe387fd28752eef"
+    }
+  ],
+  "conflicts": [
+    {
+      "existing": "data/booth_set.json",
+      "incoming": "data/booth_set_new.json",
+      "existing_sha256": "40946305572d0f9148ddacdce733977784b477b43e60c29382069bd6689dfa20"
+    },
+    {
+      "existing": "models/busi_resnet18.pt",
+      "incoming": "models/busi_resnet18_new.pt",
+      "existing_sha256": "41e636cc92734ee5f8ca19ac04d195de8d0e63cfd6c8422cf6e96bc188b53519"
+    },
+    {
+      "existing": "models/wdbc_model.pkl",
+      "incoming": "models/wdbc_model_new.pkl",
+      "existing_sha256": "ee300bd7ada76014a1603857943d98a0678f6477ab22bda680c298783f4afa7e"
+    },
+    {
+      "existing": "models/wdbc_features.json",
+      "incoming": "models/wdbc_features_new.json",
+      "existing_sha256": "3fc7b399edf8cc56c01f61175801c9615b547882e9ee16118755b402b6a2443b"
+    }
+  ],
+  "outputs_root": "_tmp_outputs/outputs",
+  "tree": "_tmp_outputs/ (0 direct files; 268 total files)\n  outputs/ (5 direct files; 268 total files)\n    checkpoints/ (1 direct files; 1 total files)\n      last.pt (134,273,562 bytes)\n    export/ (3 direct files; 123 total files)\n      heatmaps/ (30 direct files; 30 total files)\n        case01.png (262,539 bytes)\n        case02.png (257,106 bytes)\n        case03.png (277,859 bytes)\n        case04.png (271,017 bytes)\n        case05.png (279,833 bytes)\n        case06.png (294,426 bytes)\n        case07.png (267,966 bytes)\n        case08.png (229,987 bytes)\n        case09.png (214,959 bytes)\n        case10.png (246,575 bytes)\n        case11.png (205,846 bytes)\n        case12.png (248,109 bytes)\n        case13.png (262,130 bytes)\n        case14.png (272,510 bytes)\n        case15.png (245,237 bytes)\n        case16.png (254,103 bytes)\n        case17.png (279,503 bytes)\n        case18.png (261,563 bytes)\n        case19.png (279,366 bytes)\n        case20.png (233,452 bytes)\n        case21.png (292,140 bytes)\n        case22.png (186,243 bytes)\n        case23.png (289,295 bytes)\n        case24.png (258,516 bytes)\n        case25.png (266,761 bytes)\n        case26.png (270,294 bytes)\n        case27.png (252,610 bytes)\n        case28.png (248,712 bytes)\n        case29.png (240,702 bytes)\n        case30.png (213,933 bytes)\n      images/ (30 direct files; 30 total files)\n        case01.png (121,004 bytes)\n        case02.png (117,418 bytes)\n        case03.png (116,746 bytes)\n        case04.png (115,533 bytes)\n        case05.png (127,282 bytes)\n        case06.png (128,073 bytes)\n        case07.png (128,186 bytes)\n        case08.png (102,228 bytes)\n        case09.png (93,601 bytes)\n        case10.png (112,255 bytes)\n        case11.png (83,060 bytes)\n        case12.png (120,463 bytes)\n        case13.png (128,912 bytes)\n        case14.png (117,139 bytes)\n        case15.png (114,872 bytes)\n        case16.png (127,185 bytes)\n        case17.png (123,347 bytes)\n        case18.png (117,194 bytes)\n        case19.png (128,123 bytes)\n        case20.png (117,685 bytes)\n        case21.png (129,405 bytes)\n        case22.png (101,358 bytes)\n        case23.png (130,436 bytes)\n        case24.png (118,916 bytes)\n        case25.png (119,556 bytes)\n        case26.png (117,183 bytes)\n        case27.png (123,709 bytes)\n        case28.png (110,451 bytes)\n        case29.png (119,593 bytes)\n        case30.png (122,615 bytes)\n      overlays/ (30 direct files; 30 total files)\n        case01.png (263,510 bytes)\n        case02.png (257,106 bytes)\n        case03.png (277,716 bytes)\n        case04.png (270,771 bytes)\n        case05.png (280,323 bytes)\n        case06.png (295,434 bytes)\n        case07.png (268,670 bytes)\n        case08.png (230,160 bytes)\n        case09.png (216,293 bytes)\n        case10.png (246,575 bytes)\n        case11.png (205,467 bytes)\n        case12.png (248,313 bytes)\n        case13.png (262,130 bytes)\n        case14.png (272,794 bytes)\n        case15.png (245,610 bytes)\n        case16.png (254,736 bytes)\n        case17.png (279,740 bytes)\n        case18.png (261,563 bytes)\n        case19.png (279,366 bytes)\n        case20.png (231,804 bytes)\n        case21.png (292,140 bytes)\n        case22.png (186,243 bytes)\n        case23.png (289,295 bytes)\n        case24.png (259,611 bytes)\n        case25.png (266,413 bytes)\n        case26.png (271,632 bytes)\n        case27.png (253,211 bytes)\n        case28.png (248,695 bytes)\n        case29.png (240,702 bytes)\n        case30.png (213,933 bytes)\n      print/ (30 direct files; 30 total files)\n        case01_A5.png (1,132,511 bytes)\n        case02_A5.png (1,144,812 bytes)\n        case03_A5.png (1,133,325 bytes)\n        case04_A5.png (1,139,459 bytes)\n        case05_A5.png (1,205,343 bytes)\n        case06_A5.png (1,222,398 bytes)\n        case07_A5.png (1,193,797 bytes)\n        case08_A5.png (981,940 bytes)\n        case09_A5.png (859,691 bytes)\n        case10_A5.png (1,067,316 bytes)\n        case11_A5.png (775,895 bytes)\n        case12_A5.png (1,169,091 bytes)\n        case13_A5.png (1,217,562 bytes)\n        case14_A5.png (1,076,201 bytes)\n        case15_A5.png (1,107,323 bytes)\n        case16_A5.png (1,189,939 bytes)\n        case17_A5.png (1,237,116 bytes)\n        case18_A5.png (1,138,656 bytes)\n        case19_A5.png (1,210,719 bytes)\n        case20_A5.png (1,031,290 bytes)\n        case21_A5.png (1,231,141 bytes)\n        case22_A5.png (911,845 bytes)\n        case23_A5.png (1,242,974 bytes)\n        case24_A5.png (1,090,891 bytes)\n        case25_A5.png (1,168,826 bytes)\n        case26_A5.png (1,075,352 bytes)\n        case27_A5.png (1,196,107 bytes)\n        case28_A5.png (1,083,221 bytes)\n        case29_A5.png (1,107,258 bytes)\n        case30_A5.png (1,137,645 bytes)\n      booth_key.csv (2,406 bytes)\n      booth_set.json (13,617 bytes)\n      failure_candidates.csv (2,966 bytes)\n    gradcam/ (0 direct files; 136 total files)\n      heatmaps/ (68 direct files; 68 total files)\n        benign_id_101.png (248,109 bytes)\n        benign_id_119.png (272,510 bytes)\n        benign_id_175.png (287,884 bytes)\n        benign_id_185.png (295,592 bytes)\n        benign_id_186.png (275,748 bytes)\n        benign_id_187.png (268,103 bytes)\n        benign_id_191.png (243,925 bytes)\n        benign_id_212.png (242,269 bytes)\n        benign_id_286.png (205,846 bytes)\n        benign_id_334.png (238,361 bytes)\n        benign_id_346.png (236,003 bytes)\n        benign_id_347.png (217,858 bytes)\n        benign_id_350.png (278,120 bytes)\n        benign_id_351.png (253,933 bytes)\n        benign_id_354.png (258,852 bytes)\n        benign_id_373.png (248,712 bytes)\n        benign_id_374.png (277,859 bytes)\n        benign_id_391.png (240,119 bytes)\n        benign_id_393.png (286,534 bytes)\n        benign_id_402.png (245,237 bytes)\n        benign_id_416.png (254,103 bytes)\n        benign_id_420.png (257,220 bytes)\n        benign_id_428.png (239,168 bytes)\n        benign_id_56.png (259,221 bytes)\n        benign_id_61.png (270,004 bytes)\n        benign_id_72.png (267,521 bytes)\n        benign_id_75.png (303,790 bytes)\n        benign_id_80.png (257,371 bytes)\n        benign_id_82.png (229,987 bytes)\n        benign_id_89.png (267,966 bytes)\n        benign_id_90.png (253,453 bytes)\n        benign_id_93.png (255,287 bytes)\n        benign_id_94.png (241,330 bytes)\n        benign_id_98.png (294,426 bytes)\n        malignant_id_100.png (256,201 bytes)\n        malignant_id_143.png (266,761 bytes)\n        malignant_id_147.png (245,195 bytes)\n        malignant_id_148.png (279,503 bytes)\n        malignant_id_149.png (258,516 bytes)\n        malignant_id_153.png (247,169 bytes)\n        malignant_id_159.png (252,610 bytes)\n        malignant_id_162.png (270,294 bytes)\n        malignant_id_164.png (260,280 bytes)\n        malignant_id_180.png (271,017 bytes)\n        malignant_id_193.png (279,833 bytes)\n        malignant_id_198.png (219,367 bytes)\n        malignant_id_199.png (247,178 bytes)\n        malignant_id_200.png (251,969 bytes)\n        malignant_id_206.png (270,780 bytes)\n        malignant_id_210.png (263,341 bytes)\n        malignant_id_3.png (220,032 bytes)\n        malignant_id_32.png (262,539 bytes)\n        malignant_id_37.png (236,686 bytes)\n        malignant_id_43.png (236,578 bytes)\n        malignant_id_48.png (253,477 bytes)\n        malignant_id_60.png (233,452 bytes)\n        malignant_id_82.png (214,959 bytes)\n        malignant_id_83.png (257,330 bytes)\n        normal_id_103.png (240,702 bytes)\n        normal_id_108.png (213,933 bytes)\n        normal_id_73.png (186,243 bytes)\n        normal_id_77.png (261,563 bytes)\n        normal_id_83.png (262,130 bytes)\n        normal_id_86.png (257,106 bytes)\n        normal_id_93.png (289,295 bytes)\n        normal_id_94.png (279,366 bytes)\n        normal_id_96.png (292,140 bytes)\n        normal_id_99.png (246,575 bytes)\n      overlays/ (68 direct files; 68 total files)\n        benign_id_101.png (248,313 bytes)\n        benign_id_119.png (272,794 bytes)\n        benign_id_175.png (289,083 bytes)\n        benign_id_185.png (295,836 bytes)\n        benign_id_186.png (276,389 bytes)\n        benign_id_187.png (268,430 bytes)\n        benign_id_191.png (243,818 bytes)\n        benign_id_212.png (240,513 bytes)\n        benign_id_286.png (205,467 bytes)\n        benign_id_334.png (238,662 bytes)\n        benign_id_346.png (237,133 bytes)\n        benign_id_347.png (217,690 bytes)\n        benign_id_350.png (278,915 bytes)\n        benign_id_351.png (254,831 bytes)\n        benign_id_354.png (258,352 bytes)\n        benign_id_373.png (248,695 bytes)\n        benign_id_374.png (277,716 bytes)\n        benign_id_391.png (239,239 bytes)\n        benign_id_393.png (288,901 bytes)\n        benign_id_402.png (245,610 bytes)\n        benign_id_416.png (254,736 bytes)\n        benign_id_420.png (257,138 bytes)\n        benign_id_428.png (238,545 bytes)\n        benign_id_56.png (259,313 bytes)\n        benign_id_61.png (270,331 bytes)\n        benign_id_72.png (268,181 bytes)\n        benign_id_75.png (304,070 bytes)\n        benign_id_80.png (257,818 bytes)\n        benign_id_82.png (230,160 bytes)\n        benign_id_89.png (268,670 bytes)\n        benign_id_90.png (253,609 bytes)\n        benign_id_93.png (255,845 bytes)\n        benign_id_94.png (241,907 bytes)\n        benign_id_98.png (295,434 bytes)\n        malignant_id_100.png (256,649 bytes)\n        malignant_id_143.png (266,413 bytes)\n        malignant_id_147.png (246,326 bytes)\n        malignant_id_148.png (279,740 bytes)\n        malignant_id_149.png (259,611 bytes)\n        malignant_id_153.png (247,515 bytes)\n        malignant_id_159.png (253,211 bytes)\n        malignant_id_162.png (271,632 bytes)\n        malignant_id_164.png (260,072 bytes)\n        malignant_id_180.png (270,771 bytes)\n        malignant_id_193.png (280,323 bytes)\n        malignant_id_198.png (218,623 bytes)\n        malignant_id_199.png (248,662 bytes)\n        malignant_id_200.png (249,373 bytes)\n        malignant_id_206.png (272,119 bytes)\n        malignant_id_210.png (264,251 bytes)\n        malignant_id_3.png (220,962 bytes)\n        malignant_id_32.png (263,510 bytes)\n        malignant_id_37.png (237,552 bytes)\n        malignant_id_43.png (237,334 bytes)\n        malignant_id_48.png (253,888 bytes)\n        malignant_id_60.png (231,804 bytes)\n        malignant_id_82.png (216,293 bytes)\n        malignant_id_83.png (257,497 bytes)\n        normal_id_103.png (240,702 bytes)\n        normal_id_108.png (213,933 bytes)\n        normal_id_73.png (186,243 bytes)\n        normal_id_77.png (261,563 bytes)\n        normal_id_83.png (262,130 bytes)\n        normal_id_86.png (257,106 bytes)\n        normal_id_93.png (289,295 bytes)\n        normal_id_94.png (279,366 bytes)\n        normal_id_96.png (292,140 bytes)\n        normal_id_99.png (246,575 bytes)\n    models/ (3 direct files; 3 total files)\n      busi_resnet18.pt (44,792,395 bytes)\n      wdbc_features.json (484 bytes)\n      wdbc_model.pkl (1,351 bytes)\n    confusion_matrix.png (40,889 bytes)\n    metrics.json (1,276 bytes)\n    predictions.csv (16,621 bytes)\n    split.csv (79,787 bytes)\n    training_curves.png (44,419 bytes)",
+  "unexpected": [
+    "checkpoints/last.pt",
+    "export/booth_key.csv",
+    "gradcam/heatmaps/benign_id_101.png",
+    "gradcam/heatmaps/benign_id_119.png",
+    "gradcam/heatmaps/benign_id_175.png",
+    "gradcam/heatmaps/benign_id_185.png",
+    "gradcam/heatmaps/benign_id_186.png",
+    "gradcam/heatmaps/benign_id_187.png",
+    "gradcam/heatmaps/benign_id_191.png",
+    "gradcam/heatmaps/benign_id_212.png",
+    "gradcam/heatmaps/benign_id_286.png",
+    "gradcam/heatmaps/benign_id_334.png",
+    "gradcam/heatmaps/benign_id_346.png",
+    "gradcam/heatmaps/benign_id_347.png",
+    "gradcam/heatmaps/benign_id_350.png",
+    "gradcam/heatmaps/benign_id_351.png",
+    "gradcam/heatmaps/benign_id_354.png",
+    "gradcam/heatmaps/benign_id_373.png",
+    "gradcam/heatmaps/benign_id_374.png",
+    "gradcam/heatmaps/benign_id_391.png",
+    "gradcam/heatmaps/benign_id_393.png",
+    "gradcam/heatmaps/benign_id_402.png",
+    "gradcam/heatmaps/benign_id_416.png",
+    "gradcam/heatmaps/benign_id_420.png",
+    "gradcam/heatmaps/benign_id_428.png",
+    "gradcam/heatmaps/benign_id_56.png",
+    "gradcam/heatmaps/benign_id_61.png",
+    "gradcam/heatmaps/benign_id_72.png",
+    "gradcam/heatmaps/benign_id_75.png",
+    "gradcam/heatmaps/benign_id_80.png",
+    "gradcam/heatmaps/benign_id_82.png",
+    "gradcam/heatmaps/benign_id_89.png",
+    "gradcam/heatmaps/benign_id_90.png",
+    "gradcam/heatmaps/benign_id_93.png",
+    "gradcam/heatmaps/benign_id_94.png",
+    "gradcam/heatmaps/benign_id_98.png",
+    "gradcam/heatmaps/malignant_id_100.png",
+    "gradcam/heatmaps/malignant_id_143.png",
+    "gradcam/heatmaps/malignant_id_147.png",
+    "gradcam/heatmaps/malignant_id_148.png",
+    "gradcam/heatmaps/malignant_id_149.png",
+    "gradcam/heatmaps/malignant_id_153.png",
+    "gradcam/heatmaps/malignant_id_159.png",
+    "gradcam/heatmaps/malignant_id_162.png",
+    "gradcam/heatmaps/malignant_id_164.png",
+    "gradcam/heatmaps/malignant_id_180.png",
+    "gradcam/heatmaps/malignant_id_193.png",
+    "gradcam/heatmaps/malignant_id_198.png",
+    "gradcam/heatmaps/malignant_id_199.png",
+    "gradcam/heatmaps/malignant_id_200.png",
+    "gradcam/heatmaps/malignant_id_206.png",
+    "gradcam/heatmaps/malignant_id_210.png",
+    "gradcam/heatmaps/malignant_id_3.png",
+    "gradcam/heatmaps/malignant_id_32.png",
+    "gradcam/heatmaps/malignant_id_37.png",
+    "gradcam/heatmaps/malignant_id_43.png",
+    "gradcam/heatmaps/malignant_id_48.png",
+    "gradcam/heatmaps/malignant_id_60.png",
+    "gradcam/heatmaps/malignant_id_82.png",
+    "gradcam/heatmaps/malignant_id_83.png",
+    "gradcam/heatmaps/normal_id_103.png",
+    "gradcam/heatmaps/normal_id_108.png",
+    "gradcam/heatmaps/normal_id_73.png",
+    "gradcam/heatmaps/normal_id_77.png",
+    "gradcam/heatmaps/normal_id_83.png",
+    "gradcam/heatmaps/normal_id_86.png",
+    "gradcam/heatmaps/normal_id_93.png",
+    "gradcam/heatmaps/normal_id_94.png",
+    "gradcam/heatmaps/normal_id_96.png",
+    "gradcam/heatmaps/normal_id_99.png",
+    "gradcam/overlays/benign_id_101.png",
+    "gradcam/overlays/benign_id_119.png",
+    "gradcam/overlays/benign_id_175.png",
+    "gradcam/overlays/benign_id_185.png",
+    "gradcam/overlays/benign_id_186.png",
+    "gradcam/overlays/benign_id_187.png",
+    "gradcam/overlays/benign_id_191.png",
+    "gradcam/overlays/benign_id_212.png",
+    "gradcam/overlays/benign_id_286.png",
+    "gradcam/overlays/benign_id_334.png",
+    "gradcam/overlays/benign_id_346.png",
+    "gradcam/overlays/benign_id_347.png",
+    "gradcam/overlays/benign_id_350.png",
+    "gradcam/overlays/benign_id_351.png",
+    "gradcam/overlays/benign_id_354.png",
+    "gradcam/overlays/benign_id_373.png",
+    "gradcam/overlays/benign_id_374.png",
+    "gradcam/overlays/benign_id_391.png",
+    "gradcam/overlays/benign_id_393.png",
+    "gradcam/overlays/benign_id_402.png",
+    "gradcam/overlays/benign_id_416.png",
+    "gradcam/overlays/benign_id_420.png",
+    "gradcam/overlays/benign_id_428.png",
+    "gradcam/overlays/benign_id_56.png",
+    "gradcam/overlays/benign_id_61.png",
+    "gradcam/overlays/benign_id_72.png",
+    "gradcam/overlays/benign_id_75.png",
+    "gradcam/overlays/benign_id_80.png",
+    "gradcam/overlays/benign_id_82.png",
+    "gradcam/overlays/benign_id_89.png",
+    "gradcam/overlays/benign_id_90.png",
+    "gradcam/overlays/benign_id_93.png",
+    "gradcam/overlays/benign_id_94.png",
+    "gradcam/overlays/benign_id_98.png",
+    "gradcam/overlays/malignant_id_100.png",
+    "gradcam/overlays/malignant_id_143.png",
+    "gradcam/overlays/malignant_id_147.png",
+    "gradcam/overlays/malignant_id_148.png",
+    "gradcam/overlays/malignant_id_149.png",
+    "gradcam/overlays/malignant_id_153.png",
+    "gradcam/overlays/malignant_id_159.png",
+    "gradcam/overlays/malignant_id_162.png",
+    "gradcam/overlays/malignant_id_164.png",
+    "gradcam/overlays/malignant_id_180.png",
+    "gradcam/overlays/malignant_id_193.png",
+    "gradcam/overlays/malignant_id_198.png",
+    "gradcam/overlays/malignant_id_199.png",
+    "gradcam/overlays/malignant_id_200.png",
+    "gradcam/overlays/malignant_id_206.png",
+    "gradcam/overlays/malignant_id_210.png",
+    "gradcam/overlays/malignant_id_3.png",
+    "gradcam/overlays/malignant_id_32.png",
+    "gradcam/overlays/malignant_id_37.png",
+    "gradcam/overlays/malignant_id_43.png",
+    "gradcam/overlays/malignant_id_48.png",
+    "gradcam/overlays/malignant_id_60.png",
+    "gradcam/overlays/malignant_id_82.png",
+    "gradcam/overlays/malignant_id_83.png",
+    "gradcam/overlays/normal_id_103.png",
+    "gradcam/overlays/normal_id_108.png",
+    "gradcam/overlays/normal_id_73.png",
+    "gradcam/overlays/normal_id_77.png",
+    "gradcam/overlays/normal_id_83.png",
+    "gradcam/overlays/normal_id_86.png",
+    "gradcam/overlays/normal_id_93.png",
+    "gradcam/overlays/normal_id_94.png",
+    "gradcam/overlays/normal_id_96.png",
+    "gradcam/overlays/normal_id_99.png",
+    "split.csv",
+    "training_curves.png"
+  ],
+  "copy_verification": "All incoming copies match their extracted sources; existing conflicts and protected files are unchanged.",
+  "validation": {
+    "data/booth_set.json": {
+      "case_count": 30,
+      "truth": {
+        "normal": 10,
+        "benign": 10,
+        "malignant": 10
+      },
+      "ai_pred": {
+        "normal": 9,
+        "benign": 11,
+        "malignant": 10
+      },
+      "correct": 23,
+      "error_type": {
+        "null": 23,
+        "other_confusion": 3,
+        "false_positive": 2,
+        "false_negative": 2
+      },
+      "data_relative_mismatches": [
+        {
+          "case_id": "01",
+          "field": "image",
+          "json_path": "data/demo/images/case01.png",
+          "expected": "data/data/demo/images/case01.png",
+          "found": [
+            "data/demo/images/case01.png"
+          ]
+        },
+        {
+          "case_id": "01",
+          "field": "heatmap",
+          "json_path": "data/demo/heatmaps/case01.png",
+          "expected": "data/data/demo/heatmaps/case01.png",
+          "found": [
+            "data/demo/heatmaps/case01.png"
+          ]
+        },
+        {
+          "case_id": "01",
+          "field": "mask_overlay",
+          "json_path": "data/demo/overlays/case01.png",
+          "expected": "data/data/demo/overlays/case01.png",
+          "found": [
+            "data/demo/overlays/case01.png"
+          ]
+        },
+        {
+          "case_id": "01",
+          "field": "print_image",
+          "json_path": "data/demo/print/case01_A5.png",
+          "expected": "data/data/demo/print/case01_A5.png",
+          "found": [
+            "data/demo/print/case01_A5.png"
+          ]
+        },
+        {
+          "case_id": "02",
+          "field": "image",
+          "json_path": "data/demo/images/case02.png",
+          "expected": "data/data/demo/images/case02.png",
+          "found": [
+            "data/demo/images/case02.png"
+          ]
+        },
+        {
+          "case_id": "02",
+          "field": "heatmap",
+          "json_path": "data/demo/heatmaps/case02.png",
+          "expected": "data/data/demo/heatmaps/case02.png",
+          "found": [
+            "data/demo/heatmaps/case02.png"
+          ]
+        },
+        {
+          "case_id": "02",
+          "field": "mask_overlay",
+          "json_path": "data/demo/overlays/case02.png",
+          "expected": "data/data/demo/overlays/case02.png",
+          "found": [
+            "data/demo/overlays/case02.png"
+          ]
+        },
+        {
+          "case_id": "02",
+          "field": "print_image",
+          "json_path": "data/demo/print/case02_A5.png",
+          "expected": "data/data/demo/print/case02_A5.png",
+          "found": [
+            "data/demo/print/case02_A5.png"
+          ]
+        },
+        {
+          "case_id": "03",
+          "field": "image",
+          "json_path": "data/demo/images/case03.png",
+          "expected": "data/data/demo/images/case03.png",
+          "found": [
+            "data/demo/images/case03.png"
+          ]
+        },
+        {
+          "case_id": "03",
+          "field": "heatmap",
+          "json_path": "data/demo/heatmaps/case03.png",
+          "expected": "data/data/demo/heatmaps/case03.png",
+          "found": [
+            "data/demo/heatmaps/case03.png"
+          ]
+        },
+        {
+          "case_id": "03",
+          "field": "mask_overlay",
+          "json_path": "data/demo/overlays/case03.png",
+          "expected": "data/data/demo/overlays/case03.png",
+          "found": [
+            "data/demo/overlays/case03.png"
+          ]
+        },
+        {
+          "case_id": "03",
+          "field": "print_image",
+          "json_path": "data/demo/print/case03_A5.png",
+          "expected": "data/data/demo/print/case03_A5.png",
+          "found": [
+            "data/demo/print/case03_A5.png"
+          ]
+        },
+        {
+          "case_id": "04",
+          "field": "image",
+          "json_path": "data/demo/images/case04.png",
+          "expected": "data/data/demo/images/case04.png",
+          "found": [
+            "data/demo/images/case04.png"
+          ]
+        },
+        {
+          "case_id": "04",
+          "field": "heatmap",
+          "json_path": "data/demo/heatmaps/case04.png",
+          "expected": "data/data/demo/heatmaps/case04.png",
+          "found": [
+            "data/demo/heatmaps/case04.png"
+          ]
+        },
+        {
+          "case_id": "04",
+          "field": "mask_overlay",
+          "json_path": "data/demo/overlays/case04.png",
+          "expected": "data/data/demo/overlays/case04.png",
+          "found": [
+            "data/demo/overlays/case04.png"
+          ]
+        },
+        {
+          "case_id": "04",
+          "field": "print_image",
+          "json_path": "data/demo/print/case04_A5.png",
+          "expected": "data/data/demo/print/case04_A5.png",
+          "found": [
+            "data/demo/print/case04_A5.png"
+          ]
+        },
+        {
+          "case_id": "05",
+          "field": "image",
+          "json_path": "data/demo/images/case05.png",
+          "expected": "data/data/demo/images/case05.png",
+          "found": [
+            "data/demo/images/case05.png"
+          ]
+        },
+        {
+          "case_id": "05",
+          "field": "heatmap",
+          "json_path": "data/demo/heatmaps/case05.png",
+          "expected": "data/data/demo/heatmaps/case05.png",
+          "found": [
+            "data/demo/heatmaps/case05.png"
+          ]
+        },
+        {
+          "case_id": "05",
+          "field": "mask_overlay",
+          "json_path": "data/demo/overlays/case05.png",
+          "expected": "data/data/demo/overlays/case05.png",
+          "found": [
+            "data/demo/overlays/case05.png"
+          ]
+        },
+        {
+          "case_id": "05",
+          "field": "print_image",
+          "json_path": "data/demo/print/case05_A5.png",
+          "expected": "data/data/demo/print/case05_A5.png",
+          "found": [
+            "data/demo/print/case05_A5.png"
+          ]
+        },
+        {
+          "case_id": "06",
+          "field": "image",
+          "json_path": "data/demo/images/case06.png",
+          "expected": "data/data/demo/images/case06.png",
+          "found": [
+            "data/demo/images/case06.png"
+          ]
+        },
+        {
+          "case_id": "06",
+          "field": "heatmap",
+          "json_path": "data/demo/heatmaps/case06.png",
+          "expected": "data/data/demo/heatmaps/case06.png",
+          "found": [
+            "data/demo/heatmaps/case06.png"
+          ]
+        },
+        {
+          "case_id": "06",
+          "field": "mask_overlay",
+          "json_path": "data/demo/overlays/case06.png",
+          "expected": "data/data/demo/overlays/case06.png",
+          "found": [
+            "data/demo/overlays/case06.png"
+          ]
+        },
+        {
+          "case_id": "06",
+          "field": "print_image",
+          "json_path": "data/demo/print/case06_A5.png",
+          "expected": "data/data/demo/print/case06_A5.png",
+          "found": [
+            "data/demo/print/case06_A5.png"
+          ]
+        },
+        {
+          "case_id": "07",
+          "field": "image",
+          "json_path": "data/demo/images/case07.png",
+          "expected": "data/data/demo/images/case07.png",
+          "found": [
+            "data/demo/images/case07.png"
+          ]
+        },
+        {
+          "case_id": "07",
+          "field": "heatmap",
+          "json_path": "data/demo/heatmaps/case07.png",
+          "expected": "data/data/demo/heatmaps/case07.png",
+          "found": [
+            "data/demo/heatmaps/case07.png"
+          ]
+        },
+        {
+          "case_id": "07",
+          "field": "mask_overlay",
+          "json_path": "data/demo/overlays/case07.png",
+          "expected": "data/data/demo/overlays/case07.png",
+          "found": [
+            "data/demo/overlays/case07.png"
+          ]
+        },
+        {
+          "case_id": "07",
+          "field": "print_image",
+          "json_path": "data/demo/print/case07_A5.png",
+          "expected": "data/data/demo/print/case07_A5.png",
+          "found": [
+            "data/demo/print/case07_A5.png"
+          ]
+        },
+        {
+          "case_id": "08",
+          "field": "image",
+          "json_path": "data/demo/images/case08.png",
+          "expected": "data/data/demo/images/case08.png",
+          "found": [
+            "data/demo/images/case08.png"
+          ]
+        },
+        {
+          "case_id": "08",
+          "field": "heatmap",
+          "json_path": "data/demo/heatmaps/case08.png",
+          "expected": "data/data/demo/heatmaps/case08.png",
+          "found": [
+            "data/demo/heatmaps/case08.png"
+          ]
+        },
+        {
+          "case_id": "08",
+          "field": "mask_overlay",
+          "json_path": "data/demo/overlays/case08.png",
+          "expected": "data/data/demo/overlays/case08.png",
+          "found": [
+            "data/demo/overlays/case08.png"
+          ]
+        },
+        {
+          "case_id": "08",
+          "field": "print_image",
+          "json_path": "data/demo/print/case08_A5.png",
+          "expected": "data/data/demo/print/case08_A5.png",
+          "found": [
+            "data/demo/print/case08_A5.png"
+          ]
+        },
+        {
+          "case_id": "09",
+          "field": "image",
+          "json_path": "data/demo/images/case09.png",
+          "expected": "data/data/demo/images/case09.png",
+          "found": [
+            "data/demo/images/case09.png"
+          ]
+        },
+        {
+          "case_id": "09",
+          "field": "heatmap",
+          "json_path": "data/demo/heatmaps/case09.png",
+          "expected": "data/data/demo/heatmaps/case09.png",
+          "found": [
+            "data/demo/heatmaps/case09.png"
+          ]
+        },
+        {
+          "case_id": "09",
+          "field": "mask_overlay",
+          "json_path": "data/demo/overlays/case09.png",
+          "expected": "data/data/demo/overlays/case09.png",
+          "found": [
+            "data/demo/overlays/case09.png"
+          ]
+        },
+        {
+          "case_id": "09",
+          "field": "print_image",
+          "json_path": "data/demo/print/case09_A5.png",
+          "expected": "data/data/demo/print/case09_A5.png",
+          "found": [
+            "data/demo/print/case09_A5.png"
+          ]
+        },
+        {
+          "case_id": "10",
+          "field": "image",
+          "json_path": "data/demo/images/case10.png",
+          "expected": "data/data/demo/images/case10.png",
+          "found": [
+            "data/demo/images/case10.png"
+          ]
+        },
+        {
+          "case_id": "10",
+          "field": "heatmap",
+          "json_path": "data/demo/heatmaps/case10.png",
+          "expected": "data/data/demo/heatmaps/case10.png",
+          "found": [
+            "data/demo/heatmaps/case10.png"
+          ]
+        },
+        {
+          "case_id": "10",
+          "field": "mask_overlay",
+          "json_path": "data/demo/overlays/case10.png",
+          "expected": "data/data/demo/overlays/case10.png",
+          "found": [
+            "data/demo/overlays/case10.png"
+          ]
+        },
+        {
+          "case_id": "10",
+          "field": "print_image",
+          "json_path": "data/demo/print/case10_A5.png",
+          "expected": "data/data/demo/print/case10_A5.png",
+          "found": [
+            "data/demo/print/case10_A5.png"
+          ]
+        },
+        {
+          "case_id": "11",
+          "field": "image",
+          "json_path": "data/demo/images/case11.png",
+          "expected": "data/data/demo/images/case11.png",
+          "found": [
+            "data/demo/images/case11.png"
+          ]
+        },
+        {
+          "case_id": "11",
+          "field": "heatmap",
+          "json_path": "data/demo/heatmaps/case11.png",
+          "expected": "data/data/demo/heatmaps/case11.png",
+          "found": [
+            "data/demo/heatmaps/case11.png"
+          ]
+        },
+        {
+          "case_id": "11",
+          "field": "mask_overlay",
+          "json_path": "data/demo/overlays/case11.png",
+          "expected": "data/data/demo/overlays/case11.png",
+          "found": [
+            "data/demo/overlays/case11.png"
+          ]
+        },
+        {
+          "case_id": "11",
+          "field": "print_image",
+          "json_path": "data/demo/print/case11_A5.png",
+          "expected": "data/data/demo/print/case11_A5.png",
+          "found": [
+            "data/demo/print/case11_A5.png"
+          ]
+        },
+        {
+          "case_id": "12",
+          "field": "image",
+          "json_path": "data/demo/images/case12.png",
+          "expected": "data/data/demo/images/case12.png",
+          "found": [
+            "data/demo/images/case12.png"
+          ]
+        },
+        {
+          "case_id": "12",
+          "field": "heatmap",
+          "json_path": "data/demo/heatmaps/case12.png",
+          "expected": "data/data/demo/heatmaps/case12.png",
+          "found": [
+            "data/demo/heatmaps/case12.png"
+          ]
+        },
+        {
+          "case_id": "12",
+          "field": "mask_overlay",
+          "json_path": "data/demo/overlays/case12.png",
+          "expected": "data/data/demo/overlays/case12.png",
+          "found": [
+            "data/demo/overlays/case12.png"
+          ]
+        },
+        {
+          "case_id": "12",
+          "field": "print_image",
+          "json_path": "data/demo/print/case12_A5.png",
+          "expected": "data/data/demo/print/case12_A5.png",
+          "found": [
+            "data/demo/print/case12_A5.png"
+          ]
+        },
+        {
+          "case_id": "13",
+          "field": "image",
+          "json_path": "data/demo/images/case13.png",
+          "expected": "data/data/demo/images/case13.png",
+          "found": [
+            "data/demo/images/case13.png"
+          ]
+        },
+        {
+          "case_id": "13",
+          "field": "heatmap",
+          "json_path": "data/demo/heatmaps/case13.png",
+          "expected": "data/data/demo/heatmaps/case13.png",
+          "found": [
+            "data/demo/heatmaps/case13.png"
+          ]
+        },
+        {
+          "case_id": "13",
+          "field": "mask_overlay",
+          "json_path": "data/demo/overlays/case13.png",
+          "expected": "data/data/demo/overlays/case13.png",
+          "found": [
+            "data/demo/overlays/case13.png"
+          ]
+        },
+        {
+          "case_id": "13",
+          "field": "print_image",
+          "json_path": "data/demo/print/case13_A5.png",
+          "expected": "data/data/demo/print/case13_A5.png",
+          "found": [
+            "data/demo/print/case13_A5.png"
+          ]
+        },
+        {
+          "case_id": "14",
+          "field": "image",
+          "json_path": "data/demo/images/case14.png",
+          "expected": "data/data/demo/images/case14.png",
+          "found": [
+            "data/demo/images/case14.png"
+          ]
+        },
+        {
+          "case_id": "14",
+          "field": "heatmap",
+          "json_path": "data/demo/heatmaps/case14.png",
+          "expected": "data/data/demo/heatmaps/case14.png",
+          "found": [
+            "data/demo/heatmaps/case14.png"
+          ]
+        },
+        {
+          "case_id": "14",
+          "field": "mask_overlay",
+          "json_path": "data/demo/overlays/case14.png",
+          "expected": "data/data/demo/overlays/case14.png",
+          "found": [
+            "data/demo/overlays/case14.png"
+          ]
+        },
+        {
+          "case_id": "14",
+          "field": "print_image",
+          "json_path": "data/demo/print/case14_A5.png",
+          "expected": "data/data/demo/print/case14_A5.png",
+          "found": [
+            "data/demo/print/case14_A5.png"
+          ]
+        },
+        {
+          "case_id": "15",
+          "field": "image",
+          "json_path": "data/demo/images/case15.png",
+          "expected": "data/data/demo/images/case15.png",
+          "found": [
+            "data/demo/images/case15.png"
+          ]
+        },
+        {
+          "case_id": "15",
+          "field": "heatmap",
+          "json_path": "data/demo/heatmaps/case15.png",
+          "expected": "data/data/demo/heatmaps/case15.png",
+          "found": [
+            "data/demo/heatmaps/case15.png"
+          ]
+        },
+        {
+          "case_id": "15",
+          "field": "mask_overlay",
+          "json_path": "data/demo/overlays/case15.png",
+          "expected": "data/data/demo/overlays/case15.png",
+          "found": [
+            "data/demo/overlays/case15.png"
+          ]
+        },
+        {
+          "case_id": "15",
+          "field": "print_image",
+          "json_path": "data/demo/print/case15_A5.png",
+          "expected": "data/data/demo/print/case15_A5.png",
+          "found": [
+            "data/demo/print/case15_A5.png"
+          ]
+        },
+        {
+          "case_id": "16",
+          "field": "image",
+          "json_path": "data/demo/images/case16.png",
+          "expected": "data/data/demo/images/case16.png",
+          "found": [
+            "data/demo/images/case16.png"
+          ]
+        },
+        {
+          "case_id": "16",
+          "field": "heatmap",
+          "json_path": "data/demo/heatmaps/case16.png",
+          "expected": "data/data/demo/heatmaps/case16.png",
+          "found": [
+            "data/demo/heatmaps/case16.png"
+          ]
+        },
+        {
+          "case_id": "16",
+          "field": "mask_overlay",
+          "json_path": "data/demo/overlays/case16.png",
+          "expected": "data/data/demo/overlays/case16.png",
+          "found": [
+            "data/demo/overlays/case16.png"
+          ]
+        },
+        {
+          "case_id": "16",
+          "field": "print_image",
+          "json_path": "data/demo/print/case16_A5.png",
+          "expected": "data/data/demo/print/case16_A5.png",
+          "found": [
+            "data/demo/print/case16_A5.png"
+          ]
+        },
+        {
+          "case_id": "17",
+          "field": "image",
+          "json_path": "data/demo/images/case17.png",
+          "expected": "data/data/demo/images/case17.png",
+          "found": [
+            "data/demo/images/case17.png"
+          ]
+        },
+        {
+          "case_id": "17",
+          "field": "heatmap",
+          "json_path": "data/demo/heatmaps/case17.png",
+          "expected": "data/data/demo/heatmaps/case17.png",
+          "found": [
+            "data/demo/heatmaps/case17.png"
+          ]
+        },
+        {
+          "case_id": "17",
+          "field": "mask_overlay",
+          "json_path": "data/demo/overlays/case17.png",
+          "expected": "data/data/demo/overlays/case17.png",
+          "found": [
+            "data/demo/overlays/case17.png"
+          ]
+        },
+        {
+          "case_id": "17",
+          "field": "print_image",
+          "json_path": "data/demo/print/case17_A5.png",
+          "expected": "data/data/demo/print/case17_A5.png",
+          "found": [
+            "data/demo/print/case17_A5.png"
+          ]
+        },
+        {
+          "case_id": "18",
+          "field": "image",
+          "json_path": "data/demo/images/case18.png",
+          "expected": "data/data/demo/images/case18.png",
+          "found": [
+            "data/demo/images/case18.png"
+          ]
+        },
+        {
+          "case_id": "18",
+          "field": "heatmap",
+          "json_path": "data/demo/heatmaps/case18.png",
+          "expected": "data/data/demo/heatmaps/case18.png",
+          "found": [
+            "data/demo/heatmaps/case18.png"
+          ]
+        },
+        {
+          "case_id": "18",
+          "field": "mask_overlay",
+          "json_path": "data/demo/overlays/case18.png",
+          "expected": "data/data/demo/overlays/case18.png",
+          "found": [
+            "data/demo/overlays/case18.png"
+          ]
+        },
+        {
+          "case_id": "18",
+          "field": "print_image",
+          "json_path": "data/demo/print/case18_A5.png",
+          "expected": "data/data/demo/print/case18_A5.png",
+          "found": [
+            "data/demo/print/case18_A5.png"
+          ]
+        },
+        {
+          "case_id": "19",
+          "field": "image",
+          "json_path": "data/demo/images/case19.png",
+          "expected": "data/data/demo/images/case19.png",
+          "found": [
+            "data/demo/images/case19.png"
+          ]
+        },
+        {
+          "case_id": "19",
+          "field": "heatmap",
+          "json_path": "data/demo/heatmaps/case19.png",
+          "expected": "data/data/demo/heatmaps/case19.png",
+          "found": [
+            "data/demo/heatmaps/case19.png"
+          ]
+        },
+        {
+          "case_id": "19",
+          "field": "mask_overlay",
+          "json_path": "data/demo/overlays/case19.png",
+          "expected": "data/data/demo/overlays/case19.png",
+          "found": [
+            "data/demo/overlays/case19.png"
+          ]
+        },
+        {
+          "case_id": "19",
+          "field": "print_image",
+          "json_path": "data/demo/print/case19_A5.png",
+          "expected": "data/data/demo/print/case19_A5.png",
+          "found": [
+            "data/demo/print/case19_A5.png"
+          ]
+        },
+        {
+          "case_id": "20",
+          "field": "image",
+          "json_path": "data/demo/images/case20.png",
+          "expected": "data/data/demo/images/case20.png",
+          "found": [
+            "data/demo/images/case20.png"
+          ]
+        },
+        {
+          "case_id": "20",
+          "field": "heatmap",
+          "json_path": "data/demo/heatmaps/case20.png",
+          "expected": "data/data/demo/heatmaps/case20.png",
+          "found": [
+            "data/demo/heatmaps/case20.png"
+          ]
+        },
+        {
+          "case_id": "20",
+          "field": "mask_overlay",
+          "json_path": "data/demo/overlays/case20.png",
+          "expected": "data/data/demo/overlays/case20.png",
+          "found": [
+            "data/demo/overlays/case20.png"
+          ]
+        },
+        {
+          "case_id": "20",
+          "field": "print_image",
+          "json_path": "data/demo/print/case20_A5.png",
+          "expected": "data/data/demo/print/case20_A5.png",
+          "found": [
+            "data/demo/print/case20_A5.png"
+          ]
+        },
+        {
+          "case_id": "21",
+          "field": "image",
+          "json_path": "data/demo/images/case21.png",
+          "expected": "data/data/demo/images/case21.png",
+          "found": [
+            "data/demo/images/case21.png"
+          ]
+        },
+        {
+          "case_id": "21",
+          "field": "heatmap",
+          "json_path": "data/demo/heatmaps/case21.png",
+          "expected": "data/data/demo/heatmaps/case21.png",
+          "found": [
+            "data/demo/heatmaps/case21.png"
+          ]
+        },
+        {
+          "case_id": "21",
+          "field": "mask_overlay",
+          "json_path": "data/demo/overlays/case21.png",
+          "expected": "data/data/demo/overlays/case21.png",
+          "found": [
+            "data/demo/overlays/case21.png"
+          ]
+        },
+        {
+          "case_id": "21",
+          "field": "print_image",
+          "json_path": "data/demo/print/case21_A5.png",
+          "expected": "data/data/demo/print/case21_A5.png",
+          "found": [
+            "data/demo/print/case21_A5.png"
+          ]
+        },
+        {
+          "case_id": "22",
+          "field": "image",
+          "json_path": "data/demo/images/case22.png",
+          "expected": "data/data/demo/images/case22.png",
+          "found": [
+            "data/demo/images/case22.png"
+          ]
+        },
+        {
+          "case_id": "22",
+          "field": "heatmap",
+          "json_path": "data/demo/heatmaps/case22.png",
+          "expected": "data/data/demo/heatmaps/case22.png",
+          "found": [
+            "data/demo/heatmaps/case22.png"
+          ]
+        },
+        {
+          "case_id": "22",
+          "field": "mask_overlay",
+          "json_path": "data/demo/overlays/case22.png",
+          "expected": "data/data/demo/overlays/case22.png",
+          "found": [
+            "data/demo/overlays/case22.png"
+          ]
+        },
+        {
+          "case_id": "22",
+          "field": "print_image",
+          "json_path": "data/demo/print/case22_A5.png",
+          "expected": "data/data/demo/print/case22_A5.png",
+          "found": [
+            "data/demo/print/case22_A5.png"
+          ]
+        },
+        {
+          "case_id": "23",
+          "field": "image",
+          "json_path": "data/demo/images/case23.png",
+          "expected": "data/data/demo/images/case23.png",
+          "found": [
+            "data/demo/images/case23.png"
+          ]
+        },
+        {
+          "case_id": "23",
+          "field": "heatmap",
+          "json_path": "data/demo/heatmaps/case23.png",
+          "expected": "data/data/demo/heatmaps/case23.png",
+          "found": [
+            "data/demo/heatmaps/case23.png"
+          ]
+        },
+        {
+          "case_id": "23",
+          "field": "mask_overlay",
+          "json_path": "data/demo/overlays/case23.png",
+          "expected": "data/data/demo/overlays/case23.png",
+          "found": [
+            "data/demo/overlays/case23.png"
+          ]
+        },
+        {
+          "case_id": "23",
+          "field": "print_image",
+          "json_path": "data/demo/print/case23_A5.png",
+          "expected": "data/data/demo/print/case23_A5.png",
+          "found": [
+            "data/demo/print/case23_A5.png"
+          ]
+        },
+        {
+          "case_id": "24",
+          "field": "image",
+          "json_path": "data/demo/images/case24.png",
+          "expected": "data/data/demo/images/case24.png",
+          "found": [
+            "data/demo/images/case24.png"
+          ]
+        },
+        {
+          "case_id": "24",
+          "field": "heatmap",
+          "json_path": "data/demo/heatmaps/case24.png",
+          "expected": "data/data/demo/heatmaps/case24.png",
+          "found": [
+            "data/demo/heatmaps/case24.png"
+          ]
+        },
+        {
+          "case_id": "24",
+          "field": "mask_overlay",
+          "json_path": "data/demo/overlays/case24.png",
+          "expected": "data/data/demo/overlays/case24.png",
+          "found": [
+            "data/demo/overlays/case24.png"
+          ]
+        },
+        {
+          "case_id": "24",
+          "field": "print_image",
+          "json_path": "data/demo/print/case24_A5.png",
+          "expected": "data/data/demo/print/case24_A5.png",
+          "found": [
+            "data/demo/print/case24_A5.png"
+          ]
+        },
+        {
+          "case_id": "25",
+          "field": "image",
+          "json_path": "data/demo/images/case25.png",
+          "expected": "data/data/demo/images/case25.png",
+          "found": [
+            "data/demo/images/case25.png"
+          ]
+        },
+        {
+          "case_id": "25",
+          "field": "heatmap",
+          "json_path": "data/demo/heatmaps/case25.png",
+          "expected": "data/data/demo/heatmaps/case25.png",
+          "found": [
+            "data/demo/heatmaps/case25.png"
+          ]
+        },
+        {
+          "case_id": "25",
+          "field": "mask_overlay",
+          "json_path": "data/demo/overlays/case25.png",
+          "expected": "data/data/demo/overlays/case25.png",
+          "found": [
+            "data/demo/overlays/case25.png"
+          ]
+        },
+        {
+          "case_id": "25",
+          "field": "print_image",
+          "json_path": "data/demo/print/case25_A5.png",
+          "expected": "data/data/demo/print/case25_A5.png",
+          "found": [
+            "data/demo/print/case25_A5.png"
+          ]
+        },
+        {
+          "case_id": "26",
+          "field": "image",
+          "json_path": "data/demo/images/case26.png",
+          "expected": "data/data/demo/images/case26.png",
+          "found": [
+            "data/demo/images/case26.png"
+          ]
+        },
+        {
+          "case_id": "26",
+          "field": "heatmap",
+          "json_path": "data/demo/heatmaps/case26.png",
+          "expected": "data/data/demo/heatmaps/case26.png",
+          "found": [
+            "data/demo/heatmaps/case26.png"
+          ]
+        },
+        {
+          "case_id": "26",
+          "field": "mask_overlay",
+          "json_path": "data/demo/overlays/case26.png",
+          "expected": "data/data/demo/overlays/case26.png",
+          "found": [
+            "data/demo/overlays/case26.png"
+          ]
+        },
+        {
+          "case_id": "26",
+          "field": "print_image",
+          "json_path": "data/demo/print/case26_A5.png",
+          "expected": "data/data/demo/print/case26_A5.png",
+          "found": [
+            "data/demo/print/case26_A5.png"
+          ]
+        },
+        {
+          "case_id": "27",
+          "field": "image",
+          "json_path": "data/demo/images/case27.png",
+          "expected": "data/data/demo/images/case27.png",
+          "found": [
+            "data/demo/images/case27.png"
+          ]
+        },
+        {
+          "case_id": "27",
+          "field": "heatmap",
+          "json_path": "data/demo/heatmaps/case27.png",
+          "expected": "data/data/demo/heatmaps/case27.png",
+          "found": [
+            "data/demo/heatmaps/case27.png"
+          ]
+        },
+        {
+          "case_id": "27",
+          "field": "mask_overlay",
+          "json_path": "data/demo/overlays/case27.png",
+          "expected": "data/data/demo/overlays/case27.png",
+          "found": [
+            "data/demo/overlays/case27.png"
+          ]
+        },
+        {
+          "case_id": "27",
+          "field": "print_image",
+          "json_path": "data/demo/print/case27_A5.png",
+          "expected": "data/data/demo/print/case27_A5.png",
+          "found": [
+            "data/demo/print/case27_A5.png"
+          ]
+        },
+        {
+          "case_id": "28",
+          "field": "image",
+          "json_path": "data/demo/images/case28.png",
+          "expected": "data/data/demo/images/case28.png",
+          "found": [
+            "data/demo/images/case28.png"
+          ]
+        },
+        {
+          "case_id": "28",
+          "field": "heatmap",
+          "json_path": "data/demo/heatmaps/case28.png",
+          "expected": "data/data/demo/heatmaps/case28.png",
+          "found": [
+            "data/demo/heatmaps/case28.png"
+          ]
+        },
+        {
+          "case_id": "28",
+          "field": "mask_overlay",
+          "json_path": "data/demo/overlays/case28.png",
+          "expected": "data/data/demo/overlays/case28.png",
+          "found": [
+            "data/demo/overlays/case28.png"
+          ]
+        },
+        {
+          "case_id": "28",
+          "field": "print_image",
+          "json_path": "data/demo/print/case28_A5.png",
+          "expected": "data/data/demo/print/case28_A5.png",
+          "found": [
+            "data/demo/print/case28_A5.png"
+          ]
+        },
+        {
+          "case_id": "29",
+          "field": "image",
+          "json_path": "data/demo/images/case29.png",
+          "expected": "data/data/demo/images/case29.png",
+          "found": [
+            "data/demo/images/case29.png"
+          ]
+        },
+        {
+          "case_id": "29",
+          "field": "heatmap",
+          "json_path": "data/demo/heatmaps/case29.png",
+          "expected": "data/data/demo/heatmaps/case29.png",
+          "found": [
+            "data/demo/heatmaps/case29.png"
+          ]
+        },
+        {
+          "case_id": "29",
+          "field": "mask_overlay",
+          "json_path": "data/demo/overlays/case29.png",
+          "expected": "data/data/demo/overlays/case29.png",
+          "found": [
+            "data/demo/overlays/case29.png"
+          ]
+        },
+        {
+          "case_id": "29",
+          "field": "print_image",
+          "json_path": "data/demo/print/case29_A5.png",
+          "expected": "data/data/demo/print/case29_A5.png",
+          "found": [
+            "data/demo/print/case29_A5.png"
+          ]
+        },
+        {
+          "case_id": "30",
+          "field": "image",
+          "json_path": "data/demo/images/case30.png",
+          "expected": "data/data/demo/images/case30.png",
+          "found": [
+            "data/demo/images/case30.png"
+          ]
+        },
+        {
+          "case_id": "30",
+          "field": "heatmap",
+          "json_path": "data/demo/heatmaps/case30.png",
+          "expected": "data/data/demo/heatmaps/case30.png",
+          "found": [
+            "data/demo/heatmaps/case30.png"
+          ]
+        },
+        {
+          "case_id": "30",
+          "field": "mask_overlay",
+          "json_path": "data/demo/overlays/case30.png",
+          "expected": "data/data/demo/overlays/case30.png",
+          "found": [
+            "data/demo/overlays/case30.png"
+          ]
+        },
+        {
+          "case_id": "30",
+          "field": "print_image",
+          "json_path": "data/demo/print/case30_A5.png",
+          "expected": "data/data/demo/print/case30_A5.png",
+          "found": [
+            "data/demo/print/case30_A5.png"
+          ]
+        }
+      ],
+      "current_loader_missing": [],
+      "null_overlap_cases": []
+    },
+    "data/booth_set_new.json": {
+      "case_count": 30,
+      "truth": {
+        "malignant": 10,
+        "normal": 10,
+        "benign": 10
+      },
+      "ai_pred": {
+        "malignant": 10,
+        "normal": 9,
+        "benign": 11
+      },
+      "correct": 23,
+      "error_type": {
+        "null": 23,
+        "false_positive": 3,
+        "false_negative": 3,
+        "other_confusion": 1
+      },
+      "data_relative_mismatches": [],
+      "current_loader_missing": [
+        {
+          "case_id": "01",
+          "field": "image",
+          "expected": "images/case01.png",
+          "found": "data/images/case01.png"
+        },
+        {
+          "case_id": "01",
+          "field": "heatmap",
+          "expected": "heatmaps/case01.png",
+          "found": "data/heatmaps/case01.png"
+        },
+        {
+          "case_id": "01",
+          "field": "mask_overlay",
+          "expected": "overlays/case01.png",
+          "found": "data/overlays/case01.png"
+        },
+        {
+          "case_id": "01",
+          "field": "print_image",
+          "expected": "print/case01_A5.png",
+          "found": "data/print/case01_A5.png"
+        },
+        {
+          "case_id": "02",
+          "field": "image",
+          "expected": "images/case02.png",
+          "found": "data/images/case02.png"
+        },
+        {
+          "case_id": "02",
+          "field": "heatmap",
+          "expected": "heatmaps/case02.png",
+          "found": "data/heatmaps/case02.png"
+        },
+        {
+          "case_id": "02",
+          "field": "mask_overlay",
+          "expected": "overlays/case02.png",
+          "found": "data/overlays/case02.png"
+        },
+        {
+          "case_id": "02",
+          "field": "print_image",
+          "expected": "print/case02_A5.png",
+          "found": "data/print/case02_A5.png"
+        },
+        {
+          "case_id": "03",
+          "field": "image",
+          "expected": "images/case03.png",
+          "found": "data/images/case03.png"
+        },
+        {
+          "case_id": "03",
+          "field": "heatmap",
+          "expected": "heatmaps/case03.png",
+          "found": "data/heatmaps/case03.png"
+        },
+        {
+          "case_id": "03",
+          "field": "mask_overlay",
+          "expected": "overlays/case03.png",
+          "found": "data/overlays/case03.png"
+        },
+        {
+          "case_id": "03",
+          "field": "print_image",
+          "expected": "print/case03_A5.png",
+          "found": "data/print/case03_A5.png"
+        },
+        {
+          "case_id": "04",
+          "field": "image",
+          "expected": "images/case04.png",
+          "found": "data/images/case04.png"
+        },
+        {
+          "case_id": "04",
+          "field": "heatmap",
+          "expected": "heatmaps/case04.png",
+          "found": "data/heatmaps/case04.png"
+        },
+        {
+          "case_id": "04",
+          "field": "mask_overlay",
+          "expected": "overlays/case04.png",
+          "found": "data/overlays/case04.png"
+        },
+        {
+          "case_id": "04",
+          "field": "print_image",
+          "expected": "print/case04_A5.png",
+          "found": "data/print/case04_A5.png"
+        },
+        {
+          "case_id": "05",
+          "field": "image",
+          "expected": "images/case05.png",
+          "found": "data/images/case05.png"
+        },
+        {
+          "case_id": "05",
+          "field": "heatmap",
+          "expected": "heatmaps/case05.png",
+          "found": "data/heatmaps/case05.png"
+        },
+        {
+          "case_id": "05",
+          "field": "mask_overlay",
+          "expected": "overlays/case05.png",
+          "found": "data/overlays/case05.png"
+        },
+        {
+          "case_id": "05",
+          "field": "print_image",
+          "expected": "print/case05_A5.png",
+          "found": "data/print/case05_A5.png"
+        },
+        {
+          "case_id": "06",
+          "field": "image",
+          "expected": "images/case06.png",
+          "found": "data/images/case06.png"
+        },
+        {
+          "case_id": "06",
+          "field": "heatmap",
+          "expected": "heatmaps/case06.png",
+          "found": "data/heatmaps/case06.png"
+        },
+        {
+          "case_id": "06",
+          "field": "mask_overlay",
+          "expected": "overlays/case06.png",
+          "found": "data/overlays/case06.png"
+        },
+        {
+          "case_id": "06",
+          "field": "print_image",
+          "expected": "print/case06_A5.png",
+          "found": "data/print/case06_A5.png"
+        },
+        {
+          "case_id": "07",
+          "field": "image",
+          "expected": "images/case07.png",
+          "found": "data/images/case07.png"
+        },
+        {
+          "case_id": "07",
+          "field": "heatmap",
+          "expected": "heatmaps/case07.png",
+          "found": "data/heatmaps/case07.png"
+        },
+        {
+          "case_id": "07",
+          "field": "mask_overlay",
+          "expected": "overlays/case07.png",
+          "found": "data/overlays/case07.png"
+        },
+        {
+          "case_id": "07",
+          "field": "print_image",
+          "expected": "print/case07_A5.png",
+          "found": "data/print/case07_A5.png"
+        },
+        {
+          "case_id": "08",
+          "field": "image",
+          "expected": "images/case08.png",
+          "found": "data/images/case08.png"
+        },
+        {
+          "case_id": "08",
+          "field": "heatmap",
+          "expected": "heatmaps/case08.png",
+          "found": "data/heatmaps/case08.png"
+        },
+        {
+          "case_id": "08",
+          "field": "mask_overlay",
+          "expected": "overlays/case08.png",
+          "found": "data/overlays/case08.png"
+        },
+        {
+          "case_id": "08",
+          "field": "print_image",
+          "expected": "print/case08_A5.png",
+          "found": "data/print/case08_A5.png"
+        },
+        {
+          "case_id": "09",
+          "field": "image",
+          "expected": "images/case09.png",
+          "found": "data/images/case09.png"
+        },
+        {
+          "case_id": "09",
+          "field": "heatmap",
+          "expected": "heatmaps/case09.png",
+          "found": "data/heatmaps/case09.png"
+        },
+        {
+          "case_id": "09",
+          "field": "mask_overlay",
+          "expected": "overlays/case09.png",
+          "found": "data/overlays/case09.png"
+        },
+        {
+          "case_id": "09",
+          "field": "print_image",
+          "expected": "print/case09_A5.png",
+          "found": "data/print/case09_A5.png"
+        },
+        {
+          "case_id": "10",
+          "field": "image",
+          "expected": "images/case10.png",
+          "found": "data/images/case10.png"
+        },
+        {
+          "case_id": "10",
+          "field": "heatmap",
+          "expected": "heatmaps/case10.png",
+          "found": "data/heatmaps/case10.png"
+        },
+        {
+          "case_id": "10",
+          "field": "mask_overlay",
+          "expected": "overlays/case10.png",
+          "found": "data/overlays/case10.png"
+        },
+        {
+          "case_id": "10",
+          "field": "print_image",
+          "expected": "print/case10_A5.png",
+          "found": "data/print/case10_A5.png"
+        },
+        {
+          "case_id": "11",
+          "field": "image",
+          "expected": "images/case11.png",
+          "found": "data/images/case11.png"
+        },
+        {
+          "case_id": "11",
+          "field": "heatmap",
+          "expected": "heatmaps/case11.png",
+          "found": "data/heatmaps/case11.png"
+        },
+        {
+          "case_id": "11",
+          "field": "mask_overlay",
+          "expected": "overlays/case11.png",
+          "found": "data/overlays/case11.png"
+        },
+        {
+          "case_id": "11",
+          "field": "print_image",
+          "expected": "print/case11_A5.png",
+          "found": "data/print/case11_A5.png"
+        },
+        {
+          "case_id": "12",
+          "field": "image",
+          "expected": "images/case12.png",
+          "found": "data/images/case12.png"
+        },
+        {
+          "case_id": "12",
+          "field": "heatmap",
+          "expected": "heatmaps/case12.png",
+          "found": "data/heatmaps/case12.png"
+        },
+        {
+          "case_id": "12",
+          "field": "mask_overlay",
+          "expected": "overlays/case12.png",
+          "found": "data/overlays/case12.png"
+        },
+        {
+          "case_id": "12",
+          "field": "print_image",
+          "expected": "print/case12_A5.png",
+          "found": "data/print/case12_A5.png"
+        },
+        {
+          "case_id": "13",
+          "field": "image",
+          "expected": "images/case13.png",
+          "found": "data/images/case13.png"
+        },
+        {
+          "case_id": "13",
+          "field": "heatmap",
+          "expected": "heatmaps/case13.png",
+          "found": "data/heatmaps/case13.png"
+        },
+        {
+          "case_id": "13",
+          "field": "mask_overlay",
+          "expected": "overlays/case13.png",
+          "found": "data/overlays/case13.png"
+        },
+        {
+          "case_id": "13",
+          "field": "print_image",
+          "expected": "print/case13_A5.png",
+          "found": "data/print/case13_A5.png"
+        },
+        {
+          "case_id": "14",
+          "field": "image",
+          "expected": "images/case14.png",
+          "found": "data/images/case14.png"
+        },
+        {
+          "case_id": "14",
+          "field": "heatmap",
+          "expected": "heatmaps/case14.png",
+          "found": "data/heatmaps/case14.png"
+        },
+        {
+          "case_id": "14",
+          "field": "mask_overlay",
+          "expected": "overlays/case14.png",
+          "found": "data/overlays/case14.png"
+        },
+        {
+          "case_id": "14",
+          "field": "print_image",
+          "expected": "print/case14_A5.png",
+          "found": "data/print/case14_A5.png"
+        },
+        {
+          "case_id": "15",
+          "field": "image",
+          "expected": "images/case15.png",
+          "found": "data/images/case15.png"
+        },
+        {
+          "case_id": "15",
+          "field": "heatmap",
+          "expected": "heatmaps/case15.png",
+          "found": "data/heatmaps/case15.png"
+        },
+        {
+          "case_id": "15",
+          "field": "mask_overlay",
+          "expected": "overlays/case15.png",
+          "found": "data/overlays/case15.png"
+        },
+        {
+          "case_id": "15",
+          "field": "print_image",
+          "expected": "print/case15_A5.png",
+          "found": "data/print/case15_A5.png"
+        },
+        {
+          "case_id": "16",
+          "field": "image",
+          "expected": "images/case16.png",
+          "found": "data/images/case16.png"
+        },
+        {
+          "case_id": "16",
+          "field": "heatmap",
+          "expected": "heatmaps/case16.png",
+          "found": "data/heatmaps/case16.png"
+        },
+        {
+          "case_id": "16",
+          "field": "mask_overlay",
+          "expected": "overlays/case16.png",
+          "found": "data/overlays/case16.png"
+        },
+        {
+          "case_id": "16",
+          "field": "print_image",
+          "expected": "print/case16_A5.png",
+          "found": "data/print/case16_A5.png"
+        },
+        {
+          "case_id": "17",
+          "field": "image",
+          "expected": "images/case17.png",
+          "found": "data/images/case17.png"
+        },
+        {
+          "case_id": "17",
+          "field": "heatmap",
+          "expected": "heatmaps/case17.png",
+          "found": "data/heatmaps/case17.png"
+        },
+        {
+          "case_id": "17",
+          "field": "mask_overlay",
+          "expected": "overlays/case17.png",
+          "found": "data/overlays/case17.png"
+        },
+        {
+          "case_id": "17",
+          "field": "print_image",
+          "expected": "print/case17_A5.png",
+          "found": "data/print/case17_A5.png"
+        },
+        {
+          "case_id": "18",
+          "field": "image",
+          "expected": "images/case18.png",
+          "found": "data/images/case18.png"
+        },
+        {
+          "case_id": "18",
+          "field": "heatmap",
+          "expected": "heatmaps/case18.png",
+          "found": "data/heatmaps/case18.png"
+        },
+        {
+          "case_id": "18",
+          "field": "mask_overlay",
+          "expected": "overlays/case18.png",
+          "found": "data/overlays/case18.png"
+        },
+        {
+          "case_id": "18",
+          "field": "print_image",
+          "expected": "print/case18_A5.png",
+          "found": "data/print/case18_A5.png"
+        },
+        {
+          "case_id": "19",
+          "field": "image",
+          "expected": "images/case19.png",
+          "found": "data/images/case19.png"
+        },
+        {
+          "case_id": "19",
+          "field": "heatmap",
+          "expected": "heatmaps/case19.png",
+          "found": "data/heatmaps/case19.png"
+        },
+        {
+          "case_id": "19",
+          "field": "mask_overlay",
+          "expected": "overlays/case19.png",
+          "found": "data/overlays/case19.png"
+        },
+        {
+          "case_id": "19",
+          "field": "print_image",
+          "expected": "print/case19_A5.png",
+          "found": "data/print/case19_A5.png"
+        },
+        {
+          "case_id": "20",
+          "field": "image",
+          "expected": "images/case20.png",
+          "found": "data/images/case20.png"
+        },
+        {
+          "case_id": "20",
+          "field": "heatmap",
+          "expected": "heatmaps/case20.png",
+          "found": "data/heatmaps/case20.png"
+        },
+        {
+          "case_id": "20",
+          "field": "mask_overlay",
+          "expected": "overlays/case20.png",
+          "found": "data/overlays/case20.png"
+        },
+        {
+          "case_id": "20",
+          "field": "print_image",
+          "expected": "print/case20_A5.png",
+          "found": "data/print/case20_A5.png"
+        },
+        {
+          "case_id": "21",
+          "field": "image",
+          "expected": "images/case21.png",
+          "found": "data/images/case21.png"
+        },
+        {
+          "case_id": "21",
+          "field": "heatmap",
+          "expected": "heatmaps/case21.png",
+          "found": "data/heatmaps/case21.png"
+        },
+        {
+          "case_id": "21",
+          "field": "mask_overlay",
+          "expected": "overlays/case21.png",
+          "found": "data/overlays/case21.png"
+        },
+        {
+          "case_id": "21",
+          "field": "print_image",
+          "expected": "print/case21_A5.png",
+          "found": "data/print/case21_A5.png"
+        },
+        {
+          "case_id": "22",
+          "field": "image",
+          "expected": "images/case22.png",
+          "found": "data/images/case22.png"
+        },
+        {
+          "case_id": "22",
+          "field": "heatmap",
+          "expected": "heatmaps/case22.png",
+          "found": "data/heatmaps/case22.png"
+        },
+        {
+          "case_id": "22",
+          "field": "mask_overlay",
+          "expected": "overlays/case22.png",
+          "found": "data/overlays/case22.png"
+        },
+        {
+          "case_id": "22",
+          "field": "print_image",
+          "expected": "print/case22_A5.png",
+          "found": "data/print/case22_A5.png"
+        },
+        {
+          "case_id": "23",
+          "field": "image",
+          "expected": "images/case23.png",
+          "found": "data/images/case23.png"
+        },
+        {
+          "case_id": "23",
+          "field": "heatmap",
+          "expected": "heatmaps/case23.png",
+          "found": "data/heatmaps/case23.png"
+        },
+        {
+          "case_id": "23",
+          "field": "mask_overlay",
+          "expected": "overlays/case23.png",
+          "found": "data/overlays/case23.png"
+        },
+        {
+          "case_id": "23",
+          "field": "print_image",
+          "expected": "print/case23_A5.png",
+          "found": "data/print/case23_A5.png"
+        },
+        {
+          "case_id": "24",
+          "field": "image",
+          "expected": "images/case24.png",
+          "found": "data/images/case24.png"
+        },
+        {
+          "case_id": "24",
+          "field": "heatmap",
+          "expected": "heatmaps/case24.png",
+          "found": "data/heatmaps/case24.png"
+        },
+        {
+          "case_id": "24",
+          "field": "mask_overlay",
+          "expected": "overlays/case24.png",
+          "found": "data/overlays/case24.png"
+        },
+        {
+          "case_id": "24",
+          "field": "print_image",
+          "expected": "print/case24_A5.png",
+          "found": "data/print/case24_A5.png"
+        },
+        {
+          "case_id": "25",
+          "field": "image",
+          "expected": "images/case25.png",
+          "found": "data/images/case25.png"
+        },
+        {
+          "case_id": "25",
+          "field": "heatmap",
+          "expected": "heatmaps/case25.png",
+          "found": "data/heatmaps/case25.png"
+        },
+        {
+          "case_id": "25",
+          "field": "mask_overlay",
+          "expected": "overlays/case25.png",
+          "found": "data/overlays/case25.png"
+        },
+        {
+          "case_id": "25",
+          "field": "print_image",
+          "expected": "print/case25_A5.png",
+          "found": "data/print/case25_A5.png"
+        },
+        {
+          "case_id": "26",
+          "field": "image",
+          "expected": "images/case26.png",
+          "found": "data/images/case26.png"
+        },
+        {
+          "case_id": "26",
+          "field": "heatmap",
+          "expected": "heatmaps/case26.png",
+          "found": "data/heatmaps/case26.png"
+        },
+        {
+          "case_id": "26",
+          "field": "mask_overlay",
+          "expected": "overlays/case26.png",
+          "found": "data/overlays/case26.png"
+        },
+        {
+          "case_id": "26",
+          "field": "print_image",
+          "expected": "print/case26_A5.png",
+          "found": "data/print/case26_A5.png"
+        },
+        {
+          "case_id": "27",
+          "field": "image",
+          "expected": "images/case27.png",
+          "found": "data/images/case27.png"
+        },
+        {
+          "case_id": "27",
+          "field": "heatmap",
+          "expected": "heatmaps/case27.png",
+          "found": "data/heatmaps/case27.png"
+        },
+        {
+          "case_id": "27",
+          "field": "mask_overlay",
+          "expected": "overlays/case27.png",
+          "found": "data/overlays/case27.png"
+        },
+        {
+          "case_id": "27",
+          "field": "print_image",
+          "expected": "print/case27_A5.png",
+          "found": "data/print/case27_A5.png"
+        },
+        {
+          "case_id": "28",
+          "field": "image",
+          "expected": "images/case28.png",
+          "found": "data/images/case28.png"
+        },
+        {
+          "case_id": "28",
+          "field": "heatmap",
+          "expected": "heatmaps/case28.png",
+          "found": "data/heatmaps/case28.png"
+        },
+        {
+          "case_id": "28",
+          "field": "mask_overlay",
+          "expected": "overlays/case28.png",
+          "found": "data/overlays/case28.png"
+        },
+        {
+          "case_id": "28",
+          "field": "print_image",
+          "expected": "print/case28_A5.png",
+          "found": "data/print/case28_A5.png"
+        },
+        {
+          "case_id": "29",
+          "field": "image",
+          "expected": "images/case29.png",
+          "found": "data/images/case29.png"
+        },
+        {
+          "case_id": "29",
+          "field": "heatmap",
+          "expected": "heatmaps/case29.png",
+          "found": "data/heatmaps/case29.png"
+        },
+        {
+          "case_id": "29",
+          "field": "mask_overlay",
+          "expected": "overlays/case29.png",
+          "found": "data/overlays/case29.png"
+        },
+        {
+          "case_id": "29",
+          "field": "print_image",
+          "expected": "print/case29_A5.png",
+          "found": "data/print/case29_A5.png"
+        },
+        {
+          "case_id": "30",
+          "field": "image",
+          "expected": "images/case30.png",
+          "found": "data/images/case30.png"
+        },
+        {
+          "case_id": "30",
+          "field": "heatmap",
+          "expected": "heatmaps/case30.png",
+          "found": "data/heatmaps/case30.png"
+        },
+        {
+          "case_id": "30",
+          "field": "mask_overlay",
+          "expected": "overlays/case30.png",
+          "found": "data/overlays/case30.png"
+        },
+        {
+          "case_id": "30",
+          "field": "print_image",
+          "expected": "print/case30_A5.png",
+          "found": "data/print/case30_A5.png"
+        }
+      ],
+      "null_overlap_cases": [
+        "02",
+        "10",
+        "13",
+        "18",
+        "19",
+        "21",
+        "22",
+        "23",
+        "29",
+        "30"
+      ]
+    }
+  },
+  "report_comparison": {
+    "metrics_n_test": 68,
+    "metrics_truth": {
+      "normal": 10,
+      "benign": 34,
+      "malignant": 24
+    },
+    "metrics_ai_pred": {
+      "normal": 13,
+      "benign": 31,
+      "malignant": 24
+    },
+    "prediction_rows": 68,
+    "prediction_truth": {
+      "benign": 34,
+      "malignant": 24,
+      "normal": 10
+    },
+    "prediction_ai_pred": {
+      "benign": 31,
+      "normal": 13,
+      "malignant": 24
+    },
+    "failure_rows": 11,
+    "failure_truth": {
+      "malignant": 3,
+      "benign": 7,
+      "normal": 1
+    },
+    "failure_ai_pred": {
+      "benign": 4,
+      "malignant": 3,
+      "normal": 4
+    },
+    "failure_error_types": {
+      "false_negative": 3,
+      "false_positive": 3,
+      "other_confusion": 5
+    },
+    "dataset_failure_comparisons": {
+      "data/booth_set.json": {
+        "included_failure_rows": 7,
+        "unselected_failure_rows": 4,
+        "mismatches": [
+          {
+            "case_id": "17",
+            "csv_file": "malignant_id_148.png",
+            "csv_truth": "malignant",
+            "csv_pred": "benign",
+            "dataset_source_file": "FAKE_case17.png",
+            "dataset_truth": "benign",
+            "dataset_ai_pred": "benign"
+          },
+          {
+            "case_id": "25",
+            "csv_file": "malignant_id_143.png",
+            "csv_truth": "malignant",
+            "csv_pred": "benign",
+            "dataset_source_file": "FAKE_case25.png",
+            "dataset_truth": "normal",
+            "dataset_ai_pred": "normal"
+          },
+          {
+            "case_id": "26",
+            "csv_file": "malignant_id_162.png",
+            "csv_truth": "malignant",
+            "csv_pred": "benign",
+            "dataset_source_file": "FAKE_case26.png",
+            "dataset_truth": "benign",
+            "dataset_ai_pred": "benign"
+          },
+          {
+            "case_id": "28",
+            "csv_file": "benign_id_373.png",
+            "csv_truth": "benign",
+            "csv_pred": "malignant",
+            "dataset_source_file": "FAKE_case28.png",
+            "dataset_truth": "normal",
+            "dataset_ai_pred": "benign"
+          },
+          {
+            "case_id": "16",
+            "csv_file": "benign_id_416.png",
+            "csv_truth": "benign",
+            "csv_pred": "malignant",
+            "dataset_source_file": "FAKE_case16.png",
+            "dataset_truth": "normal",
+            "dataset_ai_pred": "benign"
+          },
+          {
+            "case_id": "07",
+            "csv_file": "benign_id_89.png",
+            "csv_truth": "benign",
+            "csv_pred": "malignant",
+            "dataset_source_file": "FAKE_case07.png",
+            "dataset_truth": "normal",
+            "dataset_ai_pred": "normal"
+          },
+          {
+            "case_id": "19",
+            "csv_file": "normal_id_94.png",
+            "csv_truth": "normal",
+            "csv_pred": "benign",
+            "dataset_source_file": "FAKE_case19.png",
+            "dataset_truth": "normal",
+            "dataset_ai_pred": "normal"
+          }
+        ],
+        "prediction_case_mismatches": [
+          "01",
+          "02",
+          "03",
+          "04",
+          "05",
+          "06",
+          "07",
+          "08",
+          "09",
+          "10",
+          "11",
+          "12",
+          "13",
+          "14",
+          "15",
+          "16",
+          "17",
+          "18",
+          "19",
+          "20",
+          "21",
+          "22",
+          "23",
+          "24",
+          "25",
+          "26",
+          "27",
+          "28",
+          "29",
+          "30"
+        ]
+      },
+      "data/booth_set_new.json": {
+        "included_failure_rows": 7,
+        "unselected_failure_rows": 4,
+        "mismatches": [],
+        "prediction_case_mismatches": []
+      }
+    }
+  },
+  "temporary_folder_removed": false,
+  "temporary_folder_retained_reason": "Active JSON has 120 mismatches under the requested data-relative path convention; imported JSON is not active, and the existing loader uses project-root-relative assets. No app code or JSON was edited.",
+  "startup": {
+    "requirements_install": "Succeeded; all dependencies already satisfied",
+    "server_started": true,
+    "server_stopped": true,
+    "smoke_port": 8502,
+    "home_render": "No exceptions",
+    "challenge_case01_render": "No exceptions or UI errors; active FAKE dataset",
+    "real_case01_image": "data/images/case01.png",
+    "real_case01_image_size": [
+      512,
+      512
+    ],
+    "dataset_loader": "booth.py:92 loads ROOT/data/booth_set.json",
+    "image_loader": "booth.py:84 uses ROOT/value rather than ROOT/data/value",
+    "app_code_changed": false,
+    "protected_files_changed": false,
+    "archive_changed": false,
+    "previous_server_stopped": true,
+    "ports_8501_and_8502_closed": true
+  },
+  "final_verification": "128 copies verified; original conflicts, protected files, and ZIP unchanged. Temporary extract retained because validation issues remain."
+}

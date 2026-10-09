@@ -1,0 +1,542 @@
+[
+  {
+    "case_id": "01",
+    "source_file": "FAKE_case01.png",
+    "image": "data/demo/images/case01.png",
+    "print_image": "data/demo/print/case01_A5.png",
+    "heatmap": "data/demo/heatmaps/case01.png",
+    "mask_overlay": "data/demo/overlays/case01.png",
+    "truth": "normal",
+    "ai_pred": "normal",
+    "ai_probs": {
+      "normal": 0.73,
+      "benign": 0.135,
+      "malignant": 0.135
+    },
+    "correct": true,
+    "error_type": null,
+    "cam_mask_overlap": 0.0
+  },
+  {
+    "case_id": "02",
+    "source_file": "FAKE_case02.png",
+    "image": "data/demo/images/case02.png",
+    "print_image": "data/demo/print/case02_A5.png",
+    "heatmap": "data/demo/heatmaps/case02.png",
+    "mask_overlay": "data/demo/overlays/case02.png",
+    "truth": "benign",
+    "ai_pred": "benign",
+    "ai_probs": {
+      "normal": 0.09,
+      "benign": 0.82,
+      "malignant": 0.09
+    },
+    "correct": true,
+    "error_type": null,
+    "cam_mask_overlap": 0.25
+  },
+  {
+    "case_id": "03",
+    "source_file": "FAKE_case03.png",
+    "image": "data/demo/images/case03.png",
+    "print_image": "data/demo/print/case03_A5.png",
+    "heatmap": "data/demo/heatmaps/case03.png",
+    "mask_overlay": "data/demo/overlays/case03.png",
+    "truth": "malignant",
+    "ai_pred": "malignant",
+    "ai_probs": {
+      "normal": 0.18,
+      "benign": 0.18,
+      "malignant": 0.64
+    },
+    "correct": true,
+    "error_type": null,
+    "cam_mask_overlap": 0.25
+  },
+  {
+    "case_id": "04",
+    "source_file": "FAKE_case04.png",
+    "image": "data/demo/images/case04.png",
+    "print_image": "data/demo/print/case04_A5.png",
+    "heatmap": "data/demo/heatmaps/case04.png",
+    "mask_overlay": "data/demo/overlays/case04.png",
+    "truth": "normal",
+    "ai_pred": "benign",
+    "ai_probs": {
+      "normal": 0.135,
+      "benign": 0.73,
+      "malignant": 0.135
+    },
+    "correct": false,
+    "error_type": "other_confusion",
+    "cam_mask_overlap": 0.0
+  },
+  {
+    "case_id": "05",
+    "source_file": "FAKE_case05.png",
+    "image": "data/demo/images/case05.png",
+    "print_image": "data/demo/print/case05_A5.png",
+    "heatmap": "data/demo/heatmaps/case05.png",
+    "mask_overlay": "data/demo/overlays/case05.png",
+    "truth": "benign",
+    "ai_pred": "benign",
+    "ai_probs": {
+      "normal": 0.09,
+      "benign": 0.82,
+      "malignant": 0.09
+    },
+    "correct": true,
+    "error_type": null,
+    "cam_mask_overlap": 0.25
+  },
+  {
+    "case_id": "06",
+    "source_file": "FAKE_case06.png",
+    "image": "data/demo/images/case06.png",
+    "print_image": "data/demo/print/case06_A5.png",
+    "heatmap": "data/demo/heatmaps/case06.png",
+    "mask_overlay": "data/demo/overlays/case06.png",
+    "truth": "malignant",
+    "ai_pred": "malignant",
+    "ai_probs": {
+      "normal": 0.18,
+      "benign": 0.18,
+      "malignant": 0.64
+    },
+    "correct": true,
+    "error_type": null,
+    "cam_mask_overlap": 0.25
+  },
+  {
+    "case_id": "07",
+    "source_file": "FAKE_case07.png",
+    "image": "data/demo/images/case07.png",
+    "print_image": "data/demo/print/case07_A5.png",
+    "heatmap": "data/demo/heatmaps/case07.png",
+    "mask_overlay": "data/demo/overlays/case07.png",
+    "truth": "normal",
+    "ai_pred": "normal",
+    "ai_probs": {
+      "normal": 0.73,
+      "benign": 0.135,
+      "malignant": 0.135
+    },
+    "correct": true,
+    "error_type": null,
+    "cam_mask_overlap": 0.0
+  },
+  {
+    "case_id": "08",
+    "source_file": "FAKE_case08.png",
+    "image": "data/demo/images/case08.png",
+    "print_image": "data/demo/print/case08_A5.png",
+    "heatmap": "data/demo/heatmaps/case08.png",
+    "mask_overlay": "data/demo/overlays/case08.png",
+    "truth": "benign",
+    "ai_pred": "malignant",
+    "ai_probs": {
+      "normal": 0.09,
+      "benign": 0.09,
+      "malignant": 0.82
+    },
+    "correct": false,
+    "error_type": "false_positive",
+    "cam_mask_overlap": 0.25
+  },
+  {
+    "case_id": "09",
+    "source_file": "FAKE_case09.png",
+    "image": "data/demo/images/case09.png",
+    "print_image": "data/demo/print/case09_A5.png",
+    "heatmap": "data/demo/heatmaps/case09.png",
+    "mask_overlay": "data/demo/overlays/case09.png",
+    "truth": "malignant",
+    "ai_pred": "malignant",
+    "ai_probs": {
+      "normal": 0.18,
+      "benign": 0.18,
+      "malignant": 0.64
+    },
+    "correct": true,
+    "error_type": null,
+    "cam_mask_overlap": 0.25
+  },
+  {
+    "case_id": "10",
+    "source_file": "FAKE_case10.png",
+    "image": "data/demo/images/case10.png",
+    "print_image": "data/demo/print/case10_A5.png",
+    "heatmap": "data/demo/heatmaps/case10.png",
+    "mask_overlay": "data/demo/overlays/case10.png",
+    "truth": "normal",
+    "ai_pred": "normal",
+    "ai_probs": {
+      "normal": 0.73,
+      "benign": 0.135,
+      "malignant": 0.135
+    },
+    "correct": true,
+    "error_type": null,
+    "cam_mask_overlap": 0.0
+  },
+  {
+    "case_id": "11",
+    "source_file": "FAKE_case11.png",
+    "image": "data/demo/images/case11.png",
+    "print_image": "data/demo/print/case11_A5.png",
+    "heatmap": "data/demo/heatmaps/case11.png",
+    "mask_overlay": "data/demo/overlays/case11.png",
+    "truth": "benign",
+    "ai_pred": "benign",
+    "ai_probs": {
+      "normal": 0.09,
+      "benign": 0.82,
+      "malignant": 0.09
+    },
+    "correct": true,
+    "error_type": null,
+    "cam_mask_overlap": 0.25
+  },
+  {
+    "case_id": "12",
+    "source_file": "FAKE_case12.png",
+    "image": "data/demo/images/case12.png",
+    "print_image": "data/demo/print/case12_A5.png",
+    "heatmap": "data/demo/heatmaps/case12.png",
+    "mask_overlay": "data/demo/overlays/case12.png",
+    "truth": "malignant",
+    "ai_pred": "normal",
+    "ai_probs": {
+      "normal": 0.64,
+      "benign": 0.18,
+      "malignant": 0.18
+    },
+    "correct": false,
+    "error_type": "false_negative",
+    "cam_mask_overlap": 0.25
+  },
+  {
+    "case_id": "13",
+    "source_file": "FAKE_case13.png",
+    "image": "data/demo/images/case13.png",
+    "print_image": "data/demo/print/case13_A5.png",
+    "heatmap": "data/demo/heatmaps/case13.png",
+    "mask_overlay": "data/demo/overlays/case13.png",
+    "truth": "normal",
+    "ai_pred": "normal",
+    "ai_probs": {
+      "normal": 0.73,
+      "benign": 0.135,
+      "malignant": 0.135
+    },
+    "correct": true,
+    "error_type": null,
+    "cam_mask_overlap": 0.0
+  },
+  {
+    "case_id": "14",
+    "source_file": "FAKE_case14.png",
+    "image": "data/demo/images/case14.png",
+    "print_image": "data/demo/print/case14_A5.png",
+    "heatmap": "data/demo/heatmaps/case14.png",
+    "mask_overlay": "data/demo/overlays/case14.png",
+    "truth": "benign",
+    "ai_pred": "benign",
+    "ai_probs": {
+      "normal": 0.09,
+      "benign": 0.82,
+      "malignant": 0.09
+    },
+    "correct": true,
+    "error_type": null,
+    "cam_mask_overlap": 0.25
+  },
+  {
+    "case_id": "15",
+    "source_file": "FAKE_case15.png",
+    "image": "data/demo/images/case15.png",
+    "print_image": "data/demo/print/case15_A5.png",
+    "heatmap": "data/demo/heatmaps/case15.png",
+    "mask_overlay": "data/demo/overlays/case15.png",
+    "truth": "malignant",
+    "ai_pred": "malignant",
+    "ai_probs": {
+      "normal": 0.18,
+      "benign": 0.18,
+      "malignant": 0.64
+    },
+    "correct": true,
+    "error_type": null,
+    "cam_mask_overlap": 0.25
+  },
+  {
+    "case_id": "16",
+    "source_file": "FAKE_case16.png",
+    "image": "data/demo/images/case16.png",
+    "print_image": "data/demo/print/case16_A5.png",
+    "heatmap": "data/demo/heatmaps/case16.png",
+    "mask_overlay": "data/demo/overlays/case16.png",
+    "truth": "normal",
+    "ai_pred": "benign",
+    "ai_probs": {
+      "normal": 0.135,
+      "benign": 0.73,
+      "malignant": 0.135
+    },
+    "correct": false,
+    "error_type": "other_confusion",
+    "cam_mask_overlap": 0.0
+  },
+  {
+    "case_id": "17",
+    "source_file": "FAKE_case17.png",
+    "image": "data/demo/images/case17.png",
+    "print_image": "data/demo/print/case17_A5.png",
+    "heatmap": "data/demo/heatmaps/case17.png",
+    "mask_overlay": "data/demo/overlays/case17.png",
+    "truth": "benign",
+    "ai_pred": "benign",
+    "ai_probs": {
+      "normal": 0.09,
+      "benign": 0.82,
+      "malignant": 0.09
+    },
+    "correct": true,
+    "error_type": null,
+    "cam_mask_overlap": 0.25
+  },
+  {
+    "case_id": "18",
+    "source_file": "FAKE_case18.png",
+    "image": "data/demo/images/case18.png",
+    "print_image": "data/demo/print/case18_A5.png",
+    "heatmap": "data/demo/heatmaps/case18.png",
+    "mask_overlay": "data/demo/overlays/case18.png",
+    "truth": "malignant",
+    "ai_pred": "malignant",
+    "ai_probs": {
+      "normal": 0.18,
+      "benign": 0.18,
+      "malignant": 0.64
+    },
+    "correct": true,
+    "error_type": null,
+    "cam_mask_overlap": 0.25
+  },
+  {
+    "case_id": "19",
+    "source_file": "FAKE_case19.png",
+    "image": "data/demo/images/case19.png",
+    "print_image": "data/demo/print/case19_A5.png",
+    "heatmap": "data/demo/heatmaps/case19.png",
+    "mask_overlay": "data/demo/overlays/case19.png",
+    "truth": "normal",
+    "ai_pred": "normal",
+    "ai_probs": {
+      "normal": 0.73,
+      "benign": 0.135,
+      "malignant": 0.135
+    },
+    "correct": true,
+    "error_type": null,
+    "cam_mask_overlap": 0.0
+  },
+  {
+    "case_id": "20",
+    "source_file": "FAKE_case20.png",
+    "image": "data/demo/images/case20.png",
+    "print_image": "data/demo/print/case20_A5.png",
+    "heatmap": "data/demo/heatmaps/case20.png",
+    "mask_overlay": "data/demo/overlays/case20.png",
+    "truth": "benign",
+    "ai_pred": "malignant",
+    "ai_probs": {
+      "normal": 0.09,
+      "benign": 0.09,
+      "malignant": 0.82
+    },
+    "correct": false,
+    "error_type": "false_positive",
+    "cam_mask_overlap": 0.25
+  },
+  {
+    "case_id": "21",
+    "source_file": "FAKE_case21.png",
+    "image": "data/demo/images/case21.png",
+    "print_image": "data/demo/print/case21_A5.png",
+    "heatmap": "data/demo/heatmaps/case21.png",
+    "mask_overlay": "data/demo/overlays/case21.png",
+    "truth": "malignant",
+    "ai_pred": "malignant",
+    "ai_probs": {
+      "normal": 0.18,
+      "benign": 0.18,
+      "malignant": 0.64
+    },
+    "correct": true,
+    "error_type": null,
+    "cam_mask_overlap": 0.25
+  },
+  {
+    "case_id": "22",
+    "source_file": "FAKE_case22.png",
+    "image": "data/demo/images/case22.png",
+    "print_image": "data/demo/print/case22_A5.png",
+    "heatmap": "data/demo/heatmaps/case22.png",
+    "mask_overlay": "data/demo/overlays/case22.png",
+    "truth": "normal",
+    "ai_pred": "normal",
+    "ai_probs": {
+      "normal": 0.73,
+      "benign": 0.135,
+      "malignant": 0.135
+    },
+    "correct": true,
+    "error_type": null,
+    "cam_mask_overlap": 0.0
+  },
+  {
+    "case_id": "23",
+    "source_file": "FAKE_case23.png",
+    "image": "data/demo/images/case23.png",
+    "print_image": "data/demo/print/case23_A5.png",
+    "heatmap": "data/demo/heatmaps/case23.png",
+    "mask_overlay": "data/demo/overlays/case23.png",
+    "truth": "benign",
+    "ai_pred": "benign",
+    "ai_probs": {
+      "normal": 0.09,
+      "benign": 0.82,
+      "malignant": 0.09
+    },
+    "correct": true,
+    "error_type": null,
+    "cam_mask_overlap": 0.25
+  },
+  {
+    "case_id": "24",
+    "source_file": "FAKE_case24.png",
+    "image": "data/demo/images/case24.png",
+    "print_image": "data/demo/print/case24_A5.png",
+    "heatmap": "data/demo/heatmaps/case24.png",
+    "mask_overlay": "data/demo/overlays/case24.png",
+    "truth": "malignant",
+    "ai_pred": "normal",
+    "ai_probs": {
+      "normal": 0.64,
+      "benign": 0.18,
+      "malignant": 0.18
+    },
+    "correct": false,
+    "error_type": "false_negative",
+    "cam_mask_overlap": 0.25
+  },
+  {
+    "case_id": "25",
+    "source_file": "FAKE_case25.png",
+    "image": "data/demo/images/case25.png",
+    "print_image": "data/demo/print/case25_A5.png",
+    "heatmap": "data/demo/heatmaps/case25.png",
+    "mask_overlay": "data/demo/overlays/case25.png",
+    "truth": "normal",
+    "ai_pred": "normal",
+    "ai_probs": {
+      "normal": 0.73,
+      "benign": 0.135,
+      "malignant": 0.135
+    },
+    "correct": true,
+    "error_type": null,
+    "cam_mask_overlap": 0.0
+  },
+  {
+    "case_id": "26",
+    "source_file": "FAKE_case26.png",
+    "image": "data/demo/images/case26.png",
+    "print_image": "data/demo/print/case26_A5.png",
+    "heatmap": "data/demo/heatmaps/case26.png",
+    "mask_overlay": "data/demo/overlays/case26.png",
+    "truth": "benign",
+    "ai_pred": "benign",
+    "ai_probs": {
+      "normal": 0.09,
+      "benign": 0.82,
+      "malignant": 0.09
+    },
+    "correct": true,
+    "error_type": null,
+    "cam_mask_overlap": 0.25
+  },
+  {
+    "case_id": "27",
+    "source_file": "FAKE_case27.png",
+    "image": "data/demo/images/case27.png",
+    "print_image": "data/demo/print/case27_A5.png",
+    "heatmap": "data/demo/heatmaps/case27.png",
+    "mask_overlay": "data/demo/overlays/case27.png",
+    "truth": "malignant",
+    "ai_pred": "malignant",
+    "ai_probs": {
+      "normal": 0.18,
+      "benign": 0.18,
+      "malignant": 0.64
+    },
+    "correct": true,
+    "error_type": null,
+    "cam_mask_overlap": 0.25
+  },
+  {
+    "case_id": "28",
+    "source_file": "FAKE_case28.png",
+    "image": "data/demo/images/case28.png",
+    "print_image": "data/demo/print/case28_A5.png",
+    "heatmap": "data/demo/heatmaps/case28.png",
+    "mask_overlay": "data/demo/overlays/case28.png",
+    "truth": "normal",
+    "ai_pred": "benign",
+    "ai_probs": {
+      "normal": 0.135,
+      "benign": 0.73,
+      "malignant": 0.135
+    },
+    "correct": false,
+    "error_type": "other_confusion",
+    "cam_mask_overlap": 0.0
+  },
+  {
+    "case_id": "29",
+    "source_file": "FAKE_case29.png",
+    "image": "data/demo/images/case29.png",
+    "print_image": "data/demo/print/case29_A5.png",
+    "heatmap": "data/demo/heatmaps/case29.png",
+    "mask_overlay": "data/demo/overlays/case29.png",
+    "truth": "benign",
+    "ai_pred": "benign",
+    "ai_probs": {
+      "normal": 0.09,
+      "benign": 0.82,
+      "malignant": 0.09
+    },
+    "correct": true,
+    "error_type": null,
+    "cam_mask_overlap": 0.25
+  },
+  {
+    "case_id": "30",
+    "source_file": "FAKE_case30.png",
+    "image": "data/demo/images/case30.png",
+    "print_image": "data/demo/print/case30_A5.png",
+    "heatmap": "data/demo/heatmaps/case30.png",
+    "mask_overlay": "data/demo/overlays/case30.png",
+    "truth": "malignant",
+    "ai_pred": "malignant",
+    "ai_probs": {
+      "normal": 0.18,
+      "benign": 0.18,
+      "malignant": 0.64
+    },
+    "correct": true,
+    "error_type": null,
+    "cam_mask_overlap": 0.25
+  }
+]

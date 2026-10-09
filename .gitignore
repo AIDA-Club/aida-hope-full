@@ -1,0 +1,13 @@
+.venv/
+__pycache__/
+*.py[cod]
+data/results.csv
+.streamlit/secrets.toml
+
+# Large raw inputs and duplicate pipeline outputs: kept on disk, not in git.
+Datasets/
+data_raw/
+outputs/
+export/
+*.zip
+models/*.pt

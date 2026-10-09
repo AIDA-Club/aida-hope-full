@@ -1,0 +1,1694 @@
+{
+  "renames": [
+    {
+      "source": "data/booth_set.json",
+      "destination": "data/booth_set_demo.json",
+      "sha256": "40946305572d0f9148ddacdce733977784b477b43e60c29382069bd6689dfa20"
+    },
+    {
+      "source": "data/booth_set_new.json",
+      "destination": "data/booth_set.json",
+      "sha256": "433e4cca0243ba153892ac0d0fe57756098c22a171692a4743479e335e54fba5"
+    },
+    {
+      "source": "models/busi_resnet18.pt",
+      "destination": "models/busi_resnet18_old.pt",
+      "sha256": "41e636cc92734ee5f8ca19ac04d195de8d0e63cfd6c8422cf6e96bc188b53519"
+    },
+    {
+      "source": "models/busi_resnet18_new.pt",
+      "destination": "models/busi_resnet18.pt",
+      "sha256": "f35ef5aa2864532fb88f3448bad4ae5ba8b5738272123701ca1fd6ad81bb9406"
+    },
+    {
+      "source": "models/wdbc_model.pkl",
+      "destination": "models/wdbc_model_old.pkl",
+      "sha256": "ee300bd7ada76014a1603857943d98a0678f6477ab22bda680c298783f4afa7e"
+    },
+    {
+      "source": "models/wdbc_model_new.pkl",
+      "destination": "models/wdbc_model.pkl",
+      "sha256": "83b8d549f42ab18d8862d26abb0c03c3fd0ecefb0b45a6e10cc4079b4975df24"
+    },
+    {
+      "source": "models/wdbc_features.json",
+      "destination": "models/wdbc_features_old.json",
+      "sha256": "3fc7b399edf8cc56c01f61175801c9615b547882e9ee16118755b402b6a2443b"
+    },
+    {
+      "source": "models/wdbc_features_new.json",
+      "destination": "models/wdbc_features.json",
+      "sha256": "c96e21e71794f16a5e6e6baf267aaa6fc67f5669d45bb256111e385b7aa54df4"
+    }
+  ],
+  "copies": [
+    {
+      "source": "_tmp_outputs/outputs/export/booth_key.csv",
+      "destination": "data/reports/booth_key.csv",
+      "status": "copied",
+      "sha256": "f7cd2f4cebfccd55ca63edd80c1884725e77651da07f77e596951716757e6a58"
+    },
+    {
+      "source": "_tmp_outputs/outputs/training_curves.png",
+      "destination": "data/reports/training_curves.png",
+      "status": "copied",
+      "sha256": "ad08a4179e73c0d816f7361585168a46004de16a350cafc6e51452c50660def6"
+    },
+    {
+      "source": "_tmp_outputs/outputs/split.csv",
+      "destination": "data/reports/split.csv",
+      "status": "copied",
+      "sha256": "daed6fe82df2ac55623c9b660eeaa3388935a82e0daa6b0a24ee4e305edba3ff"
+    },
+    {
+      "source": "_tmp_outputs/outputs/gradcam/heatmaps/benign_id_101.png",
+      "destination": "data/reports/gradcam_all/heatmaps/benign_id_101.png",
+      "status": "copied",
+      "sha256": "15d596f6e92aa409e4f9949ba7f252e26097712a8f11dd7c943eaf41f6477892"
+    },
+    {
+      "source": "_tmp_outputs/outputs/gradcam/heatmaps/benign_id_119.png",
+      "destination": "data/reports/gradcam_all/heatmaps/benign_id_119.png",
+      "status": "copied",
+      "sha256": "e02bb9f87e7ac7515bc925b0b3c81f42915f3b833835671a411d2429db9274b2"
+    },
+    {
+      "source": "_tmp_outputs/outputs/gradcam/heatmaps/benign_id_175.png",
+      "destination": "data/reports/gradcam_all/heatmaps/benign_id_175.png",
+      "status": "copied",
+      "sha256": "49397d703f3ac2a526f61f06725019879de769e9c33e14efa6888755af29a594"
+    },
+    {
+      "source": "_tmp_outputs/outputs/gradcam/heatmaps/benign_id_185.png",
+      "destination": "data/reports/gradcam_all/heatmaps/benign_id_185.png",
+      "status": "copied",
+      "sha256": "2168388013b32be7ef1488f8d8acc4bc915a0f2eeb17b4c9a551b93ba2fe7f09"
+    },
+    {
+      "source": "_tmp_outputs/outputs/gradcam/heatmaps/benign_id_186.png",
+      "destination": "data/reports/gradcam_all/heatmaps/benign_id_186.png",
+      "status": "copied",
+      "sha256": "c3773a0930c2be6a692af53cdf1e681990f7c9fe099cc0d4c88340d0b3ea9d43"
+    },
+    {
+      "source": "_tmp_outputs/outputs/gradcam/heatmaps/benign_id_187.png",
+      "destination": "data/reports/gradcam_all/heatmaps/benign_id_187.png",
+      "status": "copied",
+      "sha256": "173e00464836e17b89a46e33576423912e0360ec87675e50ac8dc6b0e3ab4136"
+    },
+    {
+      "source": "_tmp_outputs/outputs/gradcam/heatmaps/benign_id_191.png",
+      "destination": "data/reports/gradcam_all/heatmaps/benign_id_191.png",
+      "status": "copied",
+      "sha256": "275e3135b5b16b2942042584268330d0745ef021691b9ce2d7b11752da7d612f"
+    },
+    {
+      "source": "_tmp_outputs/outputs/gradcam/heatmaps/benign_id_212.png",
+      "destination": "data/reports/gradcam_all/heatmaps/benign_id_212.png",
+      "status": "copied",
+      "sha256": "ba5c38bbd6ea107d8d8b0a243b57261f3acd89fe4a2e174055796a1233e088f2"
+    },
+    {
+      "source": "_tmp_outputs/outputs/gradcam/heatmaps/benign_id_286.png",
+      "destination": "data/reports/gradcam_all/heatmaps/benign_id_286.png",
+      "status": "copied",
+      "sha256": "7a190c2fb418bd3280b056f144356e0b11f2fe3085ef49a6cef5bb0598353404"
+    },
+    {
+      "source": "_tmp_outputs/outputs/gradcam/heatmaps/benign_id_334.png",
+      "destination": "data/reports/gradcam_all/heatmaps/benign_id_334.png",
+      "status": "copied",
+      "sha256": "39bfe85fe9c56140e7cf2f97bdf12db9a1fc0dd8f573bb5e5bcbacdb68d16ca8"
+    },
+    {
+      "source": "_tmp_outputs/outputs/gradcam/heatmaps/benign_id_346.png",
+      "destination": "data/reports/gradcam_all/heatmaps/benign_id_346.png",
+      "status": "copied",
+      "sha256": "fe55ba2fe91cb48a8d0a1baf530011a6db33fe1e40efeeebb13752eab57c71cb"
+    },
+    {
+      "source": "_tmp_outputs/outputs/gradcam/heatmaps/benign_id_347.png",
+      "destination": "data/reports/gradcam_all/heatmaps/benign_id_347.png",
+      "status": "copied",
+      "sha256": "a4651377ca41a44f8744465abc9b579efcf78bb5d335836710598e8675a4df4f"
+    },
+    {
+      "source": "_tmp_outputs/outputs/gradcam/heatmaps/benign_id_350.png",
+      "destination": "data/reports/gradcam_all/heatmaps/benign_id_350.png",
+      "status": "copied",
+      "sha256": "620df5ef3bd2c0cc36d83cd112a5a37ab37a27aed37e0fd373915928c6e67ffa"
+    },
+    {
+      "source": "_tmp_outputs/outputs/gradcam/heatmaps/benign_id_351.png",
+      "destination": "data/reports/gradcam_all/heatmaps/benign_id_351.png",
+      "status": "copied",
+      "sha256": "30aab110d33974985ffac1d243af2d1575e145dd17c0771143f6f515cf98c16b"
+    },
+    {
+      "source": "_tmp_outputs/outputs/gradcam/heatmaps/benign_id_354.png",
+      "destination": "data/reports/gradcam_all/heatmaps/benign_id_354.png",
+      "status": "copied",
+      "sha256": "ef8668e518980ca87390996c53b810789caf232f18c39e9a72a72cf84bb681ab"
+    },
+    {
+      "source": "_tmp_outputs/outputs/gradcam/heatmaps/benign_id_373.png",
+      "destination": "data/reports/gradcam_all/heatmaps/benign_id_373.png",
+      "status": "copied",
+      "sha256": "140050c53781256344b2f609a706ce5c599926e09cc4824ec2b4f4d77a6d33fd"
+    },
+    {
+      "source": "_tmp_outputs/outputs/gradcam/heatmaps/benign_id_374.png",
+      "destination": "data/reports/gradcam_all/heatmaps/benign_id_374.png",
+      "status": "copied",
+      "sha256": "6e4fe178e5f43b1e0b345abbc4cda99169f487d5d2bca5b44b778c6a17864c6f"
+    },
+    {
+      "source": "_tmp_outputs/outputs/gradcam/heatmaps/benign_id_391.png",
+      "destination": "data/reports/gradcam_all/heatmaps/benign_id_391.png",
+      "status": "copied",
+      "sha256": "966f2cf763b322a2f4b35693efb8f0a18a215eb1e5cc19429d63360b63eff800"
+    },
+    {
+      "source": "_tmp_outputs/outputs/gradcam/heatmaps/benign_id_393.png",
+      "destination": "data/reports/gradcam_all/heatmaps/benign_id_393.png",
+      "status": "copied",
+      "sha256": "3120bef5871c70bfb153af03b53b57dc0833895f8cbe90bd75431e21635e37b2"
+    },
+    {
+      "source": "_tmp_outputs/outputs/gradcam/heatmaps/benign_id_402.png",
+      "destination": "data/reports/gradcam_all/heatmaps/benign_id_402.png",
+      "status": "copied",
+      "sha256": "5dbc30e696e24f66e8f765741bdb10cc71522f7be7459ebe8d1a4166731fe5f5"
+    },
+    {
+      "source": "_tmp_outputs/outputs/gradcam/heatmaps/benign_id_416.png",
+      "destination": "data/reports/gradcam_all/heatmaps/benign_id_416.png",
+      "status": "copied",
+      "sha256": "9eacc78d839ee5ffc31abf110c6d3d904c1f651b032d1776c3e82727634c018a"
+    },
+    {
+      "source": "_tmp_outputs/outputs/gradcam/heatmaps/benign_id_420.png",
+      "destination": "data/reports/gradcam_all/heatmaps/benign_id_420.png",
+      "status": "copied",
+      "sha256": "659c1e35e82d22797989639c6a70cb64b22f2c6c2c1b3a664017deb9eb182e9d"
+    },
+    {
+      "source": "_tmp_outputs/outputs/gradcam/heatmaps/benign_id_428.png",
+      "destination": "data/reports/gradcam_all/heatmaps/benign_id_428.png",
+      "status": "copied",
+      "sha256": "4b71db3870c80cb5ec9c6a0caaf1cf24fa6747a2b8b49137c192d56ccb8938dc"
+    },
+    {
+      "source": "_tmp_outputs/outputs/gradcam/heatmaps/benign_id_56.png",
+      "destination": "data/reports/gradcam_all/heatmaps/benign_id_56.png",
+      "status": "copied",
+      "sha256": "0de95d103975e97cead709aad4f8da23e3fafe087026cd34453eb2048d435522"
+    },
+    {
+      "source": "_tmp_outputs/outputs/gradcam/heatmaps/benign_id_61.png",
+      "destination": "data/reports/gradcam_all/heatmaps/benign_id_61.png",
+      "status": "copied",
+      "sha256": "da526936fedd840aee7a1bdd2ba831b4cb75b49688381821511fc7e474d815b1"
+    },
+    {
+      "source": "_tmp_outputs/outputs/gradcam/heatmaps/benign_id_72.png",
+      "destination": "data/reports/gradcam_all/heatmaps/benign_id_72.png",
+      "status": "copied",
+      "sha256": "e9ab41aa0b0e9964bcc70f51b21431a0024c276faa728946a894b90746e50ebc"
+    },
+    {
+      "source": "_tmp_outputs/outputs/gradcam/heatmaps/benign_id_75.png",
+      "destination": "data/reports/gradcam_all/heatmaps/benign_id_75.png",
+      "status": "copied",
+      "sha256": "b967e9f4a483d51ad4db2e438ed7db1726cb91d60f03288264e8bd7a9873466f"
+    },
+    {
+      "source": "_tmp_outputs/outputs/gradcam/heatmaps/benign_id_80.png",
+      "destination": "data/reports/gradcam_all/heatmaps/benign_id_80.png",
+      "status": "copied",
+      "sha256": "934810fcccc295100ebfcb73c9cff881105b2ddbe7f359da5a5e1d3952d6a69e"
+    },
+    {
+      "source": "_tmp_outputs/outputs/gradcam/heatmaps/benign_id_82.png",
+      "destination": "data/reports/gradcam_all/heatmaps/benign_id_82.png",
+      "status": "copied",
+      "sha256": "21518d026c35a80b535529f236b39d5deb0c9ee93f3cc89242857f82f724d7ca"
+    },
+    {
+      "source": "_tmp_outputs/outputs/gradcam/heatmaps/benign_id_89.png",
+      "destination": "data/reports/gradcam_all/heatmaps/benign_id_89.png",
+      "status": "copied",
+      "sha256": "5798762a58fa061b3ecb5e667ca4aceb762f0526103c3f4bab4327abd8089e2c"
+    },
+    {
+      "source": "_tmp_outputs/outputs/gradcam/heatmaps/benign_id_90.png",
+      "destination": "data/reports/gradcam_all/heatmaps/benign_id_90.png",
+      "status": "copied",
+      "sha256": "1ef00d83f4a858aaf2898b988d8441aa11c0ec9929b2ea3b638396bc341bb8b2"
+    },
+    {
+      "source": "_tmp_outputs/outputs/gradcam/heatmaps/benign_id_93.png",
+      "destination": "data/reports/gradcam_all/heatmaps/benign_id_93.png",
+      "status": "copied",
+      "sha256": "d8e5fb951374405ab266b7b6161f0da4058c67d72fab54584e140e75a8d11467"
+    },
+    {
+      "source": "_tmp_outputs/outputs/gradcam/heatmaps/benign_id_94.png",
+      "destination": "data/reports/gradcam_all/heatmaps/benign_id_94.png",
+      "status": "copied",
+      "sha256": "81a27f5bc5d67df60aba075f827acb4783af6b2df5fea3fcb5722c1593359da8"
+    },
+    {
+      "source": "_tmp_outputs/outputs/gradcam/heatmaps/benign_id_98.png",
+      "destination": "data/reports/gradcam_all/heatmaps/benign_id_98.png",
+      "status": "copied",
+      "sha256": "6db0b17951da665e1355d0ea5a9640047f35430303b75965907cc406f495a39d"
+    },
+    {
+      "source": "_tmp_outputs/outputs/gradcam/heatmaps/malignant_id_100.png",
+      "destination": "data/reports/gradcam_all/heatmaps/malignant_id_100.png",
+      "status": "copied",
+      "sha256": "3fd08ae72960df680c1dd9951b47a889f4f614c2012de71f24077c76408aac46"
+    },
+    {
+      "source": "_tmp_outputs/outputs/gradcam/heatmaps/malignant_id_143.png",
+      "destination": "data/reports/gradcam_all/heatmaps/malignant_id_143.png",
+      "status": "copied",
+      "sha256": "44e9db66db1f5fb2747bd22b9b11e4d987fff5f85cefe5f24969fc55c348e5f1"
+    },
+    {
+      "source": "_tmp_outputs/outputs/gradcam/heatmaps/malignant_id_147.png",
+      "destination": "data/reports/gradcam_all/heatmaps/malignant_id_147.png",
+      "status": "copied",
+      "sha256": "76e26cdc321b6279d8f23989a6db8ef609161b8d10f5ea7a334829a3b443a80b"
+    },
+    {
+      "source": "_tmp_outputs/outputs/gradcam/heatmaps/malignant_id_148.png",
+      "destination": "data/reports/gradcam_all/heatmaps/malignant_id_148.png",
+      "status": "copied",
+      "sha256": "e9d264992b1f138004a6d8d9103581b456f06cd3fa2033d929f0f67040177b75"
+    },
+    {
+      "source": "_tmp_outputs/outputs/gradcam/heatmaps/malignant_id_149.png",
+      "destination": "data/reports/gradcam_all/heatmaps/malignant_id_149.png",
+      "status": "copied",
+      "sha256": "51e15a2052fc6f15161ee9f3d451a372a0c54deddd184a2fa751530c7661f6f3"
+    },
+    {
+      "source": "_tmp_outputs/outputs/gradcam/heatmaps/malignant_id_153.png",
+      "destination": "data/reports/gradcam_all/heatmaps/malignant_id_153.png",
+      "status": "copied",
+      "sha256": "d83a54e74051383c5afe525a7a1fc8f74dfadb542b1c08509e15c7f7afd91d65"
+    },
+    {
+      "source": "_tmp_outputs/outputs/gradcam/heatmaps/malignant_id_159.png",
+      "destination": "data/reports/gradcam_all/heatmaps/malignant_id_159.png",
+      "status": "copied",
+      "sha256": "2a53b8eea6540b31778a059e4e395496b623cc9d5351f23821a59955699fa572"
+    },
+    {
+      "source": "_tmp_outputs/outputs/gradcam/heatmaps/malignant_id_162.png",
+      "destination": "data/reports/gradcam_all/heatmaps/malignant_id_162.png",
+      "status": "copied",
+      "sha256": "f8b8ab24d42913202506f98686590f1f512b47d2b4d47700e854c2f8d2e93ad1"
+    },
+    {
+      "source": "_tmp_outputs/outputs/gradcam/heatmaps/malignant_id_164.png",
+      "destination": "data/reports/gradcam_all/heatmaps/malignant_id_164.png",
+      "status": "copied",
+      "sha256": "42b148e504825faf0f31203659a6e52f36696f0de47fcda0b6fcdb8d91d772c6"
+    },
+    {
+      "source": "_tmp_outputs/outputs/gradcam/heatmaps/malignant_id_180.png",
+      "destination": "data/reports/gradcam_all/heatmaps/malignant_id_180.png",
+      "status": "copied",
+      "sha256": "8fec22f8fd17d04748014f790a061d98a08f5662901b9712acaac11c54b4860c"
+    },
+    {
+      "source": "_tmp_outputs/outputs/gradcam/heatmaps/malignant_id_193.png",
+      "destination": "data/reports/gradcam_all/heatmaps/malignant_id_193.png",
+      "status": "copied",
+      "sha256": "bdb2111828e46f19817989f4bf29989536ecbd084ac72f33cf1054ef12c3107c"
+    },
+    {
+      "source": "_tmp_outputs/outputs/gradcam/heatmaps/malignant_id_198.png",
+      "destination": "data/reports/gradcam_all/heatmaps/malignant_id_198.png",
+      "status": "copied",
+      "sha256": "71f05ed82f5637ac2927497241331801a8e21139844f008d3d11e236ced45571"
+    },
+    {
+      "source": "_tmp_outputs/outputs/gradcam/heatmaps/malignant_id_199.png",
+      "destination": "data/reports/gradcam_all/heatmaps/malignant_id_199.png",
+      "status": "copied",
+      "sha256": "a90b5c4ca1516177bd2c93c0958c3777ff7f8ecc90f5509d4c23180c5d91fc80"
+    },
+    {
+      "source": "_tmp_outputs/outputs/gradcam/heatmaps/malignant_id_200.png",
+      "destination": "data/reports/gradcam_all/heatmaps/malignant_id_200.png",
+      "status": "copied",
+      "sha256": "a62573c7be9601a86e52fc6e7280da31d67dcef14467546f3b2b176e987217e7"
+    },
+    {
+      "source": "_tmp_outputs/outputs/gradcam/heatmaps/malignant_id_206.png",
+      "destination": "data/reports/gradcam_all/heatmaps/malignant_id_206.png",
+      "status": "copied",
+      "sha256": "587558ee845518aad3bf75bd8734c17faf4f9c2ef32f5a2f42cbffe0094e7ec8"
+    },
+    {
+      "source": "_tmp_outputs/outputs/gradcam/heatmaps/malignant_id_210.png",
+      "destination": "data/reports/gradcam_all/heatmaps/malignant_id_210.png",
+      "status": "copied",
+      "sha256": "4609e6174975d6c589ff8ff16da774d1db71473a4f7554d09fabb995469a2345"
+    },
+    {
+      "source": "_tmp_outputs/outputs/gradcam/heatmaps/malignant_id_3.png",
+      "destination": "data/reports/gradcam_all/heatmaps/malignant_id_3.png",
+      "status": "copied",
+      "sha256": "c043e4aca87d52e4f4114eb22d04806b9d690b86ac63d7aca7986c363542fb5b"
+    },
+    {
+      "source": "_tmp_outputs/outputs/gradcam/heatmaps/malignant_id_32.png",
+      "destination": "data/reports/gradcam_all/heatmaps/malignant_id_32.png",
+      "status": "copied",
+      "sha256": "2aa3004db03f031040d4ec99fe9674dc13c7ff302c1f7eb7bfdd59aaffdbf671"
+    },
+    {
+      "source": "_tmp_outputs/outputs/gradcam/heatmaps/malignant_id_37.png",
+      "destination": "data/reports/gradcam_all/heatmaps/malignant_id_37.png",
+      "status": "copied",
+      "sha256": "4ca392ddac92eaff166d6119702dd85c2fa65e08bd3ad5bfd39728079fbde2c1"
+    },
+    {
+      "source": "_tmp_outputs/outputs/gradcam/heatmaps/malignant_id_43.png",
+      "destination": "data/reports/gradcam_all/heatmaps/malignant_id_43.png",
+      "status": "copied",
+      "sha256": "cf163435038d0c45c8bf5c84ad353bcf2295342909f025f91d16cf3d2ac00429"
+    },
+    {
+      "source": "_tmp_outputs/outputs/gradcam/heatmaps/malignant_id_48.png",
+      "destination": "data/reports/gradcam_all/heatmaps/malignant_id_48.png",
+      "status": "copied",
+      "sha256": "f10ca9716495d68b787adee5390538fc2826b04ba470f42b24bcac64253db833"
+    },
+    {
+      "source": "_tmp_outputs/outputs/gradcam/heatmaps/malignant_id_60.png",
+      "destination": "data/reports/gradcam_all/heatmaps/malignant_id_60.png",
+      "status": "copied",
+      "sha256": "f695eb89b8a0766426054f39c76b88d6a5340ae884cc0b41eb1db91b4416cd1e"
+    },
+    {
+      "source": "_tmp_outputs/outputs/gradcam/heatmaps/malignant_id_82.png",
+      "destination": "data/reports/gradcam_all/heatmaps/malignant_id_82.png",
+      "status": "copied",
+      "sha256": "eb08ade0bd3a402f7594c96e9cddf1c491bea2bb3be09de2ad6b308a9653ecb8"
+    },
+    {
+      "source": "_tmp_outputs/outputs/gradcam/heatmaps/malignant_id_83.png",
+      "destination": "data/reports/gradcam_all/heatmaps/malignant_id_83.png",
+      "status": "copied",
+      "sha256": "9c6be6591eaf1b9c1a26e170c8754f1b5b457641d55e08a216b774a2153c0c50"
+    },
+    {
+      "source": "_tmp_outputs/outputs/gradcam/heatmaps/normal_id_103.png",
+      "destination": "data/reports/gradcam_all/heatmaps/normal_id_103.png",
+      "status": "copied",
+      "sha256": "b1ef51105ac2b89ff8969484303538fad73af2409feb8b1d691ab4f860cf72e2"
+    },
+    {
+      "source": "_tmp_outputs/outputs/gradcam/heatmaps/normal_id_108.png",
+      "destination": "data/reports/gradcam_all/heatmaps/normal_id_108.png",
+      "status": "copied",
+      "sha256": "c263fc6a62b3ed2d0dbdef76db5c6bf26c9355b485941af533f56bd9d88f7e05"
+    },
+    {
+      "source": "_tmp_outputs/outputs/gradcam/heatmaps/normal_id_73.png",
+      "destination": "data/reports/gradcam_all/heatmaps/normal_id_73.png",
+      "status": "copied",
+      "sha256": "5b8bd41567bd38ccaa43d8e7678059ca1ec18c44cb93618fe17bad5bd06653b0"
+    },
+    {
+      "source": "_tmp_outputs/outputs/gradcam/heatmaps/normal_id_77.png",
+      "destination": "data/reports/gradcam_all/heatmaps/normal_id_77.png",
+      "status": "copied",
+      "sha256": "41b457ff08b1e269746faf8f6c1c8584fda07a91bd84b9de4610434807a5a203"
+    },
+    {
+      "source": "_tmp_outputs/outputs/gradcam/heatmaps/normal_id_83.png",
+      "destination": "data/reports/gradcam_all/heatmaps/normal_id_83.png",
+      "status": "copied",
+      "sha256": "d6f58e7b53d8cb1de100fe4a2d390381eeaefa259578afec8b5e98502d75e0e7"
+    },
+    {
+      "source": "_tmp_outputs/outputs/gradcam/heatmaps/normal_id_86.png",
+      "destination": "data/reports/gradcam_all/heatmaps/normal_id_86.png",
+      "status": "copied",
+      "sha256": "bd9885787ef13dce59a04172735d16a0d81cee9d41a5755dbb532324de15c784"
+    },
+    {
+      "source": "_tmp_outputs/outputs/gradcam/heatmaps/normal_id_93.png",
+      "destination": "data/reports/gradcam_all/heatmaps/normal_id_93.png",
+      "status": "copied",
+      "sha256": "48506eea89b7562d75a91a991b414751bc205eff54ca994fdbc652b2138d105b"
+    },
+    {
+      "source": "_tmp_outputs/outputs/gradcam/heatmaps/normal_id_94.png",
+      "destination": "data/reports/gradcam_all/heatmaps/normal_id_94.png",
+      "status": "copied",
+      "sha256": "b0ea8cb8178132c1a568a70af1336a2ad1619d1410b260cb0a33f18ae340b840"
+    },
+    {
+      "source": "_tmp_outputs/outputs/gradcam/heatmaps/normal_id_96.png",
+      "destination": "data/reports/gradcam_all/heatmaps/normal_id_96.png",
+      "status": "copied",
+      "sha256": "4e226d1b8eacd2914be49f63dee83ea48200d729b8d232c1fb0ab6c86452597a"
+    },
+    {
+      "source": "_tmp_outputs/outputs/gradcam/heatmaps/normal_id_99.png",
+      "destination": "data/reports/gradcam_all/heatmaps/normal_id_99.png",
+      "status": "copied",
+      "sha256": "a48104c70853ac20c2eec4cd4ccf4cd8b9305459fcd4056d404f743d83e5f0e6"
+    },
+    {
+      "source": "_tmp_outputs/outputs/gradcam/overlays/benign_id_101.png",
+      "destination": "data/reports/gradcam_all/overlays/benign_id_101.png",
+      "status": "copied",
+      "sha256": "c5f10ceab36e36e48bc5b38826733eee2d60c74704bdc8628b61f8b148325643"
+    },
+    {
+      "source": "_tmp_outputs/outputs/gradcam/overlays/benign_id_119.png",
+      "destination": "data/reports/gradcam_all/overlays/benign_id_119.png",
+      "status": "copied",
+      "sha256": "7c908893ca197f48c2a841fd1adb75ac352edb85144f6a3950c629d161d879a3"
+    },
+    {
+      "source": "_tmp_outputs/outputs/gradcam/overlays/benign_id_175.png",
+      "destination": "data/reports/gradcam_all/overlays/benign_id_175.png",
+      "status": "copied",
+      "sha256": "5759d5a01d2f6f97a688d35dbfb4e78c64718507e2cf5f054543c273dcab95cb"
+    },
+    {
+      "source": "_tmp_outputs/outputs/gradcam/overlays/benign_id_185.png",
+      "destination": "data/reports/gradcam_all/overlays/benign_id_185.png",
+      "status": "copied",
+      "sha256": "e848182a8000a60d82f5c3d3a6f438f9957e55ab3399905489a4a45a00ae7bd9"
+    },
+    {
+      "source": "_tmp_outputs/outputs/gradcam/overlays/benign_id_186.png",
+      "destination": "data/reports/gradcam_all/overlays/benign_id_186.png",
+      "status": "copied",
+      "sha256": "c18ba91c58723e556ceec426314feb2e167d953e0c755418375fad6b1d5e77bc"
+    },
+    {
+      "source": "_tmp_outputs/outputs/gradcam/overlays/benign_id_187.png",
+      "destination": "data/reports/gradcam_all/overlays/benign_id_187.png",
+      "status": "copied",
+      "sha256": "076721c0eb5bb55f576e02895e77af24077653c8a56de7c242a99e2dfa54b589"
+    },
+    {
+      "source": "_tmp_outputs/outputs/gradcam/overlays/benign_id_191.png",
+      "destination": "data/reports/gradcam_all/overlays/benign_id_191.png",
+      "status": "copied",
+      "sha256": "545f293a559c4d45dc6cb159a0ca93591452cb41036dba6b6ce9ddc489733e67"
+    },
+    {
+      "source": "_tmp_outputs/outputs/gradcam/overlays/benign_id_212.png",
+      "destination": "data/reports/gradcam_all/overlays/benign_id_212.png",
+      "status": "copied",
+      "sha256": "0e074a732d6dfeb7bb0169278367390c3be1a528d128c8ccb189f215e862190a"
+    },
+    {
+      "source": "_tmp_outputs/outputs/gradcam/overlays/benign_id_286.png",
+      "destination": "data/reports/gradcam_all/overlays/benign_id_286.png",
+      "status": "copied",
+      "sha256": "bbb3fd5ca4d7ff10889eb8d95c625b6e0b210bbd429b588fcc2c8cc620146f29"
+    },
+    {
+      "source": "_tmp_outputs/outputs/gradcam/overlays/benign_id_334.png",
+      "destination": "data/reports/gradcam_all/overlays/benign_id_334.png",
+      "status": "copied",
+      "sha256": "4204c43affe4070aefaa6979893cea00ead8ede8c37ff1106ca3b1b9f37c05cb"
+    },
+    {
+      "source": "_tmp_outputs/outputs/gradcam/overlays/benign_id_346.png",
+      "destination": "data/reports/gradcam_all/overlays/benign_id_346.png",
+      "status": "copied",
+      "sha256": "848c2665826906fe3aff4c559a1e458ee4cd45fea318efa09d6ffa81058eab4c"
+    },
+    {
+      "source": "_tmp_outputs/outputs/gradcam/overlays/benign_id_347.png",
+      "destination": "data/reports/gradcam_all/overlays/benign_id_347.png",
+      "status": "copied",
+      "sha256": "86a1cc6749c71d1ce78afed479974226f224740564f8c2d35905e5eaf8590787"
+    },
+    {
+      "source": "_tmp_outputs/outputs/gradcam/overlays/benign_id_350.png",
+      "destination": "data/reports/gradcam_all/overlays/benign_id_350.png",
+      "status": "copied",
+      "sha256": "9fc91837f59a6fc072ca95f0546f41feada24529a639e40af7c6a2c707bb44b4"
+    },
+    {
+      "source": "_tmp_outputs/outputs/gradcam/overlays/benign_id_351.png",
+      "destination": "data/reports/gradcam_all/overlays/benign_id_351.png",
+      "status": "copied",
+      "sha256": "4ea7e1b11fd62fc21cf60897ad569f84fb62648500129404afa08d3ca40c8591"
+    },
+    {
+      "source": "_tmp_outputs/outputs/gradcam/overlays/benign_id_354.png",
+      "destination": "data/reports/gradcam_all/overlays/benign_id_354.png",
+      "status": "copied",
+      "sha256": "493f43893bd8d57355a46652347faa9b56f7dbe352a8b98fc01e2a4c559f2dae"
+    },
+    {
+      "source": "_tmp_outputs/outputs/gradcam/overlays/benign_id_373.png",
+      "destination": "data/reports/gradcam_all/overlays/benign_id_373.png",
+      "status": "copied",
+      "sha256": "2db54940e0e23c073e449d74cb330b293abf697036d587d522ae6b2e915c91df"
+    },
+    {
+      "source": "_tmp_outputs/outputs/gradcam/overlays/benign_id_374.png",
+      "destination": "data/reports/gradcam_all/overlays/benign_id_374.png",
+      "status": "copied",
+      "sha256": "cf6906b9cd4b3945891911400bb759e513e6c17f8c7b3cf581016ad9ce867b79"
+    },
+    {
+      "source": "_tmp_outputs/outputs/gradcam/overlays/benign_id_391.png",
+      "destination": "data/reports/gradcam_all/overlays/benign_id_391.png",
+      "status": "copied",
+      "sha256": "135cbaf211ff24380cba9333a1e6837aa07a49fbc864c963d65209d06cada290"
+    },
+    {
+      "source": "_tmp_outputs/outputs/gradcam/overlays/benign_id_393.png",
+      "destination": "data/reports/gradcam_all/overlays/benign_id_393.png",
+      "status": "copied",
+      "sha256": "ab71616c5518b889bcfa5353a85d9fe45f1fbf1cbf07021c26266f44719a3d84"
+    },
+    {
+      "source": "_tmp_outputs/outputs/gradcam/overlays/benign_id_402.png",
+      "destination": "data/reports/gradcam_all/overlays/benign_id_402.png",
+      "status": "copied",
+      "sha256": "24aa2111311fe8e78d87d51389dda93d40dcc799444ca75294f1599b73b7fcbe"
+    },
+    {
+      "source": "_tmp_outputs/outputs/gradcam/overlays/benign_id_416.png",
+      "destination": "data/reports/gradcam_all/overlays/benign_id_416.png",
+      "status": "copied",
+      "sha256": "4d22e35b161cc9fde8595912d0d80596636e1f319ba3b9fc46d971ce22179d05"
+    },
+    {
+      "source": "_tmp_outputs/outputs/gradcam/overlays/benign_id_420.png",
+      "destination": "data/reports/gradcam_all/overlays/benign_id_420.png",
+      "status": "copied",
+      "sha256": "4de348ff2115b3d864e99a84ed6287fea3abb208410b6614da3785333494023d"
+    },
+    {
+      "source": "_tmp_outputs/outputs/gradcam/overlays/benign_id_428.png",
+      "destination": "data/reports/gradcam_all/overlays/benign_id_428.png",
+      "status": "copied",
+      "sha256": "a642313c6d5c43f9badf29b6644a48fde5fbfe35aba9e1c84015e1ec83af0cbe"
+    },
+    {
+      "source": "_tmp_outputs/outputs/gradcam/overlays/benign_id_56.png",
+      "destination": "data/reports/gradcam_all/overlays/benign_id_56.png",
+      "status": "copied",
+      "sha256": "f418460a2b767661c4d272b78be2a793cd3f340308ced8251a53c37e40963947"
+    },
+    {
+      "source": "_tmp_outputs/outputs/gradcam/overlays/benign_id_61.png",
+      "destination": "data/reports/gradcam_all/overlays/benign_id_61.png",
+      "status": "copied",
+      "sha256": "d1d70cbed6dc7ece7959b5b688fea6dd0ff4a4d6df6bb5536f7ae76144ac1f42"
+    },
+    {
+      "source": "_tmp_outputs/outputs/gradcam/overlays/benign_id_72.png",
+      "destination": "data/reports/gradcam_all/overlays/benign_id_72.png",
+      "status": "copied",
+      "sha256": "88d1f65e6796f7118728f8052c3182467fda079ab0e2fd672b41abbe23987d65"
+    },
+    {
+      "source": "_tmp_outputs/outputs/gradcam/overlays/benign_id_75.png",
+      "destination": "data/reports/gradcam_all/overlays/benign_id_75.png",
+      "status": "copied",
+      "sha256": "3009e068f4c852bfc9a4936e9f2f35a49673693c048329c440e21b7b4c52dcab"
+    },
+    {
+      "source": "_tmp_outputs/outputs/gradcam/overlays/benign_id_80.png",
+      "destination": "data/reports/gradcam_all/overlays/benign_id_80.png",
+      "status": "copied",
+      "sha256": "a67766438a9715998a07e66de427c65c2beb8d956d087ae7b03c94d2db480b7c"
+    },
+    {
+      "source": "_tmp_outputs/outputs/gradcam/overlays/benign_id_82.png",
+      "destination": "data/reports/gradcam_all/overlays/benign_id_82.png",
+      "status": "copied",
+      "sha256": "ddf40ecfcf6d339ee6325c6ed3c8719afa01aa74d2309981903b45b337f8dbe1"
+    },
+    {
+      "source": "_tmp_outputs/outputs/gradcam/overlays/benign_id_89.png",
+      "destination": "data/reports/gradcam_all/overlays/benign_id_89.png",
+      "status": "copied",
+      "sha256": "f34b0f36da9a3c5bb880205edcb7fcc43c94415029740bc020e1592c5e191c4c"
+    },
+    {
+      "source": "_tmp_outputs/outputs/gradcam/overlays/benign_id_90.png",
+      "destination": "data/reports/gradcam_all/overlays/benign_id_90.png",
+      "status": "copied",
+      "sha256": "8ccb398a8473b34ad875bda8f40ae5bd7eff6d90f65ce24a0b8cae7785da5697"
+    },
+    {
+      "source": "_tmp_outputs/outputs/gradcam/overlays/benign_id_93.png",
+      "destination": "data/reports/gradcam_all/overlays/benign_id_93.png",
+      "status": "copied",
+      "sha256": "617b7128cc8e4de3bc8cc9c3cd4c72630783a66626f23cbe07afc6834a7012b9"
+    },
+    {
+      "source": "_tmp_outputs/outputs/gradcam/overlays/benign_id_94.png",
+      "destination": "data/reports/gradcam_all/overlays/benign_id_94.png",
+      "status": "copied",
+      "sha256": "4e605b6a85f0eb6c74ed988e1470fa0da2ea53ba95895773a20530461a9f6b6e"
+    },
+    {
+      "source": "_tmp_outputs/outputs/gradcam/overlays/benign_id_98.png",
+      "destination": "data/reports/gradcam_all/overlays/benign_id_98.png",
+      "status": "copied",
+      "sha256": "d2b5a9d4005d175d679df4451048e82b59b7c18940b8e8479afe978cc6b4c744"
+    },
+    {
+      "source": "_tmp_outputs/outputs/gradcam/overlays/malignant_id_100.png",
+      "destination": "data/reports/gradcam_all/overlays/malignant_id_100.png",
+      "status": "copied",
+      "sha256": "cf4da0b86d3a1a51068ba24f24390e8ed6dcdd08723614cf32a5c889833b7425"
+    },
+    {
+      "source": "_tmp_outputs/outputs/gradcam/overlays/malignant_id_143.png",
+      "destination": "data/reports/gradcam_all/overlays/malignant_id_143.png",
+      "status": "copied",
+      "sha256": "74b0c5da75a22a7149a87264c4808f482033c22b5c9886a3bac6924b24822ac5"
+    },
+    {
+      "source": "_tmp_outputs/outputs/gradcam/overlays/malignant_id_147.png",
+      "destination": "data/reports/gradcam_all/overlays/malignant_id_147.png",
+      "status": "copied",
+      "sha256": "cbaf68c4239325d37050857af48fe01d2a1efecfa388bf4ff5e3590090e8c85b"
+    },
+    {
+      "source": "_tmp_outputs/outputs/gradcam/overlays/malignant_id_148.png",
+      "destination": "data/reports/gradcam_all/overlays/malignant_id_148.png",
+      "status": "copied",
+      "sha256": "3e92a2d79d694c8f954e3ab7cf198aa51d4fcb571ec0feec185ad2c05b892415"
+    },
+    {
+      "source": "_tmp_outputs/outputs/gradcam/overlays/malignant_id_149.png",
+      "destination": "data/reports/gradcam_all/overlays/malignant_id_149.png",
+      "status": "copied",
+      "sha256": "20a003a0131dc3887c9f9875d6cef7a0de10a4386f25c3d966e39e788cbd0c0e"
+    },
+    {
+      "source": "_tmp_outputs/outputs/gradcam/overlays/malignant_id_153.png",
+      "destination": "data/reports/gradcam_all/overlays/malignant_id_153.png",
+      "status": "copied",
+      "sha256": "94f0ad363f3d4ec176a756144253c2a2518f0264d6d96ea94bf326db11ef8ea4"
+    },
+    {
+      "source": "_tmp_outputs/outputs/gradcam/overlays/malignant_id_159.png",
+      "destination": "data/reports/gradcam_all/overlays/malignant_id_159.png",
+      "status": "copied",
+      "sha256": "63824e3accf924f783fa2b5e59de987ea88e058e07efbd75176472049c20de20"
+    },
+    {
+      "source": "_tmp_outputs/outputs/gradcam/overlays/malignant_id_162.png",
+      "destination": "data/reports/gradcam_all/overlays/malignant_id_162.png",
+      "status": "copied",
+      "sha256": "0d5235e7c42604811beb364f1a5800e601aac5e5096e56cbbc2dbcc58bbb1b95"
+    },
+    {
+      "source": "_tmp_outputs/outputs/gradcam/overlays/malignant_id_164.png",
+      "destination": "data/reports/gradcam_all/overlays/malignant_id_164.png",
+      "status": "copied",
+      "sha256": "8b9259982be3becd4e728b5762a153030346e4311eebc8509cb3441242075ff8"
+    },
+    {
+      "source": "_tmp_outputs/outputs/gradcam/overlays/malignant_id_180.png",
+      "destination": "data/reports/gradcam_all/overlays/malignant_id_180.png",
+      "status": "copied",
+      "sha256": "236a59c0381875dfd838c810c9efc7f7f272fea6752429a2ed70c93c07e58686"
+    },
+    {
+      "source": "_tmp_outputs/outputs/gradcam/overlays/malignant_id_193.png",
+      "destination": "data/reports/gradcam_all/overlays/malignant_id_193.png",
+      "status": "copied",
+      "sha256": "ebdecb72317a6bf99a417475416e6dcabe8104add00df822ad8dabec6bf19aa6"
+    },
+    {
+      "source": "_tmp_outputs/outputs/gradcam/overlays/malignant_id_198.png",
+      "destination": "data/reports/gradcam_all/overlays/malignant_id_198.png",
+      "status": "copied",
+      "sha256": "fcb57e40ef5c1e5fe8529088dde9ef5ed632f33d7328c75116ff46d70b950acf"
+    },
+    {
+      "source": "_tmp_outputs/outputs/gradcam/overlays/malignant_id_199.png",
+      "destination": "data/reports/gradcam_all/overlays/malignant_id_199.png",
+      "status": "copied",
+      "sha256": "8163aa03304fc1717e630726aa45ce8fc444ffbf2d8495124b8917ceb956b2c9"
+    },
+    {
+      "source": "_tmp_outputs/outputs/gradcam/overlays/malignant_id_200.png",
+      "destination": "data/reports/gradcam_all/overlays/malignant_id_200.png",
+      "status": "copied",
+      "sha256": "a83302420451ebfd5667505854b1d9bc3eb46ae32944a2669f300ce1184b7392"
+    },
+    {
+      "source": "_tmp_outputs/outputs/gradcam/overlays/malignant_id_206.png",
+      "destination": "data/reports/gradcam_all/overlays/malignant_id_206.png",
+      "status": "copied",
+      "sha256": "4f4c5b5500ab040148269cbc4b4cc12c93504fcf448d0d37d8b56df453dcfb57"
+    },
+    {
+      "source": "_tmp_outputs/outputs/gradcam/overlays/malignant_id_210.png",
+      "destination": "data/reports/gradcam_all/overlays/malignant_id_210.png",
+      "status": "copied",
+      "sha256": "e0b8c017cf0e69d4f1d4cdda6f0f3d0f43fc3f3ad5af4e2d02320f72f0f1e758"
+    },
+    {
+      "source": "_tmp_outputs/outputs/gradcam/overlays/malignant_id_3.png",
+      "destination": "data/reports/gradcam_all/overlays/malignant_id_3.png",
+      "status": "copied",
+      "sha256": "2faf4bce387d293905d3cf482fd6997746c18c18bd1fe072ac57cadaa86d6e5c"
+    },
+    {
+      "source": "_tmp_outputs/outputs/gradcam/overlays/malignant_id_32.png",
+      "destination": "data/reports/gradcam_all/overlays/malignant_id_32.png",
+      "status": "copied",
+      "sha256": "97d85f33e2e11f65539c054a3dd10075392d2ddae3e759d79e2b035c46a0482f"
+    },
+    {
+      "source": "_tmp_outputs/outputs/gradcam/overlays/malignant_id_37.png",
+      "destination": "data/reports/gradcam_all/overlays/malignant_id_37.png",
+      "status": "copied",
+      "sha256": "6fb945ca1d3c075df77ba861ec4b44758176ceca3ac60c84d5e3367e4f8aa919"
+    },
+    {
+      "source": "_tmp_outputs/outputs/gradcam/overlays/malignant_id_43.png",
+      "destination": "data/reports/gradcam_all/overlays/malignant_id_43.png",
+      "status": "copied",
+      "sha256": "567ef25ba99272d93847a2b3d688ccf8343e8150a8e9364444c898e2708c1348"
+    },
+    {
+      "source": "_tmp_outputs/outputs/gradcam/overlays/malignant_id_48.png",
+      "destination": "data/reports/gradcam_all/overlays/malignant_id_48.png",
+      "status": "copied",
+      "sha256": "ab4d588a32305133aa53a899c7f8af1e5f9387541bdacf064597efbc1a6396ba"
+    },
+    {
+      "source": "_tmp_outputs/outputs/gradcam/overlays/malignant_id_60.png",
+      "destination": "data/reports/gradcam_all/overlays/malignant_id_60.png",
+      "status": "copied",
+      "sha256": "3865d4df3fe81066490d51ffc7a8c001ad114cb526f9e5fefa3aeac646b77767"
+    },
+    {
+      "source": "_tmp_outputs/outputs/gradcam/overlays/malignant_id_82.png",
+      "destination": "data/reports/gradcam_all/overlays/malignant_id_82.png",
+      "status": "copied",
+      "sha256": "9631bf3b93daeb21185b9be0e96bb5bb53f08d05f986afd3d4f748ecdce37719"
+    },
+    {
+      "source": "_tmp_outputs/outputs/gradcam/overlays/malignant_id_83.png",
+      "destination": "data/reports/gradcam_all/overlays/malignant_id_83.png",
+      "status": "copied",
+      "sha256": "330a0378311348f67cad5b892593c28b208b1bde402c3bb0038112ab6de041ce"
+    },
+    {
+      "source": "_tmp_outputs/outputs/gradcam/overlays/normal_id_103.png",
+      "destination": "data/reports/gradcam_all/overlays/normal_id_103.png",
+      "status": "copied",
+      "sha256": "b1ef51105ac2b89ff8969484303538fad73af2409feb8b1d691ab4f860cf72e2"
+    },
+    {
+      "source": "_tmp_outputs/outputs/gradcam/overlays/normal_id_108.png",
+      "destination": "data/reports/gradcam_all/overlays/normal_id_108.png",
+      "status": "copied",
+      "sha256": "c263fc6a62b3ed2d0dbdef76db5c6bf26c9355b485941af533f56bd9d88f7e05"
+    },
+    {
+      "source": "_tmp_outputs/outputs/gradcam/overlays/normal_id_73.png",
+      "destination": "data/reports/gradcam_all/overlays/normal_id_73.png",
+      "status": "copied",
+      "sha256": "5b8bd41567bd38ccaa43d8e7678059ca1ec18c44cb93618fe17bad5bd06653b0"
+    },
+    {
+      "source": "_tmp_outputs/outputs/gradcam/overlays/normal_id_77.png",
+      "destination": "data/reports/gradcam_all/overlays/normal_id_77.png",
+      "status": "copied",
+      "sha256": "41b457ff08b1e269746faf8f6c1c8584fda07a91bd84b9de4610434807a5a203"
+    },
+    {
+      "source": "_tmp_outputs/outputs/gradcam/overlays/normal_id_83.png",
+      "destination": "data/reports/gradcam_all/overlays/normal_id_83.png",
+      "status": "copied",
+      "sha256": "d6f58e7b53d8cb1de100fe4a2d390381eeaefa259578afec8b5e98502d75e0e7"
+    },
+    {
+      "source": "_tmp_outputs/outputs/gradcam/overlays/normal_id_86.png",
+      "destination": "data/reports/gradcam_all/overlays/normal_id_86.png",
+      "status": "copied",
+      "sha256": "bd9885787ef13dce59a04172735d16a0d81cee9d41a5755dbb532324de15c784"
+    },
+    {
+      "source": "_tmp_outputs/outputs/gradcam/overlays/normal_id_93.png",
+      "destination": "data/reports/gradcam_all/overlays/normal_id_93.png",
+      "status": "copied",
+      "sha256": "48506eea89b7562d75a91a991b414751bc205eff54ca994fdbc652b2138d105b"
+    },
+    {
+      "source": "_tmp_outputs/outputs/gradcam/overlays/normal_id_94.png",
+      "destination": "data/reports/gradcam_all/overlays/normal_id_94.png",
+      "status": "copied",
+      "sha256": "b0ea8cb8178132c1a568a70af1336a2ad1619d1410b260cb0a33f18ae340b840"
+    },
+    {
+      "source": "_tmp_outputs/outputs/gradcam/overlays/normal_id_96.png",
+      "destination": "data/reports/gradcam_all/overlays/normal_id_96.png",
+      "status": "copied",
+      "sha256": "4e226d1b8eacd2914be49f63dee83ea48200d729b8d232c1fb0ab6c86452597a"
+    },
+    {
+      "source": "_tmp_outputs/outputs/gradcam/overlays/normal_id_99.png",
+      "destination": "data/reports/gradcam_all/overlays/normal_id_99.png",
+      "status": "copied",
+      "sha256": "a48104c70853ac20c2eec4cd4ccf4cd8b9305459fcd4056d404f743d83e5f0e6"
+    },
+    {
+      "source": "data_raw/images/benign_id_101.png",
+      "destination": "data/reports/gradcam_all/originals/benign_id_101.png",
+      "status": "copied",
+      "sha256": "e4f4536200ceda870aa2be1dd739f7601f66f5f31dc55ef0b2cc18d29745572b"
+    },
+    {
+      "source": "data_raw/images/benign_id_119.png",
+      "destination": "data/reports/gradcam_all/originals/benign_id_119.png",
+      "status": "copied",
+      "sha256": "18e696b0b01c08a062c844fb91e92f5605394f94bf0b16c0e4b704cb263b045d"
+    },
+    {
+      "source": "data_raw/images/benign_id_175.png",
+      "destination": "data/reports/gradcam_all/originals/benign_id_175.png",
+      "status": "copied",
+      "sha256": "b974d36c3f3bb40c158d41fc124d38a99811b68370209445e0efa394487b3f4d"
+    },
+    {
+      "source": "data_raw/images/benign_id_185.png",
+      "destination": "data/reports/gradcam_all/originals/benign_id_185.png",
+      "status": "copied",
+      "sha256": "85afd1c3f59a4358506c97b04dd6d53744fcb5013a23de211a8606d3f5ede5f2"
+    },
+    {
+      "source": "data_raw/images/benign_id_186.png",
+      "destination": "data/reports/gradcam_all/originals/benign_id_186.png",
+      "status": "copied",
+      "sha256": "aae5bbf3b1f3e86d34714739b82712e6ed31483f2c927f485a69291b8acb4fb4"
+    },
+    {
+      "source": "data_raw/images/benign_id_187.png",
+      "destination": "data/reports/gradcam_all/originals/benign_id_187.png",
+      "status": "copied",
+      "sha256": "4a031d34f7b7db37b2c70685bbad86398c3d47cdca8c17c17f4aa822567f2cfc"
+    },
+    {
+      "source": "data_raw/images/benign_id_191.png",
+      "destination": "data/reports/gradcam_all/originals/benign_id_191.png",
+      "status": "copied",
+      "sha256": "a132d79891c25c2f8041f735578d0b5d9f012a5244572d5deaa885a6fef0bb9a"
+    },
+    {
+      "source": "data_raw/images/benign_id_212.png",
+      "destination": "data/reports/gradcam_all/originals/benign_id_212.png",
+      "status": "copied",
+      "sha256": "da27dd6fff7079fe778559db9b38b767eac0ddaee4f2a2d4e05b5604dd2ba0ee"
+    },
+    {
+      "source": "data_raw/images/benign_id_286.png",
+      "destination": "data/reports/gradcam_all/originals/benign_id_286.png",
+      "status": "copied",
+      "sha256": "d49eb8b16c77d89e79599ca15c836b30c6b83181f5852ee739633b825b9e747a"
+    },
+    {
+      "source": "data_raw/images/benign_id_334.png",
+      "destination": "data/reports/gradcam_all/originals/benign_id_334.png",
+      "status": "copied",
+      "sha256": "caf843434b774af689478ad137ce2aad7050c797afcb8289cda0b4249165b1b7"
+    },
+    {
+      "source": "data_raw/images/benign_id_346.png",
+      "destination": "data/reports/gradcam_all/originals/benign_id_346.png",
+      "status": "copied",
+      "sha256": "3286cf2bc101da10e9f82e6da0eda4d1264ef1e1f688608cb3b95c53d0b0306b"
+    },
+    {
+      "source": "data_raw/images/benign_id_347.png",
+      "destination": "data/reports/gradcam_all/originals/benign_id_347.png",
+      "status": "copied",
+      "sha256": "e62d5cd7c99932ecda1c6a307da5a351e34f60809115f0a80a9b7de28522b2ed"
+    },
+    {
+      "source": "data_raw/images/benign_id_350.png",
+      "destination": "data/reports/gradcam_all/originals/benign_id_350.png",
+      "status": "copied",
+      "sha256": "30baeb2444254eb14e56faed81a573d1e8ea9ece99d4e7e607040ca399773f7e"
+    },
+    {
+      "source": "data_raw/images/benign_id_351.png",
+      "destination": "data/reports/gradcam_all/originals/benign_id_351.png",
+      "status": "copied",
+      "sha256": "4c5748ca0c8093e7f7a14324c24aa8f6d10d6b6ce93ecb10cd3d1ee9ba371ec2"
+    },
+    {
+      "source": "data_raw/images/benign_id_354.png",
+      "destination": "data/reports/gradcam_all/originals/benign_id_354.png",
+      "status": "copied",
+      "sha256": "c1029a3a1cb3c8b835241d151eab6fa16c828db2c3681f564402ebe6ab3c7125"
+    },
+    {
+      "source": "data_raw/images/benign_id_373.png",
+      "destination": "data/reports/gradcam_all/originals/benign_id_373.png",
+      "status": "copied",
+      "sha256": "909890f787efaa54f32bd5c9273c330713c6b1ce7a819aad4b73c27392edab46"
+    },
+    {
+      "source": "data_raw/images/benign_id_374.png",
+      "destination": "data/reports/gradcam_all/originals/benign_id_374.png",
+      "status": "copied",
+      "sha256": "7f23cc03bfcb22c6528b654ad12507ccfbf94104a982b2a8bb87aec97dce5f88"
+    },
+    {
+      "source": "data_raw/images/benign_id_391.png",
+      "destination": "data/reports/gradcam_all/originals/benign_id_391.png",
+      "status": "copied",
+      "sha256": "4ad9265f3d7f381aa04dbf40eae2fe021764b1650d8ffce77ab12a00205afc78"
+    },
+    {
+      "source": "data_raw/images/benign_id_393.png",
+      "destination": "data/reports/gradcam_all/originals/benign_id_393.png",
+      "status": "copied",
+      "sha256": "d88ec9b9bd108e7f1450686f31d827bc5340359de73d8e875f99ef05fe28a413"
+    },
+    {
+      "source": "data_raw/images/benign_id_402.png",
+      "destination": "data/reports/gradcam_all/originals/benign_id_402.png",
+      "status": "copied",
+      "sha256": "1c51977b11777f68877b5e512f2eb12c3c1b0b98e78ddd2e094a5ae7c876837b"
+    },
+    {
+      "source": "data_raw/images/benign_id_416.png",
+      "destination": "data/reports/gradcam_all/originals/benign_id_416.png",
+      "status": "copied",
+      "sha256": "ef97b4deb192f64585284a05b332986761cbf90e6680d7f43f2e6798b3e5911f"
+    },
+    {
+      "source": "data_raw/images/benign_id_420.png",
+      "destination": "data/reports/gradcam_all/originals/benign_id_420.png",
+      "status": "copied",
+      "sha256": "432c279546c2bb8a4435d9476beb7a8d1f61af0099aedaca159834e75637aa57"
+    },
+    {
+      "source": "data_raw/images/benign_id_428.png",
+      "destination": "data/reports/gradcam_all/originals/benign_id_428.png",
+      "status": "copied",
+      "sha256": "1492c2190de75877dfb21d3928ace29ca1f29ad596eaad99fc1905cd97cd5698"
+    },
+    {
+      "source": "data_raw/images/benign_id_56.png",
+      "destination": "data/reports/gradcam_all/originals/benign_id_56.png",
+      "status": "copied",
+      "sha256": "8f369af9f0c5936f96505b02394194c3c07392c9dbb44d739a852743eeee2ee4"
+    },
+    {
+      "source": "data_raw/images/benign_id_61.png",
+      "destination": "data/reports/gradcam_all/originals/benign_id_61.png",
+      "status": "copied",
+      "sha256": "4eb2e4a2012a587359928b5fcac41d3dad78d8bc449079537f4d10fb97789984"
+    },
+    {
+      "source": "data_raw/images/benign_id_72.png",
+      "destination": "data/reports/gradcam_all/originals/benign_id_72.png",
+      "status": "copied",
+      "sha256": "65eeced4c7eba5b11b9feade170dbddf12ba87d1ae6b08b67c1c25938c77b37d"
+    },
+    {
+      "source": "data_raw/images/benign_id_75.png",
+      "destination": "data/reports/gradcam_all/originals/benign_id_75.png",
+      "status": "copied",
+      "sha256": "3e18104a1b3f931c2e1521859bfd8fdb3cc4d555dbf4fee22239205f52dc8c73"
+    },
+    {
+      "source": "data_raw/images/benign_id_80.png",
+      "destination": "data/reports/gradcam_all/originals/benign_id_80.png",
+      "status": "copied",
+      "sha256": "e0809e363f850fda38ac3bc2026dbdaa9313421539e1ec4744f673fa416f60ad"
+    },
+    {
+      "source": "data_raw/images/benign_id_82.png",
+      "destination": "data/reports/gradcam_all/originals/benign_id_82.png",
+      "status": "copied",
+      "sha256": "02882afa76665e4295cefdd1d51879098fb252690f6949dbe834fcb1fd6c1a1e"
+    },
+    {
+      "source": "data_raw/images/benign_id_89.png",
+      "destination": "data/reports/gradcam_all/originals/benign_id_89.png",
+      "status": "copied",
+      "sha256": "8e3cef05e7e6f80e2a58867732d08985a4e3ffd79229fe44832cc5bf04bd04e3"
+    },
+    {
+      "source": "data_raw/images/benign_id_90.png",
+      "destination": "data/reports/gradcam_all/originals/benign_id_90.png",
+      "status": "copied",
+      "sha256": "99379b89d7ed08e0a87b10ee1e6c791cf332d5ce3fb8311f687bfc601227cbac"
+    },
+    {
+      "source": "data_raw/images/benign_id_93.png",
+      "destination": "data/reports/gradcam_all/originals/benign_id_93.png",
+      "status": "copied",
+      "sha256": "569c0fe0eee436f650206450a9dcccb182177f99b8158e1e2b8b34cfb7b73058"
+    },
+    {
+      "source": "data_raw/images/benign_id_94.png",
+      "destination": "data/reports/gradcam_all/originals/benign_id_94.png",
+      "status": "copied",
+      "sha256": "66f3a00c9472c6d21b129a938411d050e1eac6176a6d8f5ff73a1dcccbdea73c"
+    },
+    {
+      "source": "data_raw/images/benign_id_98.png",
+      "destination": "data/reports/gradcam_all/originals/benign_id_98.png",
+      "status": "copied",
+      "sha256": "202322bbf14550e8679d06f44de26bf2fda1590a4da249750c69cf8ea1a88014"
+    },
+    {
+      "source": "data_raw/images/malignant_id_100.png",
+      "destination": "data/reports/gradcam_all/originals/malignant_id_100.png",
+      "status": "copied",
+      "sha256": "8a69ffed50a46bf563cfa96695605950fc232285831714611d666accca643bc6"
+    },
+    {
+      "source": "data_raw/images/malignant_id_143.png",
+      "destination": "data/reports/gradcam_all/originals/malignant_id_143.png",
+      "status": "copied",
+      "sha256": "dd4a6d8559063b9597efb1c386efe6b29d0423e8db264c792e600e0de72cb876"
+    },
+    {
+      "source": "data_raw/images/malignant_id_147.png",
+      "destination": "data/reports/gradcam_all/originals/malignant_id_147.png",
+      "status": "copied",
+      "sha256": "d72289cbdb5e55b4afdb01c7e98e6148932a0ba05817cf2329fd5305fefee6bd"
+    },
+    {
+      "source": "data_raw/images/malignant_id_148.png",
+      "destination": "data/reports/gradcam_all/originals/malignant_id_148.png",
+      "status": "copied",
+      "sha256": "00dc6a5764eb09fc757be6a0da9d2b8857caa4bd1fcf97126a62d1591bfc508f"
+    },
+    {
+      "source": "data_raw/images/malignant_id_149.png",
+      "destination": "data/reports/gradcam_all/originals/malignant_id_149.png",
+      "status": "copied",
+      "sha256": "4e876e8838bc989fb33b629a0cb5039c93fc84cbcc253b6eefadebc565394682"
+    },
+    {
+      "source": "data_raw/images/malignant_id_153.png",
+      "destination": "data/reports/gradcam_all/originals/malignant_id_153.png",
+      "status": "copied",
+      "sha256": "201b93b7781f3dd48daba2b1feb066ee75d4fccd2ff5d54c9ce33e4d905a3823"
+    },
+    {
+      "source": "data_raw/images/malignant_id_159.png",
+      "destination": "data/reports/gradcam_all/originals/malignant_id_159.png",
+      "status": "copied",
+      "sha256": "e04894ece23f919b2c4801b2685d11ccb7fc33c80776f6d1be0f52c4990eec5e"
+    },
+    {
+      "source": "data_raw/images/malignant_id_162.png",
+      "destination": "data/reports/gradcam_all/originals/malignant_id_162.png",
+      "status": "copied",
+      "sha256": "fa4a5490a7324babe63073f7f2571ee19d68fee5e5178dff1fa37d9c78fc68db"
+    },
+    {
+      "source": "data_raw/images/malignant_id_164.png",
+      "destination": "data/reports/gradcam_all/originals/malignant_id_164.png",
+      "status": "copied",
+      "sha256": "1cadf4122c5062f5ead307b99ae333e62da817a01143c2f659d143f23f88c19e"
+    },
+    {
+      "source": "data_raw/images/malignant_id_180.png",
+      "destination": "data/reports/gradcam_all/originals/malignant_id_180.png",
+      "status": "copied",
+      "sha256": "4fcf7e8127b3bc2c2b2e62abe8d7a5a589bfa13d9cca257f0220a323bed14ce5"
+    },
+    {
+      "source": "data_raw/images/malignant_id_193.png",
+      "destination": "data/reports/gradcam_all/originals/malignant_id_193.png",
+      "status": "copied",
+      "sha256": "9d083def35a194d5543ba54bd52347abe8bd1befa01bdfb2fe73e2bebe5eb5dd"
+    },
+    {
+      "source": "data_raw/images/malignant_id_198.png",
+      "destination": "data/reports/gradcam_all/originals/malignant_id_198.png",
+      "status": "copied",
+      "sha256": "98fc4b60ea39738c6ff64324d1b3cce95adde95c575d3b4f79a00fb76710735c"
+    },
+    {
+      "source": "data_raw/images/malignant_id_199.png",
+      "destination": "data/reports/gradcam_all/originals/malignant_id_199.png",
+      "status": "copied",
+      "sha256": "7717e144156389660cd5f3b3f8a66e9e5ad4e1221450bc0bb5daf2d08956ec94"
+    },
+    {
+      "source": "data_raw/images/malignant_id_200.png",
+      "destination": "data/reports/gradcam_all/originals/malignant_id_200.png",
+      "status": "copied",
+      "sha256": "f8f4da1f6f673fdd5aa8ab596af2cba9070c13d2dc4b1014dac10eb41d296472"
+    },
+    {
+      "source": "data_raw/images/malignant_id_206.png",
+      "destination": "data/reports/gradcam_all/originals/malignant_id_206.png",
+      "status": "copied",
+      "sha256": "b150d63d3e7ed75badf19d83bcfd2f9c725709947fb43f4266865ccac73205e4"
+    },
+    {
+      "source": "data_raw/images/malignant_id_210.png",
+      "destination": "data/reports/gradcam_all/originals/malignant_id_210.png",
+      "status": "copied",
+      "sha256": "cb46ad75a763332da8cec309ec8f9f14fd6c389a772168853220196ddc463ffd"
+    },
+    {
+      "source": "data_raw/images/malignant_id_3.png",
+      "destination": "data/reports/gradcam_all/originals/malignant_id_3.png",
+      "status": "copied",
+      "sha256": "bb9f4abf88cd04d96380773e1f347603f283eb3e094dc55f54f99ed6b7dbef05"
+    },
+    {
+      "source": "data_raw/images/malignant_id_32.png",
+      "destination": "data/reports/gradcam_all/originals/malignant_id_32.png",
+      "status": "copied",
+      "sha256": "fa3a8c90c6fdd6c1a4bbcb7b5d31ea011fb0bac72ec765ddecda5606d744e114"
+    },
+    {
+      "source": "data_raw/images/malignant_id_37.png",
+      "destination": "data/reports/gradcam_all/originals/malignant_id_37.png",
+      "status": "copied",
+      "sha256": "335a1c79a2a2ce7fc30da7d48b7f6b8f0f8eaa9216828c874146a215ea6cd007"
+    },
+    {
+      "source": "data_raw/images/malignant_id_43.png",
+      "destination": "data/reports/gradcam_all/originals/malignant_id_43.png",
+      "status": "copied",
+      "sha256": "3be56f0b78ac29bc4a388017ae0794e1e89ffb856787f9541d98f573809c8204"
+    },
+    {
+      "source": "data_raw/images/malignant_id_48.png",
+      "destination": "data/reports/gradcam_all/originals/malignant_id_48.png",
+      "status": "copied",
+      "sha256": "6c9258bc368ddeb9410f213716309acfb7d7a29f2daae96c2f5596700a48512a"
+    },
+    {
+      "source": "data_raw/images/malignant_id_60.png",
+      "destination": "data/reports/gradcam_all/originals/malignant_id_60.png",
+      "status": "copied",
+      "sha256": "ac08b335155e5e70dc9849e7fe8e10c8ec3f1582b2c4b6bc00f87785101d6fea"
+    },
+    {
+      "source": "data_raw/images/malignant_id_82.png",
+      "destination": "data/reports/gradcam_all/originals/malignant_id_82.png",
+      "status": "copied",
+      "sha256": "880c61d7b5c18e1bc904ed162cb86a9b6845c54a188ad81b144c18637a4b9e81"
+    },
+    {
+      "source": "data_raw/images/malignant_id_83.png",
+      "destination": "data/reports/gradcam_all/originals/malignant_id_83.png",
+      "status": "copied",
+      "sha256": "5a8e651f90542a8a8e802b7e8f35ad208843461af0a0ea34031c32e3c5e5bc97"
+    },
+    {
+      "source": "data_raw/images/normal_id_103.png",
+      "destination": "data/reports/gradcam_all/originals/normal_id_103.png",
+      "status": "copied",
+      "sha256": "f9480a15133908f3a519a57eb43266c4f22b6df5957451219f89b978d1a3acd3"
+    },
+    {
+      "source": "data_raw/images/normal_id_108.png",
+      "destination": "data/reports/gradcam_all/originals/normal_id_108.png",
+      "status": "copied",
+      "sha256": "6facd420611067014661275822f052c7d88c5a881f5e06660d4286a45f590815"
+    },
+    {
+      "source": "data_raw/images/normal_id_73.png",
+      "destination": "data/reports/gradcam_all/originals/normal_id_73.png",
+      "status": "copied",
+      "sha256": "70cc13ffbf878d6292ef56279dae36f8c66006010b32e3a3a717a2666c86b45c"
+    },
+    {
+      "source": "data_raw/images/normal_id_77.png",
+      "destination": "data/reports/gradcam_all/originals/normal_id_77.png",
+      "status": "copied",
+      "sha256": "fa759d32e3c97c47189d3ad9cb1923ed1f8db9c5795e89296ae109cc6d8b4ea4"
+    },
+    {
+      "source": "data_raw/images/normal_id_83.png",
+      "destination": "data/reports/gradcam_all/originals/normal_id_83.png",
+      "status": "copied",
+      "sha256": "046da406563f5a03bd0ba1075a9770e66147322f2e9f230bbbd6355376e74390"
+    },
+    {
+      "source": "data_raw/images/normal_id_86.png",
+      "destination": "data/reports/gradcam_all/originals/normal_id_86.png",
+      "status": "copied",
+      "sha256": "3969d03984bbd05a897eff92ee43132e4c569e11ad25fac3cbb85f46c4866238"
+    },
+    {
+      "source": "data_raw/images/normal_id_93.png",
+      "destination": "data/reports/gradcam_all/originals/normal_id_93.png",
+      "status": "copied",
+      "sha256": "c7d94ccfda31ed528191f0ab1b70df58466e0aa238432d8b8e2c96cd5890d67f"
+    },
+    {
+      "source": "data_raw/images/normal_id_94.png",
+      "destination": "data/reports/gradcam_all/originals/normal_id_94.png",
+      "status": "copied",
+      "sha256": "bf50bc24360103c163d909b143e9c5e8d2d065103d96777e4a737ad238f4f775"
+    },
+    {
+      "source": "data_raw/images/normal_id_96.png",
+      "destination": "data/reports/gradcam_all/originals/normal_id_96.png",
+      "status": "copied",
+      "sha256": "7362e97d92ef2b9ad26a0f948eae950f12335ea4e72ebf42ce18e1b7a46eb4eb"
+    },
+    {
+      "source": "data_raw/images/normal_id_99.png",
+      "destination": "data/reports/gradcam_all/originals/normal_id_99.png",
+      "status": "copied",
+      "sha256": "61e0d88b6f883facd1f3883d8491047279894382ca3060668b6de35e131a369a"
+    }
+  ],
+  "missing_originals": [],
+  "original_choices": [
+    {
+      "file_name": "benign_id_101.png",
+      "source": "data_raw/images/benign_id_101.png",
+      "candidate_count": 2
+    },
+    {
+      "file_name": "benign_id_119.png",
+      "source": "data_raw/images/benign_id_119.png",
+      "candidate_count": 2
+    },
+    {
+      "file_name": "benign_id_175.png",
+      "source": "data_raw/images/benign_id_175.png",
+      "candidate_count": 2
+    },
+    {
+      "file_name": "benign_id_185.png",
+      "source": "data_raw/images/benign_id_185.png",
+      "candidate_count": 2
+    },
+    {
+      "file_name": "benign_id_186.png",
+      "source": "data_raw/images/benign_id_186.png",
+      "candidate_count": 2
+    },
+    {
+      "file_name": "benign_id_187.png",
+      "source": "data_raw/images/benign_id_187.png",
+      "candidate_count": 2
+    },
+    {
+      "file_name": "benign_id_191.png",
+      "source": "data_raw/images/benign_id_191.png",
+      "candidate_count": 2
+    },
+    {
+      "file_name": "benign_id_212.png",
+      "source": "data_raw/images/benign_id_212.png",
+      "candidate_count": 2
+    },
+    {
+      "file_name": "benign_id_286.png",
+      "source": "data_raw/images/benign_id_286.png",
+      "candidate_count": 2
+    },
+    {
+      "file_name": "benign_id_334.png",
+      "source": "data_raw/images/benign_id_334.png",
+      "candidate_count": 2
+    },
+    {
+      "file_name": "benign_id_346.png",
+      "source": "data_raw/images/benign_id_346.png",
+      "candidate_count": 2
+    },
+    {
+      "file_name": "benign_id_347.png",
+      "source": "data_raw/images/benign_id_347.png",
+      "candidate_count": 2
+    },
+    {
+      "file_name": "benign_id_350.png",
+      "source": "data_raw/images/benign_id_350.png",
+      "candidate_count": 2
+    },
+    {
+      "file_name": "benign_id_351.png",
+      "source": "data_raw/images/benign_id_351.png",
+      "candidate_count": 2
+    },
+    {
+      "file_name": "benign_id_354.png",
+      "source": "data_raw/images/benign_id_354.png",
+      "candidate_count": 2
+    },
+    {
+      "file_name": "benign_id_373.png",
+      "source": "data_raw/images/benign_id_373.png",
+      "candidate_count": 2
+    },
+    {
+      "file_name": "benign_id_374.png",
+      "source": "data_raw/images/benign_id_374.png",
+      "candidate_count": 2
+    },
+    {
+      "file_name": "benign_id_391.png",
+      "source": "data_raw/images/benign_id_391.png",
+      "candidate_count": 2
+    },
+    {
+      "file_name": "benign_id_393.png",
+      "source": "data_raw/images/benign_id_393.png",
+      "candidate_count": 2
+    },
+    {
+      "file_name": "benign_id_402.png",
+      "source": "data_raw/images/benign_id_402.png",
+      "candidate_count": 2
+    },
+    {
+      "file_name": "benign_id_416.png",
+      "source": "data_raw/images/benign_id_416.png",
+      "candidate_count": 2
+    },
+    {
+      "file_name": "benign_id_420.png",
+      "source": "data_raw/images/benign_id_420.png",
+      "candidate_count": 2
+    },
+    {
+      "file_name": "benign_id_428.png",
+      "source": "data_raw/images/benign_id_428.png",
+      "candidate_count": 2
+    },
+    {
+      "file_name": "benign_id_56.png",
+      "source": "data_raw/images/benign_id_56.png",
+      "candidate_count": 2
+    },
+    {
+      "file_name": "benign_id_61.png",
+      "source": "data_raw/images/benign_id_61.png",
+      "candidate_count": 2
+    },
+    {
+      "file_name": "benign_id_72.png",
+      "source": "data_raw/images/benign_id_72.png",
+      "candidate_count": 2
+    },
+    {
+      "file_name": "benign_id_75.png",
+      "source": "data_raw/images/benign_id_75.png",
+      "candidate_count": 2
+    },
+    {
+      "file_name": "benign_id_80.png",
+      "source": "data_raw/images/benign_id_80.png",
+      "candidate_count": 2
+    },
+    {
+      "file_name": "benign_id_82.png",
+      "source": "data_raw/images/benign_id_82.png",
+      "candidate_count": 2
+    },
+    {
+      "file_name": "benign_id_89.png",
+      "source": "data_raw/images/benign_id_89.png",
+      "candidate_count": 2
+    },
+    {
+      "file_name": "benign_id_90.png",
+      "source": "data_raw/images/benign_id_90.png",
+      "candidate_count": 2
+    },
+    {
+      "file_name": "benign_id_93.png",
+      "source": "data_raw/images/benign_id_93.png",
+      "candidate_count": 2
+    },
+    {
+      "file_name": "benign_id_94.png",
+      "source": "data_raw/images/benign_id_94.png",
+      "candidate_count": 2
+    },
+    {
+      "file_name": "benign_id_98.png",
+      "source": "data_raw/images/benign_id_98.png",
+      "candidate_count": 2
+    },
+    {
+      "file_name": "malignant_id_100.png",
+      "source": "data_raw/images/malignant_id_100.png",
+      "candidate_count": 2
+    },
+    {
+      "file_name": "malignant_id_143.png",
+      "source": "data_raw/images/malignant_id_143.png",
+      "candidate_count": 2
+    },
+    {
+      "file_name": "malignant_id_147.png",
+      "source": "data_raw/images/malignant_id_147.png",
+      "candidate_count": 2
+    },
+    {
+      "file_name": "malignant_id_148.png",
+      "source": "data_raw/images/malignant_id_148.png",
+      "candidate_count": 2
+    },
+    {
+      "file_name": "malignant_id_149.png",
+      "source": "data_raw/images/malignant_id_149.png",
+      "candidate_count": 2
+    },
+    {
+      "file_name": "malignant_id_153.png",
+      "source": "data_raw/images/malignant_id_153.png",
+      "candidate_count": 2
+    },
+    {
+      "file_name": "malignant_id_159.png",
+      "source": "data_raw/images/malignant_id_159.png",
+      "candidate_count": 2
+    },
+    {
+      "file_name": "malignant_id_162.png",
+      "source": "data_raw/images/malignant_id_162.png",
+      "candidate_count": 2
+    },
+    {
+      "file_name": "malignant_id_164.png",
+      "source": "data_raw/images/malignant_id_164.png",
+      "candidate_count": 2
+    },
+    {
+      "file_name": "malignant_id_180.png",
+      "source": "data_raw/images/malignant_id_180.png",
+      "candidate_count": 2
+    },
+    {
+      "file_name": "malignant_id_193.png",
+      "source": "data_raw/images/malignant_id_193.png",
+      "candidate_count": 2
+    },
+    {
+      "file_name": "malignant_id_198.png",
+      "source": "data_raw/images/malignant_id_198.png",
+      "candidate_count": 2
+    },
+    {
+      "file_name": "malignant_id_199.png",
+      "source": "data_raw/images/malignant_id_199.png",
+      "candidate_count": 2
+    },
+    {
+      "file_name": "malignant_id_200.png",
+      "source": "data_raw/images/malignant_id_200.png",
+      "candidate_count": 2
+    },
+    {
+      "file_name": "malignant_id_206.png",
+      "source": "data_raw/images/malignant_id_206.png",
+      "candidate_count": 2
+    },
+    {
+      "file_name": "malignant_id_210.png",
+      "source": "data_raw/images/malignant_id_210.png",
+      "candidate_count": 2
+    },
+    {
+      "file_name": "malignant_id_3.png",
+      "source": "data_raw/images/malignant_id_3.png",
+      "candidate_count": 2
+    },
+    {
+      "file_name": "malignant_id_32.png",
+      "source": "data_raw/images/malignant_id_32.png",
+      "candidate_count": 2
+    },
+    {
+      "file_name": "malignant_id_37.png",
+      "source": "data_raw/images/malignant_id_37.png",
+      "candidate_count": 2
+    },
+    {
+      "file_name": "malignant_id_43.png",
+      "source": "data_raw/images/malignant_id_43.png",
+      "candidate_count": 2
+    },
+    {
+      "file_name": "malignant_id_48.png",
+      "source": "data_raw/images/malignant_id_48.png",
+      "candidate_count": 2
+    },
+    {
+      "file_name": "malignant_id_60.png",
+      "source": "data_raw/images/malignant_id_60.png",
+      "candidate_count": 2
+    },
+    {
+      "file_name": "malignant_id_82.png",
+      "source": "data_raw/images/malignant_id_82.png",
+      "candidate_count": 2
+    },
+    {
+      "file_name": "malignant_id_83.png",
+      "source": "data_raw/images/malignant_id_83.png",
+      "candidate_count": 2
+    },
+    {
+      "file_name": "normal_id_103.png",
+      "source": "data_raw/images/normal_id_103.png",
+      "candidate_count": 2
+    },
+    {
+      "file_name": "normal_id_108.png",
+      "source": "data_raw/images/normal_id_108.png",
+      "candidate_count": 2
+    },
+    {
+      "file_name": "normal_id_73.png",
+      "source": "data_raw/images/normal_id_73.png",
+      "candidate_count": 2
+    },
+    {
+      "file_name": "normal_id_77.png",
+      "source": "data_raw/images/normal_id_77.png",
+      "candidate_count": 2
+    },
+    {
+      "file_name": "normal_id_83.png",
+      "source": "data_raw/images/normal_id_83.png",
+      "candidate_count": 2
+    },
+    {
+      "file_name": "normal_id_86.png",
+      "source": "data_raw/images/normal_id_86.png",
+      "candidate_count": 2
+    },
+    {
+      "file_name": "normal_id_93.png",
+      "source": "data_raw/images/normal_id_93.png",
+      "candidate_count": 2
+    },
+    {
+      "file_name": "normal_id_94.png",
+      "source": "data_raw/images/normal_id_94.png",
+      "candidate_count": 2
+    },
+    {
+      "file_name": "normal_id_96.png",
+      "source": "data_raw/images/normal_id_96.png",
+      "candidate_count": 2
+    },
+    {
+      "file_name": "normal_id_99.png",
+      "source": "data_raw/images/normal_id_99.png",
+      "candidate_count": 2
+    }
+  ],
+  "preserved_hashes": {
+    "data/results.csv": "03c9458fead979669b9d419daabb6e4d4ee36ad8061fbd06ddfefe7860f946bc",
+    "outputs-20261009T181041Z-1-001.zip": "6d714fdc006defd5870bb18c6b5c4fc23d5c63be82f85a106be60f651a61eedd"
+  },
+  "verification": {
+    "all_30_cases_loaded": true,
+    "data_relative_assets": 120,
+    "normal_null_overlap_cases": [
+      "02",
+      "10",
+      "13",
+      "18",
+      "19",
+      "21",
+      "22",
+      "23",
+      "29",
+      "30"
+    ],
+    "truth_counts": {
+      "malignant": 10,
+      "normal": 10,
+      "benign": 10
+    },
+    "ai_pred_counts": {
+      "malignant": 10,
+      "normal": 9,
+      "benign": 11
+    },
+    "unit_tests": "13 passed",
+    "browser": {
+      "headless_server": "started",
+      "case01": "rendered; Enter/M/R/K/T shortcuts passed; three images and overlap shown",
+      "case01_result_bounds": {
+        "x": 380,
+        "y": 849.078125,
+        "width": 1460,
+        "height": 101.15625
+      },
+      "normal_case02": "rendered; Esc/N/R/C/N/T shortcuts passed; null overlap hidden",
+      "ai_error_case17": "B shortcut passed; pink error note and low-overlap result rendered",
+      "wdbc": "real model rendered; benign/malignant median resets each show 99%",
+      "headless_server_stopped": true
+    },
+    "wdbc_class_median_source": {
+      "dataset": "sklearn.datasets.load_breast_cancer",
+      "seed": 42,
+      "test_size": 0.2,
+      "stratified": true,
+      "n_train": 455,
+      "class_counts": {
+        "benign": 285,
+        "malignant": 170
+      },
+      "verified_against_model_scaler": true
+    },
+    "booth_results_and_zip_unchanged": true,
+    "all_207_copies_hash_verified": true,
+    "servers_stopped": true,
+    "demo_assets_left_in_place": true,
+    "active_demo_references": 0
+  },
+  "temporary_folder_removed": true
+}
