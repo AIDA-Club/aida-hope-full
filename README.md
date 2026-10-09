@@ -3,7 +3,8 @@
 A bilingual Streamlit booth app for breast cancer awareness. Designed for Python
 3.11 and a 27-inch display. Streamlit provides the UI; scikit-learn 1.6.1 is
 included to deserialize the real WDBC pipeline. The demo generator uses Python's standard library.
-No database, API key, external font, or internet connection is needed at runtime.
+No database, API key, or internet connection is needed at runtime (an API key only
+enables the optional live Ask AIDA assistant).
 
 ## Run on Windows
 
@@ -167,23 +168,63 @@ manifest is in `real_data_activation_report.md`.
 
 ## Ask AIDA
 
-Four quick buttons load local sections from `kb/fallback_en.md` or
+Four quick buttons load hand-written answers from `kb/fallback_en.md` or
 `kb/fallback_ar.md`. Preserve the stable `## know_signs`, `## myth_fact`,
 `## explain_term`, and `## get_help` section identifiers when editing copy.
-All answers work offline; source links can be opened when online. The clearly
-marked `call_llm()` stub in `pages/3_Ask_AIDA.py` is not called by the current UI.
-Add reviewed local service details to the help section before the booth event.
 
-The fallback copy draws on the National Cancer Institute's
-[symptoms](https://www.cancer.gov/types/breast/symptoms),
-[screening](https://www.cancer.gov/types/breast/screening), and
-[diagnosis](https://www.cancer.gov/types/breast/diagnosis) pages.
-Navigation follows Streamlit's [multipage API](https://docs.streamlit.io/develop/concepts/multipage-apps/page-and-navigation).
+Visitors can also type a question. The chat logic is in `aida_chat.py`
+(`call_llm()`); the page only does the UI. The model receives
+`kb/system_prompt.md` plus every other `kb/*.md` file (not the fallbacks).
+Limits: 400 output tokens, 500-character messages, 12 questions per session,
+20-second timeout. Chat history stays in the browser session only; nothing is
+written to disk or logs.
+
+**The page works fully with no API key.** Without a key, or on any error or
+timeout, a typed question gets the closest hand-written answer and a polite
+"offline" note. To turn the live assistant on:
+
+```powershell
+Copy-Item .streamlit\secrets.example.toml .streamlit\secrets.toml
+notepad .streamlit\secrets.toml   # set PROVIDER, API_KEY, MODEL
+```
+
+`secrets.toml` is git-ignored. Never commit a key. To compare providers on
+the 20 test questions in `tests/chat_questions.yaml`:
+
+```powershell
+.\.venv\Scripts\python.exe scripts\eval_chat.py   # writes tests/chat_eval.md
+```
+
+Contacts in `kb/help_uae.md` are `[TO VERIFY]` placeholders; the assistant is
+told never to share them until they are verified.
+
+## About page
+
+`pages/4_About.py` explains the model, its honest results (read from
+`data/reports/metrics.json`), its limits and the dataset credits.
+
+## Printed materials
+
+All printed wording lives in `print_content.yaml`. Rebuild every PDF (and the
+PNG previews in `print_out/previews/`) with:
+
+```powershell
+.\.venv\Scripts\python.exe scripts\build_print.py
+```
+
+Fonts (Amiri, Lato; SIL Open Font License) are bundled in `assets/fonts/`.
 
 ## Verify
 
 ```powershell
 .\.venv\Scripts\python.exe -m unittest discover -s tests -v
+```
+
+Headless browser check of every page in English, Arabic and a phone-sized
+view (needs Playwright and Chrome; screenshots go to `smoke_out/`):
+
+```powershell
+.\.venv\Scripts\python.exe scripts\smoke_test.py
 ```
 
 The suite uses Streamlit's built-in AppTest and standard-library unittest.
