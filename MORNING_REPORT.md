@@ -8,6 +8,9 @@
 - Task 4: knowledge base in `kb/`, live `call_llm()` (in `aida_chat.py`, used by
   `pages/3_Ask_AIDA.py`), `scripts/eval_chat.py`, `tests/chat_questions.yaml`,
   `tests/test_chat.py` (13 new tests).
+- Task 5: "What did we learn?" panel, About page, footer credits, Arabic review
+  flag, RTL list fix, `tests/test_polish.py` (3 new tests),
+  `scripts/smoke_test.py` (headless browser check of every page, EN + AR + phone).
 
 ## Not done / problems
 
@@ -87,6 +90,23 @@
 - Task 4: `about_booth.md` describes the model as ResNet18 starting from
   ImageNet weights, 224 px, trained on Curated BUSI with a 314/68/68 split. I
   took these from `busi_pipeline.ipynb` and `metrics.json`.
+- Task 5: `i18n/ar.json` had **no** remaining TODOs; every key was already
+  translated. I added `"_review_status": "DRAFT - needs native Arabic review"`
+  and translated all the new keys. The translation-parity test now ignores
+  keys that start with `_` (file metadata, not UI text).
+- Task 5: the About page is in the sidebar navigation only; the home page keeps
+  its three big cards (an existing test expects exactly three).
+- Task 5: every number on the About page is read from
+  `data/reports/metrics.json` at runtime, never typed in.
+- Task 5: fixed an RTL bug that was already there: Arabic bullet lists had the
+  dots on the far right and the text left-aligned. Lists now align right.
+- Task 5: I did not run the existing `scripts/verify_browser.py`, because it
+  overwrites files in `data/reports/verification/` (read-only for me tonight).
+  I wrote `scripts/smoke_test.py` instead: own server on port 8503, temporary
+  results CSV, Ask AIDA forced offline, screenshots in `smoke_out/`
+  (git-ignored).
+- Task 5: the in-app browser pane could not take screenshots unattended, so all
+  visual checks used headless Chrome via Playwright.
 
 ## Needs the owner's review before printing
 

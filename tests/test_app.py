@@ -67,8 +67,10 @@ class BoothTests(unittest.TestCase):
 
     def test_translations_and_python_311_syntax(self):
         en, ar = booth.translations("en"), booth.translations("ar")
-        self.assertEqual(en.keys(), ar.keys())
-        for key in en:
+        # Keys starting with "_" are file metadata (e.g. the Arabic review status), not UI text.
+        self.assertEqual({k for k in en if not k.startswith("_")}, {k for k in ar if not k.startswith("_")})
+        self.assertEqual(ar["_review_status"], "DRAFT - needs native Arabic review")
+        for key in (k for k in en if not k.startswith("_")):
             placeholders = lambda text: {name for _, name, _, _ in string.Formatter().parse(text) if name}
             self.assertEqual(placeholders(en[key]), placeholders(ar[key]), key)
         for file in [ROOT / "Home.py", ROOT / "booth.py", ROOT / "booth_keyboard.py",

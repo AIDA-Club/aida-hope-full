@@ -31,6 +31,7 @@ page = st.navigation([
     st.Page("pages/1_Challenge_Reveal.py", title=t("challenge_title"), url_path="challenge"),
     st.Page("pages/2_Tweak_the_Tumor.py", title=t("tweak_title"), url_path="tweak"),
     st.Page("pages/3_Ask_AIDA.py", title=t("ask_title"), url_path="ask"),
+    st.Page("pages/4_About.py", title=t("about_title"), url_path="about"),
 ])
 try:
     page.run()

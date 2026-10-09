@@ -7,6 +7,21 @@ from booth import (BoothError, CLASSES, asset_path, choose_answer, keep_answer,
 from booth_keyboard import shortcuts
 
 
+def what_we_learned() -> None:
+    """Closing panel after the truth is revealed: what AI and doctors are each good at."""
+    with st.container(border=True, key="what_we_learned"):
+        st.subheader(t("learn_heading"))
+        ai_side, doctor_side = st.columns(2, gap="large")
+        with ai_side:
+            st.markdown(f"**{t('learn_ai_title')}**")
+            st.markdown(t("learn_ai_points"))
+        with doctor_side:
+            st.markdown(f"**{t('learn_doctor_title')}**")
+            st.markdown(t("learn_doctor_points"))
+        st.markdown('<div class="booth-learn">' + html.escape(t("learn_line")) + '</div>',
+                    unsafe_allow_html=True)
+
+
 def challenge() -> None:
     st.title(t("challenge_title"))
     try:
@@ -115,6 +130,7 @@ def challenge() -> None:
             answer = "overlap_yes" if overlap >= 0.3 else "overlap_partly" if overlap >= 0.1 else "overlap_no"
             st.write(t("overlap_question", answer=t(answer)))
         st.caption(t("answer_summary", first=t(active["first_answer"]), final=t(active["final_answer"])))
+        what_we_learned()
         try:
             save_round(active)
             st.caption(t("round_saved"))

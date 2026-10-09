@@ -75,8 +75,15 @@ def frame() -> None:
     [data-testid="stVerticalBlock"], [data-testid="stMarkdownContainer"],
     [data-testid="stWidgetLabel"], [data-testid="stSidebarNav"] {{direction:{direction};}}
     [data-testid="stMarkdownContainer"] {{text-align:{'right' if rtl else 'left'};}}
+    [data-testid="stMarkdownContainer"] ul, [data-testid="stMarkdownContainer"] ol {{
+        direction:{direction}; padding-inline-start:1.4em; padding-{'left' if rtl else 'right'}:0;
+        margin-{'left' if rtl else 'right'}:0;}}
+    [data-testid="stMarkdownContainer"] li {{text-align:{'right' if rtl else 'left'};}}
     .booth-footer {{border-top:1px solid #EDDCE4; margin-top:1.2rem;
         padding-top:1rem; color:#526574; font-size:1.05rem;}}
+    .booth-credits {{font-size:0.9rem;}}
+    .booth-learn {{background:#FBE7F0; border-radius:12px; padding:0.6rem 1rem; text-align:center;
+        font-size:1.5rem; font-weight:750; color:#A52C60; margin-top:0.4rem;}}
     .booth-eyebrow {{color:#A52C60; font-weight:700; letter-spacing:0.08em;}}
     .booth-prediction {{font-size:2.8rem; font-weight:750; color:#A52C60; margin:0.4rem 0;}}
     .booth-result {{background:#FBE7F0; border:1px solid #E6B4CA; border-radius:16px;
@@ -102,7 +109,9 @@ def update_language() -> None:
 
 
 def footer() -> None:
-    st.markdown(f'<div class="booth-footer">{html.escape(t("disclaimer"))}</div>',
+    """Shown on every page: the disclaimer and short dataset credits."""
+    st.markdown(f'<div class="booth-footer"><strong>{html.escape(t("disclaimer"))}</strong><br>'
+                f'<span class="booth-credits">{html.escape(t("credits_short"))}</span></div>',
                 unsafe_allow_html=True)
 
 

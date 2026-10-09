@@ -11,3 +11,6 @@ outputs/
 export/
 *.zip
 models/*.pt
+
+# Smoke-test screenshots (scripts/smoke_test.py)
+smoke_out/
