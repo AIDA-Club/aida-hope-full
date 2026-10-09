@@ -79,7 +79,7 @@
   "explain_term": "Explain a Term",
   "get_help": "Where to Get Help",
   "ask_prompt": "Tap any topic above to begin.",
-  "offline_note": "Offline educational answers · no live AI or personal questions are sent anywhere.",
+  "offline_note": "Offline educational answers · typed questions are answered from prepared text and are not sent anywhere.",
   "kb_missing": "This answer is unavailable. Ask staff to check the local knowledge-base file.",
   "field_missing": "A required field is missing from the booth dataset.",
   "validation_detail": "Case {case_id} · field: {field}.",
@@ -109,5 +109,14 @@
   "biopsy_note": "Based on cell measurements from biopsy samples, not from the ultrasound images.",
   "gauge_label": "{prediction} · {percent:.0f}%",
   "gauge_probability_note": "The percentage is the model's probability for the displayed class.",
-  "presets_mismatch": "The saved class medians are missing or do not match the model's training split. Ask staff to verify the WDBC training data."
+  "presets_mismatch": "The saved class medians are missing or do not match the model's training split. Ask staff to verify the WDBC training data.",
+  "chat_disclaimer": "General education only. Not medical advice. Please don't share personal health details.",
+  "chat_heading": "Ask your own question",
+  "chat_placeholder": "Type a question about breast health (English or Arabic)",
+  "chat_offline": "The assistant is offline right now, so here is a prepared answer instead.",
+  "chat_too_long": "Please keep your question under {limit} characters.",
+  "chat_empty": "Please type a question first.",
+  "chat_turn_limit": "You have reached the question limit for this session. The topic buttons above still work, and the booth team is happy to help.",
+  "chat_turns_left": "Questions left in this session: {left}",
+  "live_note": "Typed questions are sent to an AI service to generate an answer. Nothing is saved by this app. Topic buttons work offline."
 }

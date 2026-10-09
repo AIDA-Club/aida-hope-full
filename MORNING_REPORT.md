@@ -5,6 +5,9 @@
 - Task 1: folder cases checked by eye; `data/reports/folder_selection.md`.
 - Task 2: `print_content.yaml` (all printed text, EN + draft AR).
 - Task 3: `scripts/build_print.py` → 6 PDFs + previews in `print_out/`.
+- Task 4: knowledge base in `kb/`, live `call_llm()` (in `aida_chat.py`, used by
+  `pages/3_Ask_AIDA.py`), `scripts/eval_chat.py`, `tests/chat_questions.yaml`,
+  `tests/test_chat.py` (13 new tests).
 
 ## Not done / problems
 
@@ -52,6 +55,38 @@
 - Task 3: the take-home sheet's printer note sits in the top margin; cards are
   centred so the Arabic back lines up when printed double-sided (flip on long
   edge).
+- Task 4: the chat logic lives in a new module `aida_chat.py` (no Streamlit
+  inside) so it can be unit-tested and reused by `scripts/eval_chat.py`. The
+  page `pages/3_Ask_AIDA.py` only does the UI.
+- Task 4: Gemini base URL `https://generativelanguage.googleapis.com/v1beta/openai/`
+  was checked on Google's official OpenAI-compatibility page tonight. It can be
+  overridden with `BASE_URL` in secrets. The example model names
+  (`deepseek-chat`, `gemini-3.8-flash`) are only suggestions; check them when
+  you add a key.
+- Task 4: kept the existing National Cancer Institute "Learn more" links in the
+  fallback answers. They were already there (not invented by me), and an
+  existing test checks for them. The answer text itself now uses only the
+  verified WHO facts.
+- Task 4: when the assistant is offline, a typed question gets the closest
+  hand-written answer, chosen by a simple keyword match (EN + AR keywords);
+  "Where to Get Help" is the default when nothing matches.
+- Task 4: the 20-second limit is applied twice: as the HTTP timeout and as a
+  deadline for the whole streamed reply. Retries are off, so a visitor never
+  waits more than about 20 seconds.
+- Task 4: previous turns are sent to the model so follow-up questions work;
+  they live only in the browser session (`st.session_state`), never on disk.
+- Task 4: the bottom note now differs: offline it says nothing is sent
+  anywhere; with a key it says typed questions go to an AI service.
+- Task 4: added a "Men can't get breast cancer" myth to the Myth or Fact
+  fallback, because the offline router sends "can men get breast cancer?"
+  there.
+- Task 4: `scripts/eval_chat.py` can compare several providers: besides the
+  top-level PROVIDER/API_KEY/MODEL it reads optional `[deepseek]` and
+  `[gemini]` sections (see `.streamlit/secrets.example.toml`). With no keys it
+  writes a "Skipped" note to `tests/chat_eval.md`.
+- Task 4: `about_booth.md` describes the model as ResNet18 starting from
+  ImageNet weights, 224 px, trained on Curated BUSI with a 314/68/68 split. I
+  took these from `busi_pipeline.ipynb` and `metrics.json`.
 
 ## Needs the owner's review before printing
 
