@@ -149,13 +149,55 @@ class PublicAppTests(unittest.TestCase):
         self.assertIn(booth.translations("en")["case_credits"],
                       next(m.value for m in app.markdown if 'class="booth-footer"' in m.value))
 
-    def test_wrong_cases_section(self):
-        text = booth.translations("en")
-        app = public_app("en", PAGES[0])
-        app.toggle(key="show_wrong").set_value(True).run()
-        self.assertFalse(app.exception)
-        for cid in ("17", "25", "26", "28", "04"):
-            self.assertIn(text[f"wrong_{cid}_text"], texts(app))
+    def test_all_six_patient_folders(self):
+        folders = [line for line in (ROOT / "print_content.yaml").read_text(encoding="utf-8").splitlines()
+                   if line.startswith("  - number:")]
+        self.assertEqual(len(folders), 6)
+        for lang in ("en", "ar"):
+            text = booth.translations(lang)
+            app = public_app(lang, PAGES[0])
+            app.toggle(key="show_wrong").set_value(True).run()
+            self.assertFalse(app.exception)
+            for number, cid in enumerate(("17", "25", "26", "28", "04", "folder6"), start=1):
+                self.assertIn(text[f"wrong_{cid}_text"], texts(app))
+                self.assertIn(text["folder_label"].format(n=number), texts(app))
+
+    def test_folder6_matches_the_model_predictions(self):
+        import csv
+        import json
+        folder = json.loads((ROOT / "data" / "folders" / "folder6.json").read_text(encoding="utf-8"))
+        with (ROOT / "data" / "reports" / "predictions.csv").open(encoding="utf-8", newline="") as handle:
+            row = next(r for r in csv.DictReader(handle) if r["file_name"] == folder["source_file"])
+        self.assertEqual(folder["source_file"], "malignant_id_153.png")  # print_content.yaml folder 6
+        self.assertEqual((folder["truth"], folder["ai_pred"]), (row["truth"], row["pred"]))
+        for label in booth.CLASSES:
+            self.assertAlmostEqual(folder["ai_probs"][label], float(row[f"prob_{label}"]))
+        self.assertAlmostEqual(folder["cam_mask_overlap"], float(row["cam_mask_overlap"]))
+
+    def test_explanations_follow_the_data(self):
+        """Every case gets one line; "wrong reason" only from a measured overlap under 0.1, never normal."""
+        import json
+        # The page's helpers without its last line (which would draw the page).
+        source = (ROOT / PAGES[0]).read_text(encoding="utf-8").replace("\nchallenge()\n", "\n")
+        namespace = {}
+        exec(compile(source, PAGES[0], "exec"), namespace)
+        cases = json.loads((ROOT / "data" / "booth_set.json").read_text(encoding="utf-8"))
+        for lang in ("en", "ar"):
+            text = booth.translations(lang)
+            with patch.object(booth.st, "session_state", {"lang": lang}):
+                lines = {case["case_id"]: namespace["explanation"](case) for case in cases}
+            self.assertEqual(len(lines), 30)
+            for case in cases:
+                wrong_reason = lines[case["case_id"]] == text["explain_right_wrong_place"]
+                expected = (case["correct"] and case["truth"] != "normal"
+                            and case["cam_mask_overlap"] is not None and case["cam_mask_overlap"] < 0.1)
+                self.assertEqual(wrong_reason, expected, case["case_id"])
+                if case["truth"] == "normal":
+                    self.assertNotIn(lines[case["case_id"]], (text["explain_right_on_target"],
+                                     text["explain_right_partly"], text["explain_right_wrong_place"]))
+            unmeasured = dict(cases[0], cam_mask_overlap=None)  # a lesion with no overlap value
+            with patch.object(booth.st, "session_state", {"lang": lang}):
+                self.assertEqual(namespace["explanation"](unmeasured), text["explain_right"])
 
     def test_public_mode_never_writes_files(self):
         with tempfile.TemporaryDirectory() as temporary, \
@@ -210,7 +252,8 @@ class ExportTests(unittest.TestCase):
         expected = {"public_app.py", "booth.py", "slide_image.py", "aida_chat.py", "requirements.txt",
                     "data/booth_set.json", "models/wdbc_model.pkl", "models/wdbc_features.json",
                     "data/slide/base.jpg", "data/slide/background.jpg", "data/slide/nuclei.json",
-                    "data/slide/reference_malignant.jpg", *PAGES}
+                    "data/slide/reference_malignant.jpg", "data/folders/folder6.json",
+                    "data/folders/folder6_overlay.png", *PAGES}
         for number in range(1, 31):
             for folder in ("images", "heatmaps", "overlays"):
                 expected.add(f"data/{folder}/case{number:02d}.png")

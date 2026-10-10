@@ -1,0 +1,15 @@
+{
+  "folder": 6,
+  "source_file": "malignant_id_153.png",
+  "mask_overlay": "folders/folder6_overlay.png",
+  "truth": "malignant",
+  "ai_pred": "malignant",
+  "ai_probs": {
+    "normal": 0.0055,
+    "benign": 0.004,
+    "malignant": 0.9905
+  },
+  "correct": true,
+  "cam_mask_overlap": 0.8183,
+  "note": "Patient folder 6 (print_content.yaml). Not one of the 30 booth cards. Values copied from data/reports/predictions.csv."
+}

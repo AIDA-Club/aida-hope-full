@@ -34,15 +34,15 @@ def slide_view(features: list[dict], values: list[float], medians: dict) -> None
     current = dict(zip(names, values))
     specs = {feature["name"]: feature for feature in features}
     look = slide_image.look_for(current, specs, medians["benign"])
-    with st.container(key="slide_view"):
-        st.subheader(t("slide_heading"))
-        st.image(slide_jpeg(look), width="stretch")
+    st.subheader(t("slide_heading"))
+    with st.container(key="slide_view"):  # stays on screen while the sliders scroll by
         last = st.session_state.get("tweak_last")
         if last:
             st.markdown(f"**{html.escape(t('slide_now', name=t(last), look=t(last + '_look')))}**")
         else:
             st.markdown(f"**{html.escape(t('slide_start'))}**")
-    st.caption(t("slide_caption"))
+        st.image(slide_jpeg(look), width="stretch")
+    st.caption(t("slide_caption"))  # permanent, directly under the image
     with st.expander(t("slide_compare")):
         benign, malignant = st.columns(2)
         benign.image(str(slide_image.SLIDE / "base.jpg"), caption=t("slide_real_benign"), width="stretch")

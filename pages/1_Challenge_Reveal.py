@@ -4,18 +4,20 @@ On the public website (booth.public_mode()): visitors play a 5-case round or typ
 number. No staff controls, no answer key, no logging, nothing written to disk.
 """
 import html
+import json
 import random
 
 import streamlit as st
 
-from booth import (BoothError, CLASSES, PUBLIC_ASSET_FIELDS, asset_path, card_case_id, choose_answer,
+from booth import (ROOT, BoothError, CLASSES, PUBLIC_ASSET_FIELDS, asset_path, card_case_id, choose_answer,
                    keep_answer, load_cases, next_visitor, public_mode, save_round, set_phase,
                    start_round, t, zoomable_image)
 
 ROUND_SIZE = 5
-# The patient-folder cases (print_content.yaml folders 1-5): four real AI errors and one
-# right-for-the-wrong-reason case. Their texts are the wrong_<id>_* translation keys.
-WRONG_CASES = ("17", "25", "26", "28", "04")
+# The six patient folders (print_content.yaml), in folder order: four real AI errors, one
+# right-for-the-wrong-reason case and one it got right. Folders 1-5 are booth cards; folder 6
+# is not, so its data lives in data/folders/folder6.json. Texts: the wrong_<id>_* keys.
+FOLDER_CASES = ("17", "25", "26", "28", "04", "folder6")
 
 
 def what_we_learned(stacked: bool = False) -> None:
@@ -78,8 +80,9 @@ def explanation(case: dict) -> str:
     elif case["truth"] == "normal":
         key = "explain_right_normal"
     else:
+        # "Right answer, wrong reason" only from a measured overlap under 0.1 (never for normal tissue).
         key = {"overlap_yes": "explain_right_on_target", "overlap_partly": "explain_right_partly",
-               "overlap_no": "explain_right_wrong_place", None: "explain_right_on_target"}[overlap_label(case)]
+               "overlap_no": "explain_right_wrong_place", None: "explain_right"}[overlap_label(case)]
     return t(key, pred=pred, truth=truth, percent=percent)
 
 
@@ -250,16 +253,25 @@ def public_start(cases: dict) -> None:
     wrong_cases(cases)
 
 
+def folder_case(cid: str, cases: dict) -> dict:
+    if cid in cases:
+        return cases[cid]
+    return json.loads((ROOT / "data" / "folders" / f"{cid}.json").read_text(encoding="utf-8"))
+
+
 def wrong_cases(cases: dict) -> None:
-    """The AI's real mistakes (the booth's patient folders), shown only when asked for."""
+    """The booth's six patient folders (mostly the AI's real mistakes), shown only when asked for."""
     st.subheader(t("wrong_title"))
     st.write(t("wrong_intro"))
     if not st.toggle(t("wrong_show"), key="show_wrong"):
         return
-    for cid in WRONG_CASES:
-        case = cases[cid]
+    for number, cid in enumerate(FOLDER_CASES, start=1):
+        case = folder_case(cid, cases)
+        label = f"{t('folder_label', n=number)} · {t(f'wrong_{cid}_title')}"
+        if cid in cases:
+            label += f" · {t('card_label', card=int(cid))}"
         with st.container(border=True):
-            st.markdown(f"**{t('card_label', card=int(cid))} · {t(f'wrong_{cid}_title')}**")
+            st.markdown(f"**{html.escape(label, quote=False)}**")
             st.write(t("wrong_summary", pred=t(case["ai_pred"]), truth=t(case["truth"]),
                        percent=case["ai_probs"][case["ai_pred"]] * 100))
             zoomable_image(asset_path(case["mask_overlay"], cid, "mask_overlay"), t("truth_overlay"),

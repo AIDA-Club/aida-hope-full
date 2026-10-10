@@ -282,13 +282,15 @@ def run_public_language(page, lang: str, results: dict, folder: Path) -> None:
     play_public_case(page, "benign", f"{lang}_challenge_card17", lang, results, folder)
     tap(page, "play_again")
     page.locator(".st-key-show_wrong label").click()
-    page.get_by_text(text["wrong_17_text"], exact=True).wait_for()
+    for cid in ("17", "folder6"):  # first and last of the six patient folders
+        page.get_by_text(text[f"wrong_{cid}_text"], exact=True).wait_for()
     check_phone(page, f"{lang}_challenge_wrong_cases", lang, results, folder)
 
     # Tweak the Tumor: the microscope image follows the sliders.
     phone_nav(page, text["tweak_title"])
     picture = page.locator(".st-key-slide_view img")
     picture.wait_for()
+    page.get_by_text(text["slide_caption"], exact=True).wait_for()  # the permanent caption
     before = picture.get_attribute("src")
     slider = page.locator('[data-testid="stSlider"] input[type="range"]').first  # nucleus size
     slider.focus()

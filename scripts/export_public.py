@@ -32,6 +32,8 @@ FILES = {
     "pages/3_Ask_AIDA.py": "pages/3_Ask_AIDA.py",
     "pages/4_About.py": "pages/4_About.py",
     "data/booth_set.json": "data/booth_set.json",
+    "data/folders/folder6.json": "data/folders/folder6.json",          # patient folder 6 (not a booth card)
+    "data/folders/folder6_overlay.png": "data/folders/folder6_overlay.png",
     "models/wdbc_model.pkl": "models/wdbc_model.pkl",
     "models/wdbc_features.json": "models/wdbc_features.json",
     "data/slide/base.jpg": "data/slide/base.jpg",
