@@ -2,6 +2,7 @@ import html
 
 import streamlit as st
 
+import slide_image
 from booth import BoothError, ROOT, load_class_medians, load_model_bundle, malignant_probability, t
 
 FRIENDLY_FEATURES = {"mean radius": "nucleus_size", "mean texture": "texture",
@@ -13,6 +14,41 @@ def reset_measurements(features: list[dict], medians: dict, label: str) -> None:
     for feature in features[:5]:
         st.session_state[f"feature_{feature['name']}"] = float(medians[label][feature["name"]])
     st.session_state["decision_threshold"] = 0.5
+    st.session_state.pop("tweak_last", None)
+
+
+def remember(friendly: str | None) -> None:
+    st.session_state["tweak_last"] = friendly
+
+
+@st.cache_data(show_spinner=False, max_entries=256)
+def slide_jpeg(look: slide_image.Look) -> bytes:
+    return slide_image.render_jpeg(look)
+
+
+def slide_view(features: list[dict], values: list[float], medians: dict) -> None:
+    """The real microscope image, reshaped to match the current slider values."""
+    names = [feature["name"] for feature in features]
+    if not set(slide_image.FEATURES) <= set(names):
+        return  # a different model: no matching picture
+    current = dict(zip(names, values))
+    specs = {feature["name"]: feature for feature in features}
+    look = slide_image.look_for(current, specs, medians["benign"])
+    with st.container(key="slide_view"):
+        st.subheader(t("slide_heading"))
+        st.image(slide_jpeg(look), width="stretch")
+        last = st.session_state.get("tweak_last")
+        if last:
+            st.markdown(f"**{html.escape(t('slide_now', name=t(last), look=t(last + '_look')))}**")
+        else:
+            st.markdown(f"**{html.escape(t('slide_start'))}**")
+    st.caption(t("slide_caption"))
+    with st.expander(t("slide_compare")):
+        benign, malignant = st.columns(2)
+        benign.image(str(slide_image.SLIDE / "base.jpg"), caption=t("slide_real_benign"), width="stretch")
+        malignant.image(str(slide_image.SLIDE / "reference_malignant.jpg"), caption=t("slide_real_malignant"),
+                        width="stretch")
+    st.caption(t("slide_credits"))
 
 st.title(t("tweak_title"))
 st.write(t("tweak_intro"))
@@ -41,6 +77,7 @@ malignant.button(t("reset_malignant"), key="reset_malignant", width="stretch",
 controls, display = st.columns([1.1, 1], gap="large")
 values = [float(feature["median"]) for feature in features]
 with controls:
+    slide_slot = st.container()  # filled after the sliders, so it shows their current values
     st.subheader(t("feature_controls"))
     for index, feature in enumerate(features[:5]):
         friendly = FRIENDLY_FEATURES.get(feature["name"])
@@ -49,12 +86,14 @@ with controls:
         widget_key = f"feature_{feature['name']}"
         values[index] = st.slider(label, min_value=float(feature["min"]), max_value=float(feature["max"]),
                                   value=None if widget_key in st.session_state else float(feature["median"]),
-                                  help=help_text, key=widget_key)
+                                  help=help_text, key=widget_key, on_change=remember, args=(friendly,))
     threshold = st.slider(t("decision_threshold"), 0.0, 1.0,
                           None if "decision_threshold" in st.session_state else 0.5,
                           0.01, key="decision_threshold")
     st.caption(t("threshold_note"))
     st.write(t("threshold_tradeoff"))
+    with slide_slot:
+        slide_view(features, values, medians)
 
 with display:
     try:

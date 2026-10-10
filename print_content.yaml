@@ -10,8 +10,13 @@
 # - Every Arabic string is a DRAFT and must be reviewed by a native speaker
 #   before printing (keys ending in _ar, and the "ar:" blocks).
 
+# true: every PDF carries an "Arabic draft: needs native review" mark next to its Arabic.
+# Set to false only after a native speaker has reviewed every Arabic string, then rebuild.
+draft_marks: true
+
 meta:
   arabic_review_status: "DRAFT - needs native Arabic review"
+  draft_mark: "Arabic draft: needs native review"
   footer: "AIDA × Hope — Educational use only"
   footer_ar: "AIDA × Hope — للاستخدام التعليمي فقط"
 
@@ -34,6 +39,9 @@ answer_key:
 case_cards:
   label: "CASE"
   prompt: "Normal, benign or malignant? Decide before the AI does."
+  # Small QR line at the bottom of each card; {n} = the card number (1-30).
+  phone: "Play this card on your phone: scan the QR, enter card #{n}"
+  phone_ar: "العبوا بهذه البطاقة على هواتفكم: امسحوا الرمز وأدخلوا رقم البطاقة {n}"
 
 # ---------------------------------------------------------------------------
 # Patient folders (folders.pdf)
@@ -307,7 +315,7 @@ takehome:
       - "Unusual or bloody fluid from the nipple"
     reassurance: "Most lumps are not cancer, but any change is worth checking with a doctor."
     men: "Men can get breast cancer too (rare)."
-    qr_caption: "Scan to Ask AIDA"
+    qr_caption: "Scan to play & ask AIDA"
   ar:
     title: "اعرفوا ما هو طبيعي لكم"
     signs_heading: "راجعوا الطبيب عند ملاحظة:"
@@ -319,7 +327,7 @@ takehome:
       - "إفرازات غير طبيعية أو دموية من الحلمة"
     reassurance: "معظم الكتل ليست سرطاناً، لكن أي تغيّر يستحق الفحص عند الطبيب."
     men: "الرجال أيضاً قد يُصابون بسرطان الثدي (نادراً)."
-    qr_caption: "امسحوا الرمز لتسألوا AIDA"
+    qr_caption: "امسحوا الرمز للعب وسؤال AIDA"
 
 # ---------------------------------------------------------------------------
 # Poster (poster_A2.pdf)
@@ -351,7 +359,8 @@ poster:
     model_note: "وأعطى أيضاً 3 إنذارات كاذبة. 68 صورة اختبار صغير، فتعاملوا مع هذه الأرقام بحذر."
     theme: "لكل قصة تفرّدها، ولكل رحلة أهميتها. (شهر التوعية بسرطان الثدي 2026، منظمة الصحة العالمية)"
     disclaimer: "عرض توضيحي تعليمي فقط. ليس للتشخيص."
-  qr_label: "Ask AIDA: breast cancer questions, in English and Arabic"
+  qr_label: "Scan to play & ask AIDA"
+  qr_label_ar: "امسحوا الرمز للعب وسؤال AIDA"
   credits_heading: "Credits"
   organisers: "AIDA Club × IEEE AU Student Cabinet · Hope Fair, Ajman University, 15 October 2026"
 

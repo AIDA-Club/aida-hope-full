@@ -301,13 +301,16 @@ class PublicExportTests(unittest.TestCase):
         self.assertFalse((dest / "stale.txt").exists(), "re-export must remove files no longer exported")
 
     def test_export_skips_private_files(self):
+        # The public Challenge uses the 30 booth cases (spoilers are fine), never logs or keys.
         _, copied = self.export()
         for name in copied:
-            for private in ("docs/", "booth_set", "results.csv", "1_Challenge", "2_Tweak", "secrets.toml"):
+            for private in ("docs/", "booth_set_demo", "results.csv", "answer", "secrets.toml", "print"):
                 if name != ".streamlit/secrets.example.toml":
                     self.assertNotIn(private, name)
-        self.assertEqual([name for name in copied if name.startswith("data/")],
+        data = [name for name in copied if name.startswith("data/")]
+        self.assertEqual([name for name in data if name.startswith("data/reports/")],
                          ["data/reports/confusion_matrix.png", "data/reports/metrics.json"])
+        self.assertEqual(len([name for name in data if name.split("/")[1] in ("images", "heatmaps", "overlays")]), 90)
 
 
 class AskPageTests(unittest.TestCase):

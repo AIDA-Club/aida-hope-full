@@ -10,3 +10,5 @@ arabic-reshaper>=3.0
 python-bidi>=0.6
 qrcode>=8.0
 pypdfium2>=5.0
+# Print checks (scripts/check_print.py decodes every QR code)
+opencv-python-headless>=5.0

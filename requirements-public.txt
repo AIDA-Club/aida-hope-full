@@ -5,3 +5,9 @@ streamlit==1.65.0
 # Ask AIDA live answers (OpenAI-compatible client for DeepSeek / Gemini)
 openai==3.28.0
 markdown-it-py==4.0.0
+# Tweak the Tumor: models/wdbc_model.pkl was saved with scikit-learn 1.6.1; keep the
+# numerical stack at the versions it was tested with (scipy also draws the microscope view).
+scikit-learn==1.6.1
+numpy==2.5.3
+scipy==1.18.1
+pandas==3.0.6

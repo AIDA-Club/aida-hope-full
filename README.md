@@ -234,9 +234,14 @@ Test CSVs and model fixtures live in temporary folders; no booth results are
 created by tests.
 
 
-## Public deployment (Ask AIDA + About only)
+## Public deployment (https://aidaxhope.streamlit.app/)
 
-`public_app.py` serves only Ask AIDA and About: no Challenge, no Tweak the Tumor, no `booth_set.json`, no answer key, no `results.csv`.
+`public_app.py` serves Home, Can you beat the AI?, Tweak the Tumor, Ask AIDA and About, running the booth's
+pages in public mode (`booth.public_mode()`): the Challenge offers a 5-case round or a printed card number (1-30),
+has no staff controls, answer key or "next visitor" flow, and nothing is ever written to disk (no `results.csv`,
+no uploads). It uses the same 30 cases as the booth (`data/booth_set.json`, screen images only).
+Tweak the Tumor shows a real breast FNAC microscope image (Patil, Jain, Sethi, Zenodo 2026, CC BY 4.0) whose
+nuclei follow the sliders (`slide_image.py`; assets made once by `scripts/prepare_slide.py`).
 Run `.venv\Scripts\python.exe scripts\export_public.py` to copy exactly the files it needs into `public_deploy/` (git-ignored), then push that folder
 as its own public repo and deploy `public_app.py` on Streamlit Community Cloud. Put the API key in the app's Secrets box
 (same keys as `.streamlit/secrets.example.toml`), never in the repo. Without a key the page answers offline.

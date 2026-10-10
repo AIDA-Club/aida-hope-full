@@ -1,12 +1,17 @@
 """Headless smoke test of every page, in English and Arabic. Requires playwright and local Chrome.
 
 Run from the project folder (Windows):
-    .venv\\Scripts\\python.exe scripts\\smoke_test.py
+    .venv\\Scripts\\python.exe scripts\\smoke_test.py [--public-python PATH]
 
-- Starts its own headless Streamlit server on port 8503.
-- Uses a temporary results CSV, so data/results.csv is never touched.
+- Booth: starts its own headless Streamlit server (Home.py) on port 8503, with a temporary
+  results CSV, so data/results.csv is never touched.
+- Public website: then serves public_deploy/public_app.py on port 8505 (run
+  scripts/export_public.py first) at phone size, 375 x 812, and plays both Challenge modes,
+  Tweak the Tumor, Ask AIDA and About in English and Arabic. --public-python runs that server
+  with another interpreter, e.g. a fresh venv built only from public_deploy/requirements.txt.
+  It fails if any file in public_deploy/ is created or changed while visitors play.
 - Forces Ask AIDA offline (no API key), so nothing is sent anywhere.
-- Saves screenshots and a summary to smoke_out/ (git-ignored).
+- Saves screenshots and a summary to smoke_out/ (git-ignored); the public ones in smoke_out/public/.
 """
 from __future__ import annotations
 
@@ -24,6 +29,10 @@ ROOT = Path(__file__).resolve().parents[1]
 OUTPUT = ROOT / "smoke_out"
 PORT = 8503
 URL = f"http://127.0.0.1:{PORT}"
+PUBLIC_DIR = ROOT / "public_deploy"
+PUBLIC_PORT = 8505
+PUBLIC_URL = f"http://127.0.0.1:{PUBLIC_PORT}"
+PHONE = {"width": 375, "height": 812}
 CHROME = "C:/Program Files/Google/Chrome/Application/chrome.exe"
 sys.path.insert(0, str(ROOT))
 from booth import translations  # noqa: E402
@@ -34,14 +43,19 @@ WRAPPER = ("import sys; from pathlib import Path; import booth, aida_chat; "
            "from streamlit.web import cli; sys.argv = ['streamlit', 'run', sys.argv[2], "
            f"'--server.headless', 'true', '--server.address', '127.0.0.1', '--server.port', '{PORT}']; "
            "cli.main()")
+# The public server: run from public_deploy/ with Ask AIDA forced offline (nothing else patched).
+PUBLIC_WRAPPER = ("import sys; import aida_chat; aida_chat.settings_from = lambda secrets: None; "
+                  "from streamlit.web import cli; sys.argv = ['streamlit', 'run', 'public_app.py', "
+                  "'--server.headless', 'true', '--server.address', '127.0.0.1', "
+                  f"'--server.port', '{PUBLIC_PORT}', '--browser.gatherUsageStats', 'false']; cli.main()")
 
 
-def wait_for_server(server: subprocess.Popen) -> None:
-    for _ in range(150):
+def wait_for_server(server: subprocess.Popen, url: str = URL) -> None:
+    for _ in range(300):
         if server.poll() is not None:
             raise RuntimeError("The smoke-test server exited before startup.")
         try:
-            with urllib.request.urlopen(f"{URL}/_stcore/health", timeout=1) as response:
+            with urllib.request.urlopen(f"{url}/_stcore/health", timeout=1) as response:
                 if response.status == 200:
                     return
         except OSError:
@@ -49,7 +63,7 @@ def wait_for_server(server: subprocess.Popen) -> None:
     raise RuntimeError("The smoke-test server did not start.")
 
 
-def check_page(page, name: str, lang: str, results: dict) -> None:
+def check_page(page, name: str, lang: str, results: dict, folder: Path = OUTPUT) -> None:
     """No Streamlit exception, the right text direction, the footer, then a screenshot."""
     page.wait_for_timeout(600)
     # The footer is drawn last (after the page script finishes), so wait for it rather
@@ -62,7 +76,7 @@ def check_page(page, name: str, lang: str, results: dict) -> None:
     direction = page.evaluate("getComputedStyle(document.querySelector('.stApp')).direction")
     assert direction == ("rtl" if lang == "ar" else "ltr"), f"{name}: direction {direction}"
     assert page.locator(".booth-footer").count() == 1, f"{name}: footer missing"
-    page.screenshot(path=str(OUTPUT / f"{name}.png"), full_page=True)
+    page.screenshot(path=str(folder / f"{name}.png"), full_page=True)
     results[name] = f"ok ({direction})"
 
 
@@ -157,8 +171,186 @@ def run_language(page, lang: str, results: dict) -> None:
     check_page(page, f"{lang}_about", lang, results)
 
 
+# ---------------------------------------------------------------------------
+# Public website, phone size
+# ---------------------------------------------------------------------------
+def tap(page, key: str) -> None:
+    button = page.locator(f".st-key-{key} button")
+    button.wait_for()
+    page.wait_for_function("s => !document.querySelector(s).disabled", arg=f".st-key-{key} button")
+    button.click()
+    page.wait_for_timeout(300)
+
+
+def open_sidebar(page) -> None:
+    if page.locator('[data-testid="stSidebar"]').get_attribute("aria-expanded") != "true":
+        page.locator('[data-testid="stExpandSidebarButton"], '
+                     '[data-testid="stSidebarCollapsedControl"] button').first.click()
+        page.wait_for_timeout(600)
+
+
+def close_sidebar(page) -> None:
+    if page.locator('[data-testid="stSidebar"]').get_attribute("aria-expanded") == "true":
+        page.locator('[data-testid="stSidebarCollapseButton"] button, '
+                     '[data-testid="stSidebarHeader"] button').first.click()
+        page.wait_for_timeout(500)
+
+
+def phone_nav(page, title: str) -> None:
+    open_sidebar(page)
+    page.locator('[data-testid="stSidebarNav"]').get_by_role("link", name=title, exact=True).click()
+    page.wait_for_timeout(1000)
+    close_sidebar(page)
+
+
+def check_phone(page, name: str, lang: str, results: dict, folder: Path) -> None:
+    """Checks at 375 x 812, then a screenshot of the visible screen and one of the whole page.
+
+    Streamlit scrolls inside its own panel, so the full-length picture is taken by making
+    the window as tall as the content (same 375 px width) and then restoring it.
+    """
+    overflow = page.evaluate("document.documentElement.scrollWidth > window.innerWidth + 1")
+    assert not overflow, f"{name}: page scrolls sideways at {PHONE['width']} px"
+    peeking = page.evaluate("""() => { const bar = document.querySelector('[data-testid="stSidebar"]');
+        if (bar.getAttribute('aria-expanded') !== 'false') return [];
+        return [bar, ...bar.querySelectorAll('*')].filter(e => {
+            const box = e.getBoundingClientRect();
+            return getComputedStyle(e).visibility !== 'hidden' && box.width > 0 && box.height > 0
+                   && box.right > 0 && box.left < window.innerWidth; }).map(e => e.tagName).slice(0, 5); }""")
+    assert not peeking, f"{name}: the collapsed sidebar shows over the page"
+    check_page(page, name, lang, results, folder)
+    results[f"public_{name}"] = results.pop(name)
+    height = page.evaluate("Math.max(...[...document.querySelectorAll('[data-testid=\"stMain\"], "
+                           "[data-testid=\"stMainBlockContainer\"]')].map(e => e.scrollHeight))")
+    page.set_viewport_size({"width": PHONE["width"], "height": min(int(height) + 120, 9000)})
+    page.wait_for_timeout(700)
+    page.screenshot(path=str(folder / f"{name}_full.png"))
+    page.set_viewport_size(PHONE)
+    page.wait_for_timeout(300)
+
+
+def play_public_case(page, answer: str, shot: str | None, lang: str, results: dict, folder: Path) -> None:
+    """Choose (the AI reveal is locked until then), reveal the AI, reveal the truth."""
+    assert page.locator(".st-key-public_reveal_ai button").is_disabled(), "AI reveal not locked before choosing"
+    tap(page, f"pick_{answer}")
+    tap(page, "public_reveal_ai")
+    page.locator(".booth-prediction").wait_for()
+    if shot:
+        check_phone(page, f"{shot}_ai", lang, results, folder)
+    tap(page, "public_reveal_truth")
+    page.locator(".booth-result").wait_for()
+    if shot:
+        check_phone(page, f"{shot}_truth", lang, results, folder)
+    tap(page, "public_next")
+
+
+def run_public_language(page, lang: str, results: dict, folder: Path) -> None:
+    text = translations(lang)
+    page.goto(PUBLIC_URL)
+    page.locator('[data-testid="stSidebar"]').wait_for(state="attached")
+    if lang == "ar":
+        open_sidebar(page)
+        page.locator('[data-testid="stSidebar"]').get_by_text(translations("ar")["language_name"],
+                                                               exact=True).click()
+        page.wait_for_timeout(1000)
+        close_sidebar(page)
+    page.get_by_text(text["public_home_intro"], exact=True).wait_for()
+    check_phone(page, f"{lang}_home", lang, results, folder)
+
+    # Challenge (a): a round of 5 random cases.
+    phone_nav(page, text["public_challenge_title"])
+    tap(page, "play_round")
+    for index in range(5):
+        play_public_case(page, "malignant", f"{lang}_challenge_round" if index == 0 else None,
+                         lang, results, folder)
+    page.locator(".booth-station").filter(has_text=text["station_message"]).wait_for()
+    check_phone(page, f"{lang}_challenge_round_end", lang, results, folder)
+    tap(page, "play_again")
+
+    # Challenge (b): a card number, after a polite rejection of a wrong one.
+    entry = page.locator(".st-key-card_number input")
+    entry.fill("45")
+    page.locator('[data-testid="stFormSubmitButton"] button').click()
+    page.get_by_text(text["card_invalid"], exact=True).wait_for()
+    entry.fill("17")
+    page.locator('[data-testid="stFormSubmitButton"] button').click()
+    page.get_by_text(text["round_progress"].format(current=1, total=1, card=17), exact=True).wait_for()
+    zoom = page.locator("label.booth-zoom").first  # tap to enlarge, tap again to close
+    zoom.click()
+    assert zoom.evaluate("e => getComputedStyle(e).position") == "fixed", "image did not enlarge"
+    zoom.click()
+    play_public_case(page, "benign", f"{lang}_challenge_card17", lang, results, folder)
+    tap(page, "play_again")
+    page.locator(".st-key-show_wrong label").click()
+    page.get_by_text(text["wrong_17_text"], exact=True).wait_for()
+    check_phone(page, f"{lang}_challenge_wrong_cases", lang, results, folder)
+
+    # Tweak the Tumor: the microscope image follows the sliders.
+    phone_nav(page, text["tweak_title"])
+    picture = page.locator(".st-key-slide_view img")
+    picture.wait_for()
+    before = picture.get_attribute("src")
+    slider = page.locator('[data-testid="stSlider"] input[type="range"]').first  # nucleus size
+    slider.focus()
+    slider.press("End")  # largest nuclei
+    page.get_by_text(text["slide_now"].format(name=text["nucleus_size"], look=text["nucleus_size_look"]),
+                     exact=True).wait_for()
+    page.wait_for_timeout(800)
+    assert picture.get_attribute("src") != before, "the microscope image did not change with the slider"
+    check_phone(page, f"{lang}_tweak", lang, results, folder)
+
+    phone_nav(page, text["ask_title"])
+    tap(page, "know_signs")
+    box = page.locator('[data-testid="stChatInputTextArea"]')
+    box.fill(text["know_signs"])
+    box.press("Enter")
+    page.get_by_text(text["chat_offline"], exact=True).first.wait_for()
+    check_phone(page, f"{lang}_ask", lang, results, folder)
+
+    phone_nav(page, text["about_title"])
+    page.locator('[data-testid="stMetric"]').first.wait_for()
+    check_phone(page, f"{lang}_about", lang, results, folder)
+
+
+def snapshot(folder: Path) -> dict[str, tuple[int, int]]:
+    return {path.relative_to(folder).as_posix(): (path.stat().st_size, path.stat().st_mtime_ns)
+            for path in folder.rglob("*") if path.is_file()
+            and not {".git", "__pycache__"} & set(path.relative_to(folder).parts)}
+
+
+def run_public(browser, python: str, results: dict) -> None:
+    folder = OUTPUT / "public"
+    folder.mkdir(parents=True, exist_ok=True)
+    if not (PUBLIC_DIR / "public_app.py").is_file():
+        raise RuntimeError("public_deploy/ is missing: run scripts/export_public.py first.")
+    before = snapshot(PUBLIC_DIR)
+    with (folder / "server.log").open("w", encoding="utf-8") as log:
+        server = subprocess.Popen([python, "-c", PUBLIC_WRAPPER], cwd=PUBLIC_DIR, stdout=log,
+                                  stderr=subprocess.STDOUT)
+        try:
+            wait_for_server(server, PUBLIC_URL)
+            page = browser.new_page(viewport=PHONE, is_mobile=True, has_touch=True, device_scale_factor=2)
+            page.on("pageerror", lambda error: results.setdefault("browser_errors", []).append(str(error)))
+            page.set_default_timeout(30000)
+            for lang in ("en", "ar"):
+                run_public_language(page, lang, results, folder)
+            page.close()
+        finally:
+            server.terminate()
+            try:
+                server.wait(timeout=10)
+            except subprocess.TimeoutExpired:
+                server.kill()
+    changed = sorted(set(before.items()) ^ set(snapshot(PUBLIC_DIR).items()))
+    assert not changed, f"the public app wrote files: {changed}"
+    results["public_files_written"] = 0
+    results["public_python"] = python
+
+
 def main() -> int:
     OUTPUT.mkdir(exist_ok=True)
+    public_python = (sys.argv[sys.argv.index("--public-python") + 1] if "--public-python" in sys.argv
+                     else sys.executable)
     results: dict = {}
     with tempfile.TemporaryDirectory() as temporary, (OUTPUT / "server.log").open("w", encoding="utf-8") as log:
         server = subprocess.Popen([sys.executable, "-c", WRAPPER, str(Path(temporary) / "results.csv"),
@@ -179,6 +371,7 @@ def main() -> int:
                 overflow = phone.evaluate("document.documentElement.scrollWidth > window.innerWidth + 1")
                 assert not overflow, "Ask AIDA scrolls sideways on a phone"
                 check_page(phone, "phone_ask", "en", results)
+                run_public(browser, public_python, results)
                 assert not results.get("browser_errors"), "Browser reported a JavaScript error"
                 browser.close()
             results["status"] = "PASS"

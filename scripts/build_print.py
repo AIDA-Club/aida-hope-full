@@ -221,6 +221,16 @@ def overlap_label(case: dict) -> str:
     return "Yes" if overlap >= 0.3 else "Partly" if overlap >= 0.1 else "No"
 
 
+def draft_mark(c: Canvas, content: dict, x: float, y: float, align: str = "left", size: float = 7.5) -> None:
+    """The "Arabic draft: needs native review" mark; drawn only while draft_marks is true."""
+    if not content.get("draft_marks", True):
+        return
+    c.setFont(SANS, size)
+    c.setFillColor(GREY)
+    {"left": c.drawString, "right": c.drawRightString, "center": c.drawCentredString}[align](
+        x, y, content["meta"]["draft_mark"])
+
+
 def footer(c: Canvas, page_width: float, text: str, y: float = 9 * mm, size: float = 8) -> None:
     c.setFont(SANS, size)
     c.setFillColor(GREY)
@@ -234,6 +244,9 @@ def build_case_cards(content: dict, booth: list[dict]) -> Path:
     path = OUT / "case_cards.pdf"
     width, height = A5
     margin = 8 * mm  # more than the required 5 mm safe margin
+    text = content["case_cards"]
+    qr_mm = 18
+    qr = qr_image(content["takehome"]["qr_url"], qr_mm)
     c = Canvas(str(path), pagesize=A5)
     c.setTitle("AIDA × Hope case cards")
     for case in sorted(booth, key=lambda item: item["case_id"]):
@@ -249,8 +262,18 @@ def build_case_cards(content: dict, booth: list[dict]) -> Path:
         top = height - margin - 22 * mm
         # data/images has no burned-in label; image_300dpi() Lanczos-upscales it to 300 dpi.
         place_image(c, DATA / case["image"], margin, top - image_mm * mm, image_mm)
-        draw_text(c, content["case_cards"]["prompt"], margin, top - image_mm * mm - 9 * mm,
+        draw_text(c, text["prompt"], margin, top - image_mm * mm - 9 * mm,
                   width - 2 * margin, SANS_BOLD, 12, INK, align="center")
+        # Small QR row: play this exact card on a phone (the website asks for the card number).
+        number = int(case["case_id"])
+        qr_y = margin + 6 * mm
+        c.drawImage(qr, margin, qr_y, qr_mm * mm, qr_mm * mm)
+        text_x = margin + (qr_mm + 4) * mm
+        text_w = width - margin - text_x
+        draw_text(c, text["phone"].format(n=number), text_x, qr_y + 12 * mm, text_w, SANS_BOLD, 9.5, INK)
+        draw_text(c, text["phone_ar"].format(n=number), text_x, qr_y + 5 * mm, text_w, AR, 9.5 * AR_SCALE,
+                  INK, arabic=True)
+        draft_mark(c, content, width - margin, qr_y + 0.5 * mm, align="right", size=5.5)
         footer(c, width, content["meta"]["footer"], y=margin + 1 * mm)
         c.showPage()
     c.save()
@@ -522,9 +545,7 @@ def folder_verdict(c: Canvas, content: dict, folder: dict) -> None:
     # Arabic verdict (draft) on the right
     y = draw_text(c, folder["ar"]["verdict"], margin, y - 4 * mm, width - 2 * margin, AR_BOLD,
                   22 * AR_SCALE, PINK, arabic=True)
-    c.setFont(SANS, 7.5)
-    c.setFillColor(GREY)
-    c.drawRightString(width - margin, y + 2 * mm, "Arabic: draft, needs native review")
+    draft_mark(c, content, width - margin, y + 2 * mm, align="right")
     y = draw_text(c, folder["verdict_subtitle"], margin, y - 6 * mm, width - 2 * margin, SANS_BOLD, 16, INK)
     c.setStrokeColor(RULE)
     c.line(margin, y - 2 * mm, width - margin, y - 2 * mm)
@@ -544,9 +565,7 @@ def folder_safeguard(c: Canvas, content: dict, folder: dict) -> None:
     # Arabic version (draft), right-aligned
     c.setStrokeColor(RULE)
     c.line(margin, y, width - margin, y)
-    c.setFont(SANS, 7.5)
-    c.setFillColor(GREY)
-    c.drawString(margin, y - 6 * mm, "Arabic: draft, needs native review")
+    draft_mark(c, content, margin, y - 6 * mm)
     y = draw_bullets(c, folder["ar"]["human_safeguard"], margin, y - 12 * mm, width - 2 * margin,
                      AR, 14 * AR_SCALE, gap=1.5 * mm, arabic=True)
     # Discussion question in a pink box at the bottom
@@ -608,7 +627,7 @@ def draw_lesion_diagram(c: Canvas, x: float, y: float, w: float, h: float, suspi
         c.ellipse(cx - w * 0.3, cy - h * 0.16, cx + w * 0.3, cy + h * 0.16, stroke=0, fill=1)
 
 
-def tips_page(c: Canvas, text: dict, arabic: bool) -> None:
+def tips_page(c: Canvas, content: dict, text: dict, arabic: bool) -> None:
     width, height = A5
     margin = 12 * mm
     body_w = width - 2 * margin
@@ -647,17 +666,16 @@ def tips_page(c: Canvas, text: dict, arabic: bool) -> None:
               9 * scale, INK, align="center", arabic=arabic)
     footer(c, width, "AIDA × Hope", y=6 * mm, size=7)
     if arabic:
-        c.setFont(SANS, 6.5)
-        c.drawString(margin, 6 * mm, "Arabic draft: needs native review")
+        draft_mark(c, content, margin, 6 * mm, size=6.5)
 
 
 def build_tips_card(content: dict) -> Path:
     path = OUT / "tips_card.pdf"
     c = Canvas(str(path), pagesize=A5)
     c.setTitle("How to read a breast ultrasound")
-    tips_page(c, content["tips_card"]["en"], arabic=False)
+    tips_page(c, content, content["tips_card"]["en"], arabic=False)
     c.showPage()
-    tips_page(c, content["tips_card"]["ar"], arabic=True)
+    tips_page(c, content, content["tips_card"]["ar"], arabic=True)
     c.showPage()
     c.save()
     return path
@@ -668,6 +686,7 @@ def build_tips_card(content: dict) -> Path:
 # ---------------------------------------------------------------------------
 CARD_W, CARD_H = 85 * mm, 55 * mm
 GUTTER = 3 * mm  # space between cards: each card gets its own crop marks inside it
+POSTER_QR_MM = 95  # 95 mm = 269 pt on the A2 poster
 
 
 def qr_image(url: str, size_mm: float = 20) -> ImageReader:
@@ -696,10 +715,16 @@ def draw_card(c: Canvas, x: float, y: float, text: dict, takehome: dict, qr: Ima
     qr_x = x + pad if arabic else x + CARD_W - pad - qr_size
     qr_y = y + 8.5 * mm
     c.drawImage(qr, qr_x, qr_y, qr_size, qr_size)
-    c.setFont(bold_font, 6 * scale)
+    # Caption above the QR in two balanced lines ("Scan to play" / "& ask AIDA"), not one long one.
+    caption_size = 6 * scale
+    words = text["qr_caption"].split()
+    lines = min(([" ".join(words[:cut]), " ".join(words[cut:])] for cut in range(1, len(words))),
+                key=lambda pair: max(width_of(line, bold_font, caption_size, arabic) for line in pair))
+    c.setFont(bold_font, caption_size)
     c.setFillColor(INK)
-    caption = shape_ar(text["qr_caption"]) if arabic else text["qr_caption"]
-    c.drawCentredString(qr_x + qr_size / 2, qr_y + qr_size + 1.6 * mm, caption)
+    for index, line in enumerate(lines):
+        line_y = qr_y + qr_size + 1.6 * mm + (len(lines) - 1 - index) * caption_size * 1.2
+        c.drawCentredString(qr_x + qr_size / 2, line_y, shape_ar(line) if arabic else line)
     if takehome["qr_url"].startswith("["):  # still a placeholder: say so in print
         c.setFont(SANS_BOLD, 5.5)
         c.setFillColor(PINK)
@@ -757,7 +782,7 @@ def build_takehome(content: dict) -> Path:
                 crop_marks(c, x, y)
         c.setFont(SANS, 6)
         c.setFillColor(GREY)
-        side = "Front (English)" if lang == "en" else "Back (Arabic DRAFT)"
+        side = "Front (English)" if lang == "en" else             ("Back (Arabic DRAFT)" if content.get("draft_marks", True) else "Back (Arabic)")
         # Printer note in the top margin, between the crop marks.
         c.drawString(x0 + 9 * mm, height - 6 * mm, f"{side}. Print at 100%, double-sided, flip on long edge.")
         c.showPage()
@@ -785,19 +810,19 @@ def build_poster(content: dict, booth: list[dict]) -> Path:
     c.setTitle("Can you beat the AI?")
 
     # --- Header band: headline in both languages -------------------------------
-    band_h = 120 * mm
+    band_h = 104 * mm
     c.setFillColor(PINK)
     c.rect(0, height - band_h, width, band_h, stroke=0, fill=1)
     size, lines = fit_lines(en["headline"], SANS_BLACK, 120, body_w, 1)
     c.setFont(SANS_BLACK, size)
     c.setFillColor(white)
-    c.drawString(margin, height - 56 * mm, lines[0])
-    draw_text(c, ar["headline"], margin, height - 91 * mm, body_w, AR_BOLD, 52 * AR_SCALE, white, arabic=True)
+    c.drawString(margin, height - 50 * mm, lines[0])
+    draw_text(c, ar["headline"], margin, height - 81 * mm, body_w, AR_BOLD, 50 * AR_SCALE, white, arabic=True)
     c.setFont(SANS_BOLD, 18)
-    c.drawString(margin, height - 111 * mm, poster["organisers"])
+    c.drawString(margin, height - 96 * mm, poster["organisers"])
 
     # --- Station message ---------------------------------------------------------
-    y = height - band_h - 24 * mm
+    y = height - band_h - 20 * mm
     size, _ = fit_lines(en["station_message"], SANS_BLACK, 48, body_w, 1)
     y = draw_text(c, en["station_message"], margin, y, body_w, SANS_BLACK, size, INK)
     size, _ = fit_lines(ar["station_message"], AR_BOLD, 44 * AR_SCALE, body_w, 1, arabic=True)
@@ -838,61 +863,93 @@ def build_poster(content: dict, booth: list[dict]) -> Path:
     y = draw_text(c, ar["model_note"], margin, y, body_w, AR, 16 * AR_SCALE, INK, arabic=True)
     y -= 6 * mm
 
-    # --- Results row: confusion matrix | two booth heatmaps ------------------------
-    matrix_mm = 115
-    matrix_h = place_image(c, DATA / "reports" / "confusion_matrix.png", margin, y - 103.5 * mm, matrix_mm,
-                           border=None)
-    draw_text(c, en["confusion_caption"], margin, y - matrix_h - 6 * mm, matrix_mm * mm, SANS, 13, GREY)
-    right_x = margin + matrix_mm * mm + 12 * mm
-    right_w = width - margin - right_x
-    heat_mm = min((right_w / mm - 8) / 2, 92)
+    y_after_numbers = y
+    # --- Lower half: a left column (results, theme) beside a large QR block -------
+    # The QR is POSTER_QR_MM (95 mm = 269 pt) so phones read it from a few metres away.
+    # Its URL comes from print_content.yaml takehome.qr_url, the same as on the cards.
+    qr_mm, pad = POSTER_QR_MM, 10 * mm
+    url = content["takehome"]["qr_url"]
+    block_w = qr_mm * mm + 2 * pad
+    label_w = block_w - 2 * pad
+    en_size, en_lines = fit_lines(poster["qr_label"], SANS_BLACK, 30, label_w, 1)
+    ar_size, _ = fit_lines(poster["qr_label_ar"], AR_BOLD, 30 * AR_SCALE, label_w, 1, arabic=True)
+    block_h = pad + en_size * 1.2 + ar_size * 1.45 + 5 * mm + qr_mm * mm + 11 * mm + pad
+    block_x = width - margin - block_w
+    left_w = block_x - margin - 12 * mm
+
+    # Results row (left column): confusion matrix | two booth heatmaps.
+    y -= 2 * mm
+    matrix_mm = 86
+    matrix_ratio = Image.open(DATA / "reports" / "confusion_matrix.png").size
+    matrix_h = matrix_mm * mm * matrix_ratio[1] / matrix_ratio[0]
+    place_image(c, DATA / "reports" / "confusion_matrix.png", margin, y - matrix_h, matrix_mm, border=None)
+    caption_y = draw_text(c, en["confusion_caption"], margin, y - matrix_h - 5 * mm, matrix_mm * mm, SANS, 11, GREY)
+    right_x = margin + matrix_mm * mm + 8 * mm
+    right_w = margin + left_w - right_x
+    heat_mm = (right_w / mm - 6) / 2
     # One heatmap on the tumor, one elsewhere. Heatmaps only: no outline, no case
     # number and no label, so nothing on the poster gives away a booth answer.
     examples = [next(case for case in booth if case["case_id"] == case_id) for case_id in ("01", "25")]
-    top = y - 6 * mm
+    top = y - 3 * mm
     for index, case in enumerate(examples):
-        place_image(c, DATA / case["heatmap"], right_x + index * (heat_mm + 8) * mm, top - heat_mm * mm, heat_mm)
-    ty = draw_text(c, en["heatmap_caption"], right_x, top - heat_mm * mm - 7 * mm, right_w, SANS, 13, GREY)
-    y = min(ty, y - matrix_h - 6 * mm - text_height(en["confusion_caption"], SANS, 13, matrix_mm * mm)) - 8 * mm
+        place_image(c, DATA / case["heatmap"], right_x + index * (heat_mm + 6) * mm, top - heat_mm * mm, heat_mm)
+    ty = draw_text(c, en["heatmap_caption"], right_x, top - heat_mm * mm - 6 * mm, right_w, SANS, 11, GREY)
+    y = min(ty, caption_y) - 6 * mm
 
-    # --- WHO theme ---------------------------------------------------------------
+    # The QR block's top lines up with the results row; the WHO theme ends level with its bottom.
+    block_y = y_after_numbers - 2 * mm - block_h
+    theme_h = (text_height(en["theme"], SANS_BOLD, 19, left_w)
+               + text_height(ar["theme"], AR, 17 * AR_SCALE, left_w, arabic=True) + 1 * mm)
+    theme_top = min(block_y + theme_h, y - 8 * mm - 19)
     c.setStrokeColor(RULE)
     c.setLineWidth(1)
-    c.line(margin, y, width - margin, y)
-    y = draw_text(c, en["theme"], margin, y - 8 * mm, body_w, SANS_BOLD, 18, INK, align="center")
-    y = draw_text(c, ar["theme"], margin, y - 1 * mm, body_w, AR, 16 * AR_SCALE, INK, align="center", arabic=True)
+    c.line(margin, theme_top + 8 * mm, margin + left_w, theme_top + 8 * mm)
+    ty = draw_text(c, en["theme"], margin, theme_top, left_w, SANS_BOLD, 19, INK)
+    ty = draw_text(c, ar["theme"], margin, ty - 1 * mm, left_w, AR, 17 * AR_SCALE, INK, arabic=True)
+    bottom = min(ty, block_y)
 
-    # --- Credits and disclaimer along the bottom ----------------------------------
-    credits_h = 60 * mm
-    qr_mm = 26
-    qr_col_w = 80 * mm  # right-hand column: QR code and its label
-    credits_w = body_w - qr_col_w - 10 * mm
-    if y < credits_h + 2 * mm:
-        sys.exit(f"Poster content overlaps the credits band by {(credits_h + 2 * mm - y) / mm:.0f} mm")
+    # Credits band along the bottom, full width.
+    citations = [wrap(citation, SANS, 10.5, body_w) for citation in content["credits"]["full"]]
+    band_h = (11 * mm + 6.5 * mm + sum(len(lines) * 13.1 + 1.5 * mm for lines in citations)
+              + 5 * mm + 12 * mm)
+    if bottom < band_h + 6 * mm:
+        sys.exit(f"Poster content overlaps the credits band by {(band_h + 6 * mm - bottom) / mm:.0f} mm")
     c.setFillColor(GREY_LIGHT)
-    c.rect(0, 0, width, credits_h, stroke=0, fill=1)
-    cy = credits_h - 11 * mm
-    c.setFont(SANS_BOLD, 14)
+    c.rect(0, 0, width, band_h, stroke=0, fill=1)
+    ly = band_h - 11 * mm
+    c.setFont(SANS_BOLD, 12)
     c.setFillColor(INK)
-    c.drawString(margin, cy, poster["credits_heading"].upper() + ":  " + poster["organisers"])
-    cy -= 8 * mm
+    c.drawString(margin, ly, poster["credits_heading"].upper() + ":  " + poster["organisers"])
+    ly -= 6.5 * mm
     for citation in content["credits"]["full"]:
-        cy = draw_text(c, citation, margin, cy, credits_w, SANS, 11.5, GREY) - 2 * mm
-    # QR code to Ask AIDA beside the credits (URL comes from print_content.yaml takehome.qr_url).
-    qr_x = width - margin - qr_mm * mm
-    qr_y = 28 * mm
-    c.drawImage(qr_image(content["takehome"]["qr_url"], qr_mm), qr_x, qr_y, qr_mm * mm, qr_mm * mm)
-    label_y = draw_text(c, poster["qr_label"], width - margin - qr_col_w, qr_y - 4.5 * mm, qr_col_w,
-                        SANS_BOLD, 10.5, INK, align="right", leading=4.6 * mm)
-    if content["takehome"]["qr_url"].startswith("["):  # still a placeholder: say so in print
-        c.setFont(SANS_BOLD, 10)
-        c.setFillColor(PINK)
-        c.drawRightString(width - margin, qr_y + qr_mm * mm + 2.2 * mm, content["takehome"]["placeholder_label"])
-    c.setFont(SANS_BOLD, 15)
+        ly = draw_text(c, citation, margin, ly, body_w, SANS, 10.5, GREY) - 1.5 * mm
+    c.setFont(SANS_BOLD, 16)
     c.setFillColor(PINK)
-    c.drawString(margin, 10 * mm, en["disclaimer"])
-    c.setFont(AR_BOLD, 15 * AR_SCALE)
-    c.drawRightString(width - margin, 10 * mm, shape_ar(ar["disclaimer"]))
+    c.drawString(margin, ly - 5 * mm, en["disclaimer"])
+    c.setFont(AR_BOLD, 16 * AR_SCALE)
+    c.drawRightString(width - margin, ly - 5 * mm, shape_ar(ar["disclaimer"]))
+    draft_mark(c, content, width - margin, ly - 11 * mm, align="right", size=8)
+
+    # QR block (right): label in both languages, the code, the address in plain text.
+    c.setFillColor(white)
+    c.setStrokeColor(PINK)
+    c.setLineWidth(3)
+    c.roundRect(block_x, block_y, block_w, block_h, 6 * mm, stroke=1, fill=1)
+    by = block_y + block_h - pad - en_size * 0.95
+    c.setFont(SANS_BLACK, en_size)
+    c.setFillColor(PINK)
+    c.drawCentredString(block_x + block_w / 2, by, en_lines[0])
+    draw_text(c, poster["qr_label_ar"], block_x + pad, by - ar_size * 1.3, label_w, AR_BOLD, ar_size,
+              PINK, align="center", arabic=True)
+    qr_y = block_y + pad + 11 * mm
+    c.drawImage(qr_image(url, qr_mm), block_x + pad, qr_y, qr_mm * mm, qr_mm * mm)
+    c.setFont(SANS_BOLD, 17)
+    c.setFillColor(INK)
+    c.drawCentredString(block_x + block_w / 2, block_y + pad + 2 * mm, url.removeprefix("https://").rstrip("/"))
+    if url.startswith("["):  # still a placeholder: say so in print
+        c.setFont(SANS_BOLD, 12)
+        c.setFillColor(PINK)
+        c.drawCentredString(block_x + block_w / 2, qr_y + qr_mm * mm / 2, content["takehome"]["placeholder_label"])
     c.save()
     return path
 

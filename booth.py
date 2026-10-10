@@ -1,6 +1,11 @@
-"""Shared UI, validated local data, model adapter, and anonymous CSV logging."""
+"""Shared UI, validated local data, model adapter, and anonymous CSV logging.
+
+Public mode (set by public_app.py for the public website) never writes any file:
+no results log, no cached model presets, no uploads.
+"""
 from __future__ import annotations
 
+import base64
 import csv
 import html
 import json
@@ -9,6 +14,7 @@ import pickle
 import threading
 from statistics import median
 from datetime import datetime, timezone
+from io import BytesIO
 from pathlib import Path
 
 import streamlit as st
@@ -18,6 +24,8 @@ CLASSES = ("normal", "benign", "malignant")
 RESULT_FIELDS = ("timestamp", "case_id", "first_answer", "ai_pred", "final_answer", "truth")
 RESULTS_PATH = ROOT / "data" / "results.csv"
 _CSV_LOCK = threading.Lock()
+ASSET_FIELDS = ("image", "print_image", "heatmap", "mask_overlay")
+PUBLIC_ASSET_FIELDS = ("image", "heatmap", "mask_overlay")  # the website has no print images
 
 
 class BoothError(ValueError):
@@ -33,6 +41,22 @@ class BoothError(ValueError):
             message += " " + t("validation_detail", case_id=self.case_id if self.case_id is not None
                                 else t("unknown_case"), field=self.field)
         return message
+
+
+def public_mode() -> bool:
+    """True on the public website (public_app.py sets it on every run), False at the booth."""
+    return bool(st.session_state.get("public_mode"))
+
+
+def card_case_id(text) -> str | None:
+    """A printed card number (1-30, "07", "#7", Arabic-Indic digits) as a case id, else None."""
+    if not isinstance(text, str):
+        return None
+    text = text.strip().lstrip("#").strip()
+    if not text.isdecimal() or len(text) > 3:
+        return None
+    number = int(text)
+    return f"{number:02d}" if 1 <= number <= 30 else None
 
 
 def language() -> str:
@@ -71,6 +95,10 @@ def frame() -> None:
     .stButton button:hover {{border-color:#C63D76; background:#FBE9F1;}}
     [data-testid="stTextInput"] input {{font-size:1.4rem; min-height:54px;}}
     [data-testid="stSidebar"] {{border-inline-end:1px solid #EDDCE4;}}
+    /* Collapsed, Streamlit slides the sidebar 300px left; in RTL it starts on the right, so
+       that would leave a strip over the page. A collapsed sidebar is never meant to be seen. */
+    [data-testid="stSidebar"][aria-expanded="false"],
+    [data-testid="stSidebar"][aria-expanded="false"] * {{visibility:hidden !important;}}
     [data-testid="stSidebar"] a {{font-size:1.1rem;}}
     [data-testid="stVerticalBlock"], [data-testid="stMarkdownContainer"],
     [data-testid="stWidgetLabel"], [data-testid="stSidebarNav"] {{direction:{direction};}}
@@ -100,6 +128,40 @@ def frame() -> None:
         align-items:center; width:270px; height:270px; border-radius:50%; background:#FFF9FB;}}
     .booth-gauge-number {{font-size:4.5rem; font-weight:750; color:#A52C60; line-height:1.1;}}
     .booth-gauge-label {{font-size:2rem; font-weight:700;}}
+    .booth-zoom-toggle {{position:absolute; opacity:0; pointer-events:none;}}
+    .booth-zoom {{display:block; cursor:zoom-in; margin:0;}}
+    .booth-zoom img {{display:block; width:100%; max-width:560px; border-radius:12px;
+        border:1px solid #EDDCE4;}}
+    .booth-zoom-toggle:checked + .booth-zoom {{position:fixed; inset:0; z-index:1000000; cursor:zoom-out;
+        display:flex; align-items:center; justify-content:center; background:rgba(20,24,30,0.94);
+        padding:8px;}}
+    .booth-zoom-toggle:checked + .booth-zoom img {{width:auto; height:auto; max-width:100%;
+        max-height:100%; border-radius:0; border:0;}}
+    .booth-zoom-caption {{color:#526574; font-size:0.95rem; margin:0.3rem 0 0.6rem;}}
+    .booth-score {{font-size:1.6rem; font-weight:750; color:#A52C60; text-align:center;}}
+    .booth-station {{font-size:1.5rem; font-weight:750; text-align:center; margin:0.6rem 0;}}
+    [data-testid="stSlider"] div:has(> div > input[type="range"]) {{width:22px; height:22px;}}
+    .st-key-slide_view {{position:sticky; top:3.6rem; z-index:5; background:#FFF9FB; padding-bottom:0.3rem;}}
+    .st-key-slide_view img {{max-height:46vh; object-fit:contain; border-radius:10px;}}
+    @media (max-width: 640px) {{
+        [data-testid="stMainBlockContainer"] {{padding-left:1rem; padding-right:1rem; padding-top:1rem;}}
+        h1 {{font-size:2.1rem !important;}}
+        h2 {{font-size:1.5rem !important;}}
+        h3 {{font-size:1.3rem !important;}}
+        [data-testid="stMarkdownContainer"] p, [data-testid="stMarkdownContainer"] li,
+        [data-testid="stWidgetLabel"] p {{font-size:1.08rem;}}
+        .stButton button, .stFormSubmitButton button {{min-height:58px;}}
+        .stButton button p, .stFormSubmitButton button p {{font-size:1.2rem;}}
+        .booth-prediction {{font-size:1.9rem;}}
+        .booth-result {{font-size:1.35rem;}}
+        .booth-learn {{font-size:1.2rem;}}
+        .booth-gauge {{width:250px; height:250px;}}
+        .booth-gauge-center {{width:196px; height:196px;}}
+        .booth-gauge-number {{font-size:3.2rem;}}
+        .booth-gauge-label {{font-size:1.5rem;}}
+        [data-testid="stSlider"] div:has(> div > input[type="range"]) {{width:28px; height:28px;}}
+        .st-key-slide_view img {{max-height:30vh;}}
+    }}
     </style>""", unsafe_allow_html=True)
     st.sidebar.caption(t("sidebar_note"))
 
@@ -109,9 +171,34 @@ def update_language() -> None:
 
 
 def footer() -> None:
-    """Shown on every page: the disclaimer and short dataset credits."""
+    """Shown on every page: the disclaimer and short dataset credits.
+
+    A page can swap the credits line for its own by setting st.session_state["footer_credits"]
+    to another translation key (the public Challenge uses the image credits).
+    """
+    credits = st.session_state.pop("footer_credits", None) or "credits_short"
     st.markdown(f'<div class="booth-footer"><strong>{html.escape(t("disclaimer"))}</strong><br>'
-                f'<span class="booth-credits">{html.escape(t("credits_short"))}</span></div>',
+                f'<span class="booth-credits">{html.escape(t(credits))}</span></div>',
+                unsafe_allow_html=True)
+
+
+@st.cache_data(show_spinner=False, max_entries=128)
+def _jpeg_data_uri(path: str, modified: float) -> str:
+    from PIL import Image
+
+    buffer = BytesIO()
+    Image.open(path).convert("RGB").save(buffer, "JPEG", quality=85)
+    return "data:image/jpeg;base64," + base64.b64encode(buffer.getvalue()).decode("ascii")
+
+
+def zoomable_image(path: Path, caption: str, key: str) -> None:
+    """A full-width image; tapping it opens it full screen (tap again to close). No JavaScript."""
+    source = _jpeg_data_uri(str(path), path.stat().st_mtime)
+    label = html.escape(caption, quote=True)
+    st.markdown(f'<input type="checkbox" id="zoom-{key}" class="booth-zoom-toggle" aria-label="{label}">'
+                f'<label for="zoom-{key}" class="booth-zoom" title="{html.escape(t("zoom_hint"), quote=True)}">'
+                f'<img src="{source}" alt="{label}"></label>'
+                f'<div class="booth-zoom-caption">{html.escape(caption)} · {html.escape(t("zoom_hint"))}</div>',
                 unsafe_allow_html=True)
 
 
@@ -125,7 +212,8 @@ def asset_path(value: str, case_id=None, field: str | None = None) -> Path:
     return candidate
 
 
-def load_cases() -> dict[str, dict]:
+def load_cases(assets: tuple[str, ...] = ASSET_FIELDS) -> dict[str, dict]:
+    """Validate data/booth_set.json. `assets` = the image fields whose files must exist."""
     try:
         cases = json.loads((ROOT / "data" / "booth_set.json").read_text(encoding="utf-8"))
     except (OSError, ValueError) as exc:
@@ -169,7 +257,7 @@ def load_cases() -> dict[str, dict]:
             raise BoothError("data_invalid", cid, "error_type")
         if not isinstance(case["source_file"], str) or not case["source_file"]:
             raise BoothError("data_invalid", cid, "source_file")
-        for field in ("image", "print_image", "heatmap", "mask_overlay"):
+        for field in assets:
             asset_path(case[field], cid, field)
         indexed[cid] = case
     return indexed
@@ -206,6 +294,8 @@ def save_round(round_: dict, destination: Path | None = None) -> None:
     """One append per completed session round; reruns never duplicate a saved row."""
     if round_["logged"]:
         return
+    if public_mode():  # the public website never writes visitor data
+        raise BoothError("log_error")
     case = round_["case"]
     row = dict(zip(RESULT_FIELDS, (datetime.now(timezone.utc).isoformat(), case["case_id"],
                round_["first_answer"], case["ai_pred"], round_["final_answer"], case["truth"])))
@@ -287,6 +377,8 @@ def prepare_class_medians() -> dict:
     metadata = json.loads(metadata_path.read_text(encoding="utf-8"))
     if isinstance(metadata, dict) and "class_medians" in metadata:
         return metadata
+    if public_mode():  # computing the presets would rewrite the metadata file
+        raise BoothError("presets_mismatch")
     model, features, _ = load_model_bundle()
     dataset = load_breast_cancer()
     feature_indexes = [list(dataset.feature_names).index(feature["name"]) for feature in features]
