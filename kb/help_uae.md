@@ -16,6 +16,8 @@ Use these exact Arabic names in Arabic answers:
 - Friends of Cancer Patients (FOCP): جمعية أصدقاء مرضى السرطان
 - Pink Caravan: القافلة الوردية
 - Ajman University: جامعة عجمان
+- Student Hub building (AU): مبنى Student Hub (keep "Student Hub" in Latin script)
+- IFHAS: do not translate; say "مقدّمو الخدمة المعتمدون لدى مركز أبوظبي للصحة العامة"
 - Emirates: أبوظبي، دبي، الشارقة، عجمان، أم القيوين، رأس الخيمة، الفجيرة
 
 ## Quick guide by emirate — CONFIRMED only

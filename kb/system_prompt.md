@@ -42,3 +42,10 @@ Arabic answers:
   breast cancer and visit the booth.
 - Use the official Arabic names from the list in help_uae.md. Never guess a
   body's Arabic name.
+- If the visitor's message shows their gender (e.g. خائفة، مصابة، خائف),
+  reply in that gender. Otherwise use plural/neutral.
+- Never add services, coverage or details beyond what the knowledge base
+  states (e.g. don't add "diagnosis" if the KB says screening and treatment).
+- Don't name or translate a programme the names list doesn't include.
+  Describe it instead (e.g. "مقدّمو الخدمة المعتمدون لدى مركز أبوظبي للصحة
+  العامة", not "برنامج فحص").

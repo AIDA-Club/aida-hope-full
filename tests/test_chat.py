@@ -171,7 +171,9 @@ class KnowledgeBaseTests(unittest.TestCase):
         system = (chat.KB / "system_prompt.md").read_text(encoding="utf-8")
         self.assertIn("Arabic answers:", system)
         for rule in ("Write Arabic answers fully in Arabic", "Copy phone numbers EXACTLY",
-                     "plural/neutral form", "official Arabic names from the list in help_uae.md"):
+                     "plural/neutral form", "official Arabic names from the list in help_uae.md",
+                     "reply in that gender", "Never add services, coverage or details",
+                     "Don't name or translate a programme"):
             self.assertIn(rule, system)
         self.assertIn("Arabic answers:", chat.build_system_prompt())
 
@@ -180,7 +182,8 @@ class KnowledgeBaseTests(unittest.TestCase):
         self.assertIn("## Official Arabic names", text)
         self.assertIn("<!-- AR names: native review -->", text)
         for name in ("مركز أبوظبي للصحة العامة", "هيئة الصحة بدبي", "جمعية أصدقاء مرضى السرطان",
-                     "شركة أبوظبي للخدمات الصحية (صحة)"):
+                     "شركة أبوظبي للخدمات الصحية (صحة)", "مبنى Student Hub",
+                     "مقدّمو الخدمة المعتمدون لدى مركز أبوظبي للصحة العامة"):
             self.assertIn(name, text)
         self.assertIn("مركز أبوظبي للصحة العامة", chat.build_system_prompt())
 
