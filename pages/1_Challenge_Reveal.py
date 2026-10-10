@@ -9,8 +9,8 @@ import random
 
 import streamlit as st
 
-from booth import (ROOT, BoothError, CLASSES, PUBLIC_ASSET_FIELDS, asset_path, card_case_id, choose_answer,
-                   keep_answer, load_cases, next_visitor, public_mode, save_round, set_phase,
+from booth import (ROOT, BoothError, CLASSES, PUBLIC_ASSET_FIELDS, asset_path, booth_set_note, card_case_id,
+                   choose_answer, keep_answer, load_cases, next_visitor, public_mode, save_round, set_phase,
                    start_round, t, zoomable_image)
 
 ROUND_SIZE = 5
@@ -67,14 +67,33 @@ def overlap_label(case: dict) -> str | None:
     return "overlap_yes" if overlap >= 0.3 else "overlap_partly" if overlap >= 0.1 else "overlap_no"
 
 
+def heatmap_disclaimer() -> None:
+    """The line under every heatmap (the truth overlay is drawn on the heatmap too)."""
+    st.caption(t("heatmap_disclaimer"))
+
+
+def honesty_note() -> None:
+    note = booth_set_note()
+    if note:
+        st.caption(note)
+
+
+def heatmap_target(case: dict) -> str:
+    """For an AI mistake: "_off_target" (overlap under 0.1), "_on_target" (0.5 or more), else ""."""
+    overlap = case["cam_mask_overlap"]
+    if case["truth"] == "normal" or overlap is None:
+        return ""
+    return "_off_target" if overlap < 0.1 else "_on_target" if overlap >= 0.5 else ""
+
+
 def explanation(case: dict) -> str:
     """One line on what this case shows about the AI."""
     pred, truth = t(case["ai_pred"]), t(case["truth"])
     percent = case["ai_probs"][case["ai_pred"]] * 100
     if case["error_type"] == "false_negative":
-        key = "explain_missed"
+        key = "explain_missed" + heatmap_target(case)
     elif case["error_type"] == "false_positive":
-        key = "explain_false_alarm"
+        key = "explain_false_alarm" + heatmap_target(case)
     elif not case["correct"]:
         key = "explain_saw_lump" if case["truth"] == "normal" else "explain_mixed"
     elif case["truth"] == "normal":
@@ -139,6 +158,7 @@ def booth_challenge(cases: dict) -> None:
             with column:
                 st.image(str(asset_path(case[field], case["case_id"], field)), caption=t(caption),
                          width=320 if phase == "done" else 420)
+        heatmap_disclaimer()
     else:
         picture, choice = st.columns([1, 1.2], gap="large")
         with picture:
@@ -231,6 +251,7 @@ def score(state: dict) -> tuple[int, int, int]:
 
 def public_start(cases: dict) -> None:
     st.write(t("public_challenge_intro"))
+    honesty_note()
     with st.container(border=True):
         st.subheader(t("play_round_title"))
         st.write(t("play_round_text", n=ROUND_SIZE))
@@ -276,6 +297,7 @@ def wrong_cases(cases: dict) -> None:
                        percent=case["ai_probs"][case["ai_pred"]] * 100))
             zoomable_image(asset_path(case["mask_overlay"], cid, "mask_overlay"), t("truth_overlay"),
                            key=f"wrong{cid}")
+            heatmap_disclaimer()
             st.write(t(f"wrong_{cid}_text"))
 
 
@@ -300,12 +322,14 @@ def public_case(state: dict) -> None:
     confidence_bars(case)
     if phase == "ai":
         zoomable_image(asset_path(case["heatmap"], cid, "heatmap"), t("heatmap_image"), key=f"heat{cid}")
+        heatmap_disclaimer()
         st.button(t("reveal_truth"), key="public_reveal_truth", type="primary", width="stretch",
                   on_click=public_step, args=("truth",))
         return
     result_box(case, state["answer"])
     st.markdown(f"**{html.escape(explanation(case), quote=False)}**")
     zoomable_image(asset_path(case["mask_overlay"], cid, "mask_overlay"), t("truth_overlay"), key=f"truth{cid}")
+    heatmap_disclaimer()
     you, ai, played = score(state)
     st.markdown('<div class="booth-score" role="status">'
                 + html.escape(t("score_line", you=you, ai=ai, total=played)) + '</div>', unsafe_allow_html=True)
@@ -319,6 +343,7 @@ def public_end(state: dict) -> None:
     st.subheader(t("end_title"))
     st.markdown('<div class="booth-score" role="status">'
                 + html.escape(t("score_line", you=you, ai=ai, total=played)) + '</div>', unsafe_allow_html=True)
+    honesty_note()
     st.markdown('<div class="booth-station">' + html.escape(t("station_message"), quote=False) + '</div>',
                 unsafe_allow_html=True)
     what_we_learned(stacked=True)

@@ -108,8 +108,11 @@ class BoothTests(unittest.TestCase):
         self.assertFalse(self.results.exists())
         self.button(app, "Malignant")
         self.assertNotIn("Reveal truth", [button.label for button in app.button])
+        heatmap_line = booth.translations("en")["heatmap_disclaimer"]
+        self.assertNotIn(heatmap_line, [caption.value for caption in app.caption])
         self.button(app, "Reveal AI")
         self.assertEqual(len(app.get("progress")), 3)
+        self.assertEqual([caption.value for caption in app.caption].count(heatmap_line), 1)
         self.button(app, "Keep my answer")
         self.assertFalse(self.results.exists())
         self.button(app, "Reveal truth")

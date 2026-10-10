@@ -3,7 +3,7 @@ import json
 
 import streamlit as st
 
-from booth import ROOT, t
+from booth import ROOT, booth_set_note, t
 
 REPORTS = ROOT / "data" / "reports"
 
@@ -40,6 +40,9 @@ else:
     st.write(t("about_results_text", n=n, accuracy=metrics["accuracy"] * 100, caught=caught,
                total=caught + missed, missed=missed, alarms=metrics["false_alarms"]))
     st.warning(t("about_small_test", n=n))
+    note = booth_set_note()
+    if note:
+        st.info(note)
     matrix = REPORTS / "confusion_matrix.png"
     if matrix.is_file():
         st.image(str(matrix), caption=t("about_matrix_caption", n=n), width=520)

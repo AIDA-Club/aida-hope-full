@@ -199,6 +199,95 @@ class PublicAppTests(unittest.TestCase):
             with patch.object(booth.st, "session_state", {"lang": lang}):
                 self.assertEqual(namespace["explanation"](unmeasured), text["explain_right"])
 
+    def test_mistake_explanations_use_the_heatmap_overlap(self):
+        """Missed cancers and false alarms: overlap < 0.1 "not even on the lump", >= 0.5 "right on the lump"."""
+        import json
+        source = (ROOT / PAGES[0]).read_text(encoding="utf-8").replace("\nchallenge()\n", "\n")
+        namespace = {}
+        exec(compile(source, PAGES[0], "exec"), namespace)
+        explanation = namespace["explanation"]
+        cases = {case["case_id"]: case for case in
+                 json.loads((ROOT / "data" / "booth_set.json").read_text(encoding="utf-8"))}
+        en = booth.translations("en")
+        self.assertIn("and its heatmap wasn't even on the lump.", en["explain_missed_off_target"])
+        self.assertIn("even though its heatmap was right on the lump. Looking in the right place isn't the same "
+                      "as getting it right.", en["explain_missed_on_target"])
+        # The three missed cancers on the booth cards, and the false alarms.
+        expected = {"17": "explain_missed_off_target", "25": "explain_missed_off_target",
+                    "26": "explain_missed_on_target", "07": "explain_false_alarm_off_target",
+                    "16": "explain_false_alarm_off_target", "28": "explain_false_alarm"}
+        self.assertEqual({cid for cid, case in cases.items() if case["error_type"] in
+                          ("false_negative", "false_positive")}, set(expected))
+        for lang in ("en", "ar"):
+            text = booth.translations(lang)
+            with patch.object(booth.st, "session_state", {"lang": lang}):
+                for cid, key in expected.items():
+                    case = cases[cid]
+                    line = text[key].format(pred=text[case["ai_pred"]], truth=text[case["truth"]],
+                                            percent=case["ai_probs"][case["ai_pred"]] * 100)
+                    self.assertEqual(explanation(case), line, (lang, cid))
+                # Boundaries: < 0.1 off target, 0.1 to under 0.5 the plain line, >= 0.5 on target.
+                for cid, base in (("17", "explain_missed"), ("28", "explain_false_alarm")):
+                    for overlap, suffix in ((0.0, "_off_target"), (0.099, "_off_target"), (0.1, ""),
+                                            (0.499, ""), (0.5, "_on_target"), (1.0, "_on_target"), (None, "")):
+                        case = dict(cases[cid], cam_mask_overlap=overlap)
+                        prefix = text[base + suffix].split("{")[0]
+                        self.assertTrue(explanation(case).startswith(prefix), (lang, cid, overlap))
+                        self.assertEqual(explanation(case) == explanation(dict(case, cam_mask_overlap=None)),
+                                         suffix == "", (lang, cid, overlap))
+
+    def test_booth_set_note_is_counted_from_the_data(self):
+        import json
+        cases = json.loads((ROOT / "data" / "booth_set.json").read_text(encoding="utf-8"))
+        metrics = json.loads((ROOT / "data" / "reports" / "metrics.json").read_text(encoding="utf-8"))
+        scores = booth.booth_set_scores()
+        self.assertEqual((scores["right"], scores["n"]),
+                         (sum(case["truth"] == case["ai_pred"] for case in cases), len(cases)))
+        self.assertEqual((scores["right"], scores["n"]), (23, 30))
+        self.assertEqual((scores["test_right"], scores["test_n"]), (round(metrics["accuracy"] * metrics["n_test"]),
+                                                                    metrics["n_test"]))
+        self.assertEqual((scores["test_right"], scores["test_n"]), (57, 68))
+        with patch.object(booth.st, "session_state", {"lang": "en"}):
+            self.assertEqual(booth.booth_set_note(),
+                             "These 30 cases were picked to include the AI's mistakes, so it scores lower here "
+                             "(23 of 30) than on the full test set (57 of 68, 84%).")
+        # The staff answer key prints the same sentence from the same files.
+        import build_print
+        content, booth_cases, _ = build_print.load_inputs()
+        printed = " ".join(content["answer_key"]["booth_set_note"].split())
+        self.assertEqual(printed.format(**build_print.booth_set_scores(booth_cases)),
+                         booth.translations("en")["booth_set_note"].format(**scores))
+
+    def test_booth_set_note_on_intro_end_and_about(self):
+        for lang in ("en", "ar"):
+            note = booth.translations(lang)["booth_set_note"].format(**booth.booth_set_scores())
+            app = public_app(lang, PAGES[0])
+            self.assertIn(note, texts(app), (lang, "intro"))
+            click(app, key="play_round")
+            self.assertNotIn(note, texts(app), (lang, "mid-round"))
+            for _ in range(5):
+                play_case(app)
+            self.assertIn(note, texts(app), (lang, "end"))
+            app.switch_page(PAGES[3]).run()
+            self.assertIn(note, texts(app), (lang, "about"))
+
+    def test_line_under_every_heatmap(self):
+        for lang in ("en", "ar"):
+            line = booth.translations(lang)["heatmap_disclaimer"]
+            app = public_app(lang, PAGES[0])
+            click(app, key="play_round")
+            click(app, key="pick_normal")
+            self.assertNotIn(line, texts(app))  # no heatmap yet
+            click(app, key="public_reveal_ai")
+            self.assertEqual([c.value for c in app.caption].count(line), 1, (lang, "heatmap"))
+            click(app, key="public_reveal_truth")
+            self.assertEqual([c.value for c in app.caption].count(line), 1, (lang, "truth overlay"))
+            app = public_app(lang, PAGES[0])
+            app.toggle(key="show_wrong").set_value(True).run()
+            self.assertEqual([c.value for c in app.caption].count(line), 6, (lang, "patient folders"))
+        self.assertEqual(booth.translations("en")["heatmap_disclaimer"],
+                         "Heatmaps are a rough guide to where the AI looked, not proof of its reasoning.")
+
     def test_public_mode_never_writes_files(self):
         with tempfile.TemporaryDirectory() as temporary, \
                 patch.object(booth, "RESULTS_PATH", Path(temporary) / "results.csv"):

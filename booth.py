@@ -263,6 +263,26 @@ def load_cases(assets: tuple[str, ...] = ASSET_FIELDS) -> dict[str, dict]:
     return indexed
 
 
+def booth_set_scores() -> dict | None:
+    """The AI's score on the booth cases and on the full test set, counted from data/booth_set.json
+    and data/reports/metrics.json (never typed in). None if either file cannot be read."""
+    try:
+        cases = json.loads((ROOT / "data" / "booth_set.json").read_text(encoding="utf-8"))
+        metrics = json.loads((ROOT / "data" / "reports" / "metrics.json").read_text(encoding="utf-8"))
+        matrix = metrics["confusion_matrix"]["matrix"]
+        test_right, test_n = sum(matrix[i][i] for i in range(len(matrix))), metrics["n_test"]
+        return {"n": len(cases), "right": sum(case["correct"] is True for case in cases),
+                "test_right": test_right, "test_n": test_n, "test_percent": test_right / test_n * 100}
+    except (OSError, ValueError, KeyError, TypeError, IndexError, ZeroDivisionError):
+        return None
+
+
+def booth_set_note() -> str | None:
+    """Why the AI scores lower on the booth cases than on the full test set."""
+    scores = booth_set_scores()
+    return t("booth_set_note", **scores) if scores else None
+
+
 def start_round(case: dict) -> None:
     # Snapshot the case, so replacing the dataset mid-round cannot change its truth.
     st.session_state["round"] = {"case": case, "phase": "first", "first_answer": None,

@@ -2,6 +2,7 @@
 
 Run from the project folder (Windows):
     .venv\\Scripts\\python.exe scripts\\build_print.py
+    .venv\\Scripts\\python.exe scripts\\build_print.py --only answer_key   (one PDF + its page-1 preview)
 
 Outputs go to print_out/:
     case_cards.pdf       30 A5 challenge cards (no answers on them)
@@ -213,6 +214,15 @@ def load_inputs() -> tuple[dict, list[dict], dict[str, dict]]:
     return content, booth, predictions
 
 
+def booth_set_scores(booth: list[dict]) -> dict:
+    """The AI's score on the booth cases vs the full test set (same numbers as booth.booth_set_scores)."""
+    metrics = json.loads((DATA / "reports" / "metrics.json").read_text(encoding="utf-8"))
+    matrix = metrics["confusion_matrix"]["matrix"]
+    test_right, test_n = sum(matrix[i][i] for i in range(len(matrix))), metrics["n_test"]
+    return {"n": len(booth), "right": sum(case["correct"] is True for case in booth),
+            "test_right": test_right, "test_n": test_n, "test_percent": test_right / test_n * 100}
+
+
 def overlap_label(case: dict) -> str:
     """Same thresholds as the app: >=0.3 yes, 0.1-0.3 partly, <0.1 no, blank for normal."""
     overlap = case.get("cam_mask_overlap")
@@ -299,6 +309,8 @@ def build_answer_key(content: dict, booth: list[dict]) -> Path:
     c.setFont(SANS_BOLD, 12)
     c.drawRightString(width - margin, height - 15 * mm, text["title"])
     y = draw_text(c, text["note"], margin, height - 32 * mm, width - 2 * margin, SANS, 8.5, GREY)
+    y = draw_text(c, text["booth_set_note"].format(**booth_set_scores(booth)), margin, y - 1 * mm,
+                  width - 2 * margin, SANS_BOLD, 8.5, INK)
 
     rows = [text["columns"]]
     wrong_rows = []
@@ -957,22 +969,26 @@ def build_poster(content: dict, booth: list[dict]) -> Path:
 # ---------------------------------------------------------------------------
 # Previews
 # ---------------------------------------------------------------------------
-def export_previews(pdfs: dict[str, Path]) -> list[Path]:
-    """Page 1 of every PDF, plus every page of folder 1, as PNG."""
+def export_preview(pdf_path: Path, page_index: int, name: str, dpi: int) -> Path:
     import pypdfium2 as pdfium
 
+    PREVIEWS.mkdir(parents=True, exist_ok=True)
+    document = pdfium.PdfDocument(str(pdf_path))
+    target = PREVIEWS / name
+    document[page_index].render(scale=dpi / 72).to_pil().save(target)
+    document.close()
+    return target
+
+
+def export_previews(pdfs: dict[str, Path]) -> list[Path]:
+    """Page 1 of every PDF, plus every page of folder 1, as PNG."""
     PREVIEWS.mkdir(parents=True, exist_ok=True)
     for old in PREVIEWS.glob("*.png"):
         old.unlink()
     written = []
 
     def render(pdf_path: Path, page_index: int, name: str, dpi: int) -> None:
-        document = pdfium.PdfDocument(str(pdf_path))
-        image = document[page_index].render(scale=dpi / 72).to_pil()
-        target = PREVIEWS / name
-        image.save(target)
-        written.append(target)
-        document.close()
+        written.append(export_preview(pdf_path, page_index, name, dpi))
 
     for key, pdf_path in pdfs.items():
         render(pdf_path, 0, f"{key}_p1.png", 40 if key == "poster_A2" else 110)
@@ -984,16 +1000,26 @@ def export_previews(pdfs: dict[str, Path]) -> list[Path]:
 
 
 def main() -> None:
+    import argparse
+
+    builders = {"case_cards": lambda: build_case_cards(content, booth),
+                "answer_key": lambda: build_answer_key(content, booth),
+                "folders": lambda: build_folders(content, predictions),
+                "tips_card": lambda: build_tips_card(content),
+                "takehome_cards": lambda: build_takehome(content),
+                "poster_A2": lambda: build_poster(content, booth)}
+    parser = argparse.ArgumentParser(description="Build the printed booth materials.")
+    parser.add_argument("--only", choices=list(builders), help="rebuild just this PDF and its page-1 preview")
+    only = parser.parse_args().only
     notes = register_fonts()
     content, booth, predictions = load_inputs()
     OUT.mkdir(exist_ok=True)
-    pdfs = {"case_cards": build_case_cards(content, booth),
-            "answer_key": build_answer_key(content, booth),
-            "folders": build_folders(content, predictions),
-            "tips_card": build_tips_card(content),
-            "takehome_cards": build_takehome(content),
-            "poster_A2": build_poster(content, booth)}
-    previews = export_previews(pdfs)
+    if only:
+        pdfs = {only: builders[only]()}
+        previews = [export_preview(pdfs[only], 0, f"{only}_p1.png", 40 if only == "poster_A2" else 110)]
+    else:
+        pdfs = {name: build() for name, build in builders.items()}
+        previews = export_previews(pdfs)
     for name, pdf in pdfs.items():
         print(f"{pdf.relative_to(ROOT)}  ({pdf.stat().st_size / 1e6:.1f} MB)")
     print(f"{len(previews)} previews in {PREVIEWS.relative_to(ROOT)}")

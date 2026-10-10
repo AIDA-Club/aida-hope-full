@@ -31,6 +31,11 @@ answer_key:
     AI heatmap with the true tumor outline: Yes = overlap of 0.3 or more,
     Partly = 0.1 to under 0.3, No = under 0.1, blank = normal tissue (no tumor
     outline).
+  # Counted by build_print.py from booth_set.json and data/reports/metrics.json; same wording as the app.
+  booth_set_note: >-
+    These {n} cases were picked to include the AI's mistakes, so it scores lower
+    here ({right} of {n}) than on the full test set ({test_right} of {test_n},
+    {test_percent:.0f}%).
   columns: ["Case", "Truth", "AI prediction", "AI confidence", "AI correct?", "Looked in the right place?"]
 
 # ---------------------------------------------------------------------------
