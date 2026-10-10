@@ -74,9 +74,9 @@ def compare(name: str, shot: Path) -> None:
     draw = ImageDraw.Draw(sheet)
     draw.text((10, 12), f"REFERENCE: {REFERENCES[name]}", fill="black")
     draw.text((ref.width + 34, 12), f"IMPLEMENTATION: {shot.name}", fill="black")
-    target = OUT / "compare" / f"{name}.png"
+    target = OUT / "compare" / f"{name}.jpg"
     target.parent.mkdir(parents=True, exist_ok=True)
-    sheet.save(target)
+    sheet.save(target, quality=88)
 
 
 # ---------------------------------------------------------------------------

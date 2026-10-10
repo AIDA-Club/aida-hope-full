@@ -1,0 +1,317 @@
+[
+  {
+    "check": "[desktop] 01-home: no horizontal overflow",
+    "ok": true,
+    "detail": "0px"
+  },
+  {
+    "check": "[desktop] 06-tweak: no horizontal overflow",
+    "ok": true,
+    "detail": "0px"
+  },
+  {
+    "check": "[desktop] 07-ask: no horizontal overflow",
+    "ok": true,
+    "detail": "0px"
+  },
+  {
+    "check": "[desktop] 08-about: no horizontal overflow",
+    "ok": true,
+    "detail": "0px"
+  },
+  {
+    "check": "[desktop] reveal AI is locked until an answer is chosen",
+    "ok": true,
+    "detail": ""
+  },
+  {
+    "check": "[desktop] no console errors",
+    "ok": true,
+    "detail": ""
+  },
+  {
+    "check": "[arabic-desktop] 01-home: no horizontal overflow",
+    "ok": true,
+    "detail": "0px"
+  },
+  {
+    "check": "[arabic-desktop] 06-tweak: no horizontal overflow",
+    "ok": true,
+    "detail": "0px"
+  },
+  {
+    "check": "[arabic-desktop] 07-ask: no horizontal overflow",
+    "ok": true,
+    "detail": "0px"
+  },
+  {
+    "check": "[arabic-desktop] 08-about: no horizontal overflow",
+    "ok": true,
+    "detail": "0px"
+  },
+  {
+    "check": "[arabic-desktop] reveal AI is locked until an answer is chosen",
+    "ok": true,
+    "detail": ""
+  },
+  {
+    "check": "[arabic-desktop] no console errors",
+    "ok": true,
+    "detail": ""
+  },
+  {
+    "check": "[tablet] 01-home: no horizontal overflow",
+    "ok": true,
+    "detail": "0px"
+  },
+  {
+    "check": "[tablet] 06-tweak: no horizontal overflow",
+    "ok": true,
+    "detail": "0px"
+  },
+  {
+    "check": "[tablet] 07-ask: no horizontal overflow",
+    "ok": true,
+    "detail": "0px"
+  },
+  {
+    "check": "[tablet] 08-about: no horizontal overflow",
+    "ok": true,
+    "detail": "0px"
+  },
+  {
+    "check": "[tablet] reveal AI is locked until an answer is chosen",
+    "ok": true,
+    "detail": ""
+  },
+  {
+    "check": "[tablet] no console errors",
+    "ok": true,
+    "detail": ""
+  },
+  {
+    "check": "[mobile] 01-home: no horizontal overflow",
+    "ok": true,
+    "detail": "0px"
+  },
+  {
+    "check": "[mobile] 06-tweak: no horizontal overflow",
+    "ok": true,
+    "detail": "0px"
+  },
+  {
+    "check": "[mobile] 07-ask: no horizontal overflow",
+    "ok": true,
+    "detail": "0px"
+  },
+  {
+    "check": "[mobile] 08-about: no horizontal overflow",
+    "ok": true,
+    "detail": "0px"
+  },
+  {
+    "check": "[mobile] reveal AI is locked until an answer is chosen",
+    "ok": true,
+    "detail": ""
+  },
+  {
+    "check": "[mobile] no console errors",
+    "ok": true,
+    "detail": ""
+  },
+  {
+    "check": "[arabic-mobile] 01-home: no horizontal overflow",
+    "ok": true,
+    "detail": "0px"
+  },
+  {
+    "check": "[arabic-mobile] 06-tweak: no horizontal overflow",
+    "ok": true,
+    "detail": "0px"
+  },
+  {
+    "check": "[arabic-mobile] 07-ask: no horizontal overflow",
+    "ok": true,
+    "detail": "0px"
+  },
+  {
+    "check": "[arabic-mobile] 08-about: no horizontal overflow",
+    "ok": true,
+    "detail": "0px"
+  },
+  {
+    "check": "[arabic-mobile] reveal AI is locked until an answer is chosen",
+    "ok": true,
+    "detail": ""
+  },
+  {
+    "check": "[arabic-mobile] no console errors",
+    "ok": true,
+    "detail": ""
+  },
+  {
+    "check": "a11y: first Tab reaches the skip link",
+    "ok": true,
+    "detail": ""
+  },
+  {
+    "check": "nav: About link routes to /about",
+    "ok": true,
+    "detail": ""
+  },
+  {
+    "check": "i18n: Arabic toggle sets dir=rtl and translates the nav",
+    "ok": true,
+    "detail": ""
+  },
+  {
+    "check": "challenge: card 31 rejected with the existing card_invalid message",
+    "ok": true,
+    "detail": ""
+  },
+  {
+    "check": "challenge: card '#07' starts card 7",
+    "ok": true,
+    "detail": ""
+  },
+  {
+    "check": "challenge: no AI prediction or truth sent before the AI reveal",
+    "ok": true,
+    "detail": ""
+  },
+  {
+    "check": "challenge: heatmap image refused before the AI reveal",
+    "ok": true,
+    "detail": "404"
+  },
+  {
+    "check": "challenge: AI probabilities shown exactly as data/booth_set.json",
+    "ok": true,
+    "detail": "['Normal · 0%', 'Benign · 35%', 'Malignant · 65%'] vs ['Normal · 0%', 'Benign · 35%', 'Malignant · 65%']"
+  },
+  {
+    "check": "challenge: AI prediction matches booth_set.json",
+    "ok": true,
+    "detail": "AI prediction: Malignant"
+  },
+  {
+    "check": "challenge: AI-error note shown for a case the AI got wrong",
+    "ok": true,
+    "detail": ""
+  },
+  {
+    "check": "challenge: truth overlay refused before the truth reveal",
+    "ok": true,
+    "detail": "404"
+  },
+  {
+    "check": "challenge: dataset label matches booth_set.json",
+    "ok": true,
+    "detail": "Dataset label:\nBenign"
+  },
+  {
+    "check": "challenge: score counts the visitor and the AI against the label",
+    "ok": true,
+    "detail": "['0 / 1', '0 / 1']"
+  },
+  {
+    "check": "challenge: one-card round ends with the score and station message",
+    "ok": true,
+    "detail": ""
+  },
+  {
+    "check": "challenge: random round shows case 1 of 5",
+    "ok": true,
+    "detail": "Case 1 of 5 · Card #16"
+  },
+  {
+    "check": "challenge: random round shows case 2 of 5",
+    "ok": true,
+    "detail": "Case 2 of 5 · Card #18"
+  },
+  {
+    "check": "challenge: random round shows case 3 of 5",
+    "ok": true,
+    "detail": "Case 3 of 5 · Card #27"
+  },
+  {
+    "check": "challenge: random round shows case 4 of 5",
+    "ok": true,
+    "detail": "Case 4 of 5 · Card #24"
+  },
+  {
+    "check": "challenge: random round shows case 5 of 5",
+    "ok": true,
+    "detail": "Case 5 of 5 · Card #5"
+  },
+  {
+    "check": "challenge: five distinct cards in a random round",
+    "ok": true,
+    "detail": "16,18,27,24,05"
+  },
+  {
+    "check": "challenge: final score equals the data",
+    "ok": true,
+    "detail": "['1 / 5', '4 / 5'] expected 1/5, 4/5"
+  },
+  {
+    "check": "challenge: folders hidden by default",
+    "ok": true,
+    "detail": ""
+  },
+  {
+    "check": "challenge: six patient folders shown on request",
+    "ok": true,
+    "detail": ""
+  },
+  {
+    "check": "tweak: typical malignant preset → model says Malignant",
+    "ok": true,
+    "detail": "Malignant"
+  },
+  {
+    "check": "tweak: typical benign preset → model says Benign",
+    "ok": true,
+    "detail": "Benign"
+  },
+  {
+    "check": "tweak: threshold changes the decision, not the probability",
+    "ok": true,
+    "detail": "Malignant · 1% / Malignant · 1%"
+  },
+  {
+    "check": "tweak: keyboard on a slider updates the microscope caption",
+    "ok": true,
+    "detail": ""
+  },
+  {
+    "check": "tweak: microscope image loads from the API",
+    "ok": true,
+    "detail": ""
+  },
+  {
+    "check": "ask: topic button shows the hand-written Know the Signs answer",
+    "ok": true,
+    "detail": ""
+  },
+  {
+    "check": "ask: empty question refused with the existing chat_empty message",
+    "ok": true,
+    "detail": ""
+  },
+  {
+    "check": "ask: typed symptom question answered (offline guidance when no key)",
+    "ok": true,
+    "detail": "offline"
+  },
+  {
+    "check": "ask: turns left counted",
+    "ok": true,
+    "detail": ""
+  },
+  {
+    "check": "ask: new conversation clears the transcript",
+    "ok": true,
+    "detail": ""
+  }
+]
