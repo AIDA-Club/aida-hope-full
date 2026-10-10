@@ -294,7 +294,7 @@ tips_card:
 # Take-home card (takehome_cards.pdf, 85×55 mm)
 # ---------------------------------------------------------------------------
 takehome:
-  qr_url: "[TO VERIFY: Ask AIDA deployed URL]"
+  qr_url: "https://aidaxhope.streamlit.app/"
   placeholder_label: "PLACEHOLDER QR"
   en:
     title: "Know Your Normal"
