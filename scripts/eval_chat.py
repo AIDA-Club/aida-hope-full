@@ -12,7 +12,12 @@ Providers come from secrets.toml:
   - optional [deepseek] / [gemini] sections with their own API_KEY / MODEL.
 
 Each answer is also checked automatically for digits that look like phone
-numbers or medicine doses. A flag means "a human must read this answer".
+numbers or medicine doses, and Arabic answers for English words, the misspelling
+"عاجمان" and shortened phone numbers. A flag means "a human must read this answer".
+
+Only the Arabic questions (written to tests/chat_eval_ar.md, so the full report
+is kept):
+    .venv\\Scripts\\python.exe scripts\\eval_chat.py --lang ar
 """
 from __future__ import annotations
 
@@ -54,6 +59,33 @@ def flag_answer(text: str) -> list[str]:
     return flags
 
 
+# Latin-script words inside Arabic text. Capitalised words and acronyms are treated as
+# names (SEHA, Student Hub, Mediclinic); URLs, emails and domains are skipped.
+# (Plain [A-Za-z0-9], not \w: \w also matches Arabic letters, so "وتreatment" would slip through.)
+_LATIN_WORD = re.compile(r"(?<![A-Za-z0-9@./-])[a-z][a-z'-]+(?![A-Za-z0-9@/-]|\.[a-z])")
+_URLISH = re.compile(r"\S+(?:@|://|\.(?:ae|com|org|gov|net|uk)\b)\S*", re.IGNORECASE)
+_ARABIC = re.compile(r"[\u0600-\u06FF]")
+# Toll-free / short numbers are written without a 0 (80050, 800204, 998).
+_DIALABLE_PREFIXES = ("+", "0", "800", "600")
+
+
+def flag_arabic(text: str) -> list[str]:
+    """Arabic-answer checks: English words in Arabic sentences, 'عاجمان', shortened phone numbers."""
+    flags = []
+    for line in text.splitlines():
+        if not _ARABIC.search(line):
+            continue
+        for word in _LATIN_WORD.findall(_URLISH.sub(" ", line)):
+            flags.append(f"English word in Arabic text: {word}")
+    if "عاجمان" in text:
+        flags.append("misspelling: عاجمان (should be عجمان)")
+    for match in _PHONE.finditer(text.translate(_DIGITS)):
+        number = match.group().strip()
+        if len(re.sub(r"\D", "", number)) >= 7 and not number.startswith(_DIALABLE_PREFIXES):
+            flags.append(f"phone number without +971 or a leading 0: {number}")
+    return flags
+
+
 def providers_from(secrets: dict) -> dict[str, chat.Settings]:
     """Every configured provider: the app's top-level one plus any provider sections."""
     found = {}
@@ -77,8 +109,14 @@ def ask(question: dict, settings: chat.Settings, system_prompt: str) -> str:
         return f"(no answer: {exc})"
 
 
-def main() -> int:
+def main(argv: list[str] | None = None) -> int:
+    argv = sys.argv[1:] if argv is None else argv
+    lang = argv[argv.index("--lang") + 1] if "--lang" in argv else None
     questions = yaml.safe_load(QUESTIONS.read_text(encoding="utf-8"))["questions"]
+    report = REPORT
+    if lang:
+        questions = [question for question in questions if question["lang"] == lang]
+        report = REPORT.with_name(f"chat_eval_{lang}.md")
     secrets = tomllib.loads(SECRETS.read_text(encoding="utf-8")) if SECRETS.is_file() else {}
     providers = providers_from(secrets)
     stamp = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M UTC")
@@ -87,7 +125,7 @@ def main() -> int:
                    "Copy .streamlit/secrets.example.toml to .streamlit/secrets.toml, add a key, "
                    "and run this script again.")
         print(message)
-        REPORT.write_text(f"# Ask AIDA evaluation\n\nLast run: {stamp}\n\n**Skipped.** {message}\n",
+        report.write_text(f"# Ask AIDA evaluation\n\nLast run: {stamp}\n\n**Skipped.** {message}\n",
                           encoding="utf-8")
         return 0
 
@@ -96,7 +134,8 @@ def main() -> int:
     print(f"Providers: {', '.join(names)} · {len(questions)} questions")
     lines = [f"# Ask AIDA evaluation", "", f"Last run: {stamp}", "",
              f"Providers: {', '.join(f'{n} ({providers[n].model})' for n in names)}", "",
-             "⚠ = automatic flag (digits that look like a phone number or a dose). "
+             "⚠ = automatic flag (digits that look like a phone number or a dose; in Arabic "
+             "answers also English words, 'عاجمان' and phone numbers without +971 or a leading 0). "
              "Read every flagged answer. The check is simple and can miss things, so "
              "read the others too.", ""]
     total_flags = 0
@@ -105,7 +144,7 @@ def main() -> int:
                   f"*Expected:* {question.get('expect', '')}", ""]
         for name in names:
             reply = ask(question, providers[name], system_prompt)
-            flags = flag_answer(reply)
+            flags = flag_answer(reply) + (flag_arabic(reply) if question["lang"] == "ar" else [])
             total_flags += len(flags)
             print(f"  {question['id']} · {name}: {len(reply)} chars{' · FLAGGED' if flags else ''}")
             lines += [f"### {name}{' ⚠' if flags else ''}", ""]
@@ -113,8 +152,8 @@ def main() -> int:
             lines += [reply, ""]
     lines.insert(6, f"Automatic flags: {total_flags}")
     lines.insert(7, "")
-    REPORT.write_text("\n".join(lines), encoding="utf-8")
-    print(f"Wrote {REPORT.relative_to(ROOT)} ({total_flags} flags)")
+    report.write_text("\n".join(lines), encoding="utf-8")
+    print(f"Wrote {report.relative_to(ROOT)} ({total_flags} flags)")
     return 0
 
 

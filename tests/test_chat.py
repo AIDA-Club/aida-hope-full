@@ -103,6 +103,17 @@ class ChatLogicTests(unittest.TestCase):
         self.assertTrue(module.flag_answer("خذ ٢٠ ملغ"))
         self.assertEqual(module.flag_answer("About 0.5–1% of cases; ages 50–69; 2.4 million in 2024."), [])
 
+    def test_eval_flags_arabic_slips(self):
+        spec = importlib.util.spec_from_file_location("eval_chat", ROOT / "scripts" / "eval_chat.py")
+        module = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(module)
+        self.assertTrue(module.flag_arabic("تغطي فحص وتreatment سرطان الثدي"))
+        self.assertTrue(module.flag_arabic("جامعة عاجمان"))
+        self.assertTrue(module.flag_arabic("هاتف 6 7056294"))
+        clean = ("صحة (SEHA) ‎80050 (seha.ae)، مبنى Student Hub، Counseling@ajman.ac.ae، "
+                 "https://www.focp.ae/ الهاتف ‎+971 6 506 5542 أو 067056813، الإسعاف 998")
+        self.assertEqual(module.flag_arabic(clean), [])
+
 
 class KnowledgeBaseTests(unittest.TestCase):
     KB_FILES = ("signs.md", "risk.md", "myths.md", "terms.md", "screening.md", "help_uae.md",
@@ -155,6 +166,28 @@ class KnowledgeBaseTests(unittest.TestCase):
         for name in ("signs.md", "risk.md", "myths.md", "terms.md", "screening.md", "about_booth.md"):
             part = prompt.split(f"--- {name} ---")[1].split("\n--- ")[0]
             self.assertIn("## Sources", part, name)
+
+    def test_arabic_answer_rules(self):
+        system = (chat.KB / "system_prompt.md").read_text(encoding="utf-8")
+        self.assertIn("Arabic answers:", system)
+        for rule in ("Write Arabic answers fully in Arabic", "Copy phone numbers EXACTLY",
+                     "plural/neutral form", "official Arabic names from the list in help_uae.md"):
+            self.assertIn(rule, system)
+        self.assertIn("Arabic answers:", chat.build_system_prompt())
+
+    def test_arabic_names_survive_confirmed_help(self):
+        text = chat.confirmed_help((chat.KB / "help_uae.md").read_text(encoding="utf-8"))
+        self.assertIn("## Official Arabic names", text)
+        self.assertIn("<!-- AR names: native review -->", text)
+        for name in ("مركز أبوظبي للصحة العامة", "هيئة الصحة بدبي", "جمعية أصدقاء مرضى السرطان",
+                     "شركة أبوظبي للخدمات الصحية (صحة)"):
+            self.assertIn(name, text)
+        self.assertIn("مركز أبوظبي للصحة العامة", chat.build_system_prompt())
+
+    def test_fallback_ar_uses_neutral_address(self):
+        text = (chat.KB / "fallback_ar.md").read_text(encoding="utf-8")
+        for feminine in ("انتبهي", "اسأليني", "سمعتِ", "لاحظتِ"):
+            self.assertNotIn(feminine, text)
 
     def test_strip_section(self):
         text = "# T\n## A\na\n## Sources\n- x\n## B\nb"

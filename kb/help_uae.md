@@ -4,6 +4,20 @@
 
 **Be honest about limits:** the UAE has no single national booking line for breast screening that we could confirm. Screening is arranged through the person's own health authority, health centre or insurer. Where we have an official number, it is listed. Where we do not, send the person to the official website or their doctor.
 
+## Official Arabic names
+<!-- AR names: native review -->
+Use these exact Arabic names in Arabic answers:
+- Abu Dhabi Public Health Centre (ADPHC): مركز أبوظبي للصحة العامة
+- Department of Health – Abu Dhabi (DoH): دائرة الصحة – أبوظبي
+- Dubai Health Authority (DHA): هيئة الصحة بدبي
+- Emirates Health Services (EHS): مؤسسة الإمارات للخدمات الصحية
+- Ministry of Health and Prevention (MoHAP): وزارة الصحة ووقاية المجتمع
+- SEHA (Abu Dhabi Health Services Company): شركة أبوظبي للخدمات الصحية (صحة)
+- Friends of Cancer Patients (FOCP): جمعية أصدقاء مرضى السرطان
+- Pink Caravan: القافلة الوردية
+- Ajman University: جامعة عجمان
+- Emirates: أبوظبي، دبي، الشارقة، عجمان، أم القيوين، رأس الخيمة، الفجيرة
+
 ## Quick guide by emirate — CONFIRMED only
 | Emirate | What we can confirm | Where |
 |---|---|---|
