@@ -3,6 +3,7 @@ import importlib.util
 import subprocess
 import tempfile
 import unittest
+from datetime import datetime
 from pathlib import Path
 from types import SimpleNamespace
 from unittest.mock import patch
@@ -62,6 +63,36 @@ class ChatLogicTests(unittest.TestCase):
         self.assertEqual(kwargs["max_tokens"], 400)
         self.assertTrue(kwargs["stream"])
         self.assertIn("Arabic", kwargs["messages"][0]["content"])
+
+    def test_daily_cap_switches_to_offline(self):
+        chat.reset_daily_calls()
+        self.addCleanup(chat.reset_daily_calls)
+        capped = chat.Settings("deepseek", "test-key", "test-model", chat.BASE_URLS["deepseek"], daily_cap=2)
+        for _ in range(2):
+            self.assertEqual("".join(chat.call_llm([{"role": "user", "content": "hi"}], "en", capped, "S",
+                                                   fake_client(["ok"]))), "ok")
+        fake_client.last_kwargs = None
+        with self.assertRaises(chat.ChatUnavailable):
+            list(chat.call_llm([{"role": "user", "content": "hi"}], "en", capped, "S", fake_client(["ok"])))
+        self.assertIsNone(fake_client.last_kwargs, "the model must not be called once the cap is reached")
+
+    def test_daily_cap_resets_at_uae_midnight(self):
+        chat.reset_daily_calls()
+        self.addCleanup(chat.reset_daily_calls)
+        evening = datetime(2026, 10, 15, 23, 59, tzinfo=chat.UAE_TIME)
+        next_day = datetime(2026, 10, 16, 0, 1, tzinfo=chat.UAE_TIME)
+        self.assertTrue(chat.take_daily_call(1, evening))
+        self.assertFalse(chat.take_daily_call(1, evening))
+        self.assertTrue(chat.take_daily_call(1, next_day))
+        self.assertFalse(chat.take_daily_call(0, next_day))  # a cap of 0 means offline only
+
+    def test_daily_cap_from_secrets(self):
+        base = {"PROVIDER": "deepseek", "API_KEY": "k", "MODEL": "m"}
+        self.assertEqual(chat.settings_from(base).daily_cap, 1500)
+        self.assertEqual(chat.settings_from({**base, "DAILY_CALL_CAP": 300}).daily_cap, 300)
+        self.assertEqual(chat.settings_from({**base, "DAILY_CALL_CAP": "300"}).daily_cap, 300)
+        for bad in ("lots", -5, None):
+            self.assertEqual(chat.settings_from({**base, "DAILY_CALL_CAP": bad}).daily_cap, 1500, bad)
 
     def test_api_error_becomes_unavailable(self):
         with self.assertRaises(chat.ChatUnavailable):
@@ -252,6 +283,22 @@ class PublicExportTests(unittest.TestCase):
             self.assertIn(shown, text)
         for hidden in ("## Not yet confirmed", "Marsa Ajman", "800 8877", "gulfnews.com"):
             self.assertNotIn(hidden, text)
+
+    def test_export_is_a_ready_repo_and_keeps_git_history(self):
+        dest, copied = self.export()
+        for name in ("public_app.py", "requirements.txt", ".gitignore", "README.md", ".streamlit/config.toml"):
+            self.assertIn(name, copied)
+        self.assertIn(".streamlit/secrets.toml", (dest / ".gitignore").read_text(encoding="utf-8").splitlines())
+        self.assertFalse((dest / ".streamlit" / "secrets.toml").exists())
+        (dest / ".git").mkdir()
+        (dest / ".git" / "HEAD").write_text("ref: refs/heads/main\n", encoding="utf-8")
+        (dest / "stale.txt").write_text("old", encoding="utf-8")
+        spec = importlib.util.spec_from_file_location("export_public", ROOT / "scripts" / "export_public.py")
+        module = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(module)
+        module.export(dest)
+        self.assertTrue((dest / ".git" / "HEAD").is_file(), "re-export must not delete the repo")
+        self.assertFalse((dest / "stale.txt").exists(), "re-export must remove files no longer exported")
 
     def test_export_skips_private_files(self):
         _, copied = self.export()

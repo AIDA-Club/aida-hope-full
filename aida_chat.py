@@ -6,9 +6,11 @@ Privacy: nothing here writes chat contents to disk or to any log.
 from __future__ import annotations
 
 import re
+import threading
 import time
 from collections.abc import Iterator, Mapping
 from dataclasses import dataclass
+from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent
@@ -19,6 +21,8 @@ MAX_OUTPUT_TOKENS = 400
 MAX_MESSAGE_CHARS = 500
 MAX_TURNS = 12          # visitor messages per browser session
 TIMEOUT_SECONDS = 20
+DEFAULT_DAILY_CALL_CAP = 1500  # live model calls per day, for the whole app (DAILY_CALL_CAP in secrets)
+UAE_TIME = timezone(timedelta(hours=4))  # the day rolls over at midnight UAE time
 
 # OpenAI-compatible endpoints. Gemini's comes from Google's OpenAI-compatibility
 # docs (https://ai.google.dev/gemini-api/docs/openai, checked 9 Oct 2026).
@@ -33,6 +37,7 @@ class Settings:
     api_key: str
     model: str
     base_url: str
+    daily_cap: int = DEFAULT_DAILY_CALL_CAP
 
 
 class ChatUnavailable(RuntimeError):
@@ -53,7 +58,45 @@ def settings_from(secrets: Mapping | None) -> Settings | None:
         return None
     if not api_key or not model or not base_url or api_key.startswith("PASTE"):
         return None
-    return Settings(provider, api_key, model, base_url)
+    return Settings(provider, api_key, model, base_url, daily_cap_from(secrets))
+
+
+def daily_cap_from(secrets: Mapping) -> int:
+    """DAILY_CALL_CAP from secrets if it is a whole number of 0 or more, else the default."""
+    try:
+        cap = int(secrets.get("DAILY_CALL_CAP", DEFAULT_DAILY_CALL_CAP))
+    except (TypeError, ValueError):
+        return DEFAULT_DAILY_CALL_CAP
+    return cap if cap >= 0 else DEFAULT_DAILY_CALL_CAP
+
+
+# ---------------------------------------------------------------------------
+# Daily safety cap
+# ---------------------------------------------------------------------------
+# One counter for the whole server process (all visitors share it). Once the cap
+# is reached, call_llm() refuses and the page shows the offline answers until
+# midnight UAE time. The counter lives in memory, so it also resets when the app
+# restarts: it is a safety net, not a billing limit (set one with the provider too).
+_daily_calls = {"day": None, "count": 0}
+_daily_lock = threading.Lock()
+
+
+def take_daily_call(cap: int, now: datetime | None = None) -> bool:
+    """Count one model call for today; False (and nothing counted) once today's cap is used up."""
+    day = (now or datetime.now(UAE_TIME)).astimezone(UAE_TIME).date()
+    with _daily_lock:
+        if _daily_calls["day"] != day:
+            _daily_calls.update(day=day, count=0)
+        if _daily_calls["count"] >= cap:
+            return False
+        _daily_calls["count"] += 1
+        return True
+
+
+def reset_daily_calls() -> None:
+    """Start the counter again (used by tests)."""
+    with _daily_lock:
+        _daily_calls.update(day=None, count=0)
 
 
 # ---------------------------------------------------------------------------
@@ -271,11 +314,14 @@ def call_llm(history: list[dict], ui_lang: str, settings: Settings | None,
              system_prompt: str | None = None, client=None) -> Iterator[str]:
     """Stream the assistant's reply, chunk by chunk.
 
-    Raises ChatUnavailable when there is no key, the API fails, or the whole
-    reply takes longer than TIMEOUT_SECONDS. The caller then shows a fallback.
+    Raises ChatUnavailable when there is no key, today's DAILY_CALL_CAP is used up,
+    the API fails, or the whole reply takes longer than TIMEOUT_SECONDS. The caller
+    then shows a fallback.
     """
     if settings is None:
         raise ChatUnavailable("not configured")
+    if not take_daily_call(settings.daily_cap):
+        raise ChatUnavailable("daily cap reached")
     if client is None:
         from openai import OpenAI  # imported lazily so the page works without the package
         client = OpenAI(api_key=settings.api_key, base_url=settings.base_url,
