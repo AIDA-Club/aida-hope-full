@@ -4,16 +4,13 @@ import streamlit as st
 
 import slide_image
 from booth import BoothError, ROOT, load_class_medians, load_model_bundle, malignant_probability, t
-
-FRIENDLY_FEATURES = {"mean radius": "nucleus_size", "mean texture": "texture",
-                     "mean smoothness": "smoothness", "mean concavity": "concavity",
-                     "worst concave points": "concave_points"}
+from tweak_logic import DEFAULT_THRESHOLD, FRIENDLY_FEATURES, decision
 
 
 def reset_measurements(features: list[dict], medians: dict, label: str) -> None:
     for feature in features[:5]:
         st.session_state[f"feature_{feature['name']}"] = float(medians[label][feature["name"]])
-    st.session_state["decision_threshold"] = 0.5
+    st.session_state["decision_threshold"] = DEFAULT_THRESHOLD
     st.session_state.pop("tweak_last", None)
 
 
@@ -101,8 +98,7 @@ with display:
     except Exception:
         st.error(t("model_prediction_error"))
         st.stop()
-    prediction = "malignant" if probability >= threshold else "benign"
-    confidence = probability if prediction == "malignant" else 1 - probability
+    prediction, confidence = decision(probability, threshold)
     st.subheader(t("live_prediction", prediction=t(prediction)))
     st.markdown(f'<div class="booth-gauge" role="img" aria-label="{html.escape(t("gauge_label", prediction=t(prediction), percent=100 * confidence), quote=True)}" '
                 f'style="background:conic-gradient(#C63D76 {100 * confidence:.3f}%, #EFDDE5 0)">'
