@@ -103,6 +103,16 @@ class ChatLogicTests(unittest.TestCase):
         self.assertTrue(module.flag_answer("خذ ٢٠ ملغ"))
         self.assertEqual(module.flag_answer("About 0.5–1% of cases; ages 50–69; 2.4 million in 2024."), [])
 
+    def test_eval_flags_mixed_address(self):
+        spec = importlib.util.spec_from_file_location("eval_chat", ROOT / "scripts" / "eval_chat.py")
+        module = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(module)
+        mixed = "أتفهّم خوفك، لا أستطيع أن أخبرك. لا تنتظروا، بل احجزوا موعداً."
+        self.assertTrue(module.flag_mixed_address(mixed))
+        self.assertTrue(module.flag_mixed_address("احجزي موعداً، واسألوا طبيبكم."))
+        self.assertEqual(module.flag_mixed_address("راجعوا الطبيب قريباً، واسألوا طبيبكم. كم حالة؟ يتم الحجز."), [])
+        self.assertEqual(module.flag_mixed_address("أتفهّم خوفكِ، احجزي موعداً مع طبيبتك."), [])
+
     def test_eval_flags_arabic_slips(self):
         spec = importlib.util.spec_from_file_location("eval_chat", ROOT / "scripts" / "eval_chat.py")
         module = importlib.util.module_from_spec(spec)
@@ -172,7 +182,8 @@ class KnowledgeBaseTests(unittest.TestCase):
         self.assertIn("Arabic answers:", system)
         for rule in ("Write Arabic answers fully in Arabic", "Copy phone numbers EXACTLY",
                      "plural/neutral form", "official Arabic names from the list in help_uae.md",
-                     "reply in that gender", "Never add services, coverage or details",
+                     "keep that same form for the whole reply", "Never mix singular and",
+                     "Never add services, coverage or details",
                      "Don't name or translate a programme"):
             self.assertIn(rule, system)
         self.assertIn("Arabic answers:", chat.build_system_prompt())
@@ -191,6 +202,32 @@ class KnowledgeBaseTests(unittest.TestCase):
         text = (chat.KB / "fallback_ar.md").read_text(encoding="utf-8")
         for feminine in ("انتبهي", "اسأليني", "سمعتِ", "لاحظتِ"):
             self.assertNotIn(feminine, text)
+
+    def test_fix_reversed_numbers(self):
+        iso = (chat.LTR_ISOLATE, chat.POP_ISOLATE)
+        fixed = chat.fix_numbers("هاتف 6294 705 6 971+، من 9 صباحاً")
+        self.assertEqual(fixed, f"هاتف {iso[0]}+971 6 7056294{iso[1]}، من 9 صباحاً")
+        self.assertIn("+971 6 506 5542", chat.fix_numbers("اتصلوا على 5542 506 6 971+"))
+        self.assertIn("+971 6 506 5542", chat.fix_numbers("اتصلوا على 2455 605 6 179"))  # every digit reversed
+        self.assertEqual(chat.number_fixes("هاتف 6294 705 6 971+"), [("6294 705 6 971+", "+971 6 7056294")])
+
+    def test_fix_numbers_leaves_the_rest_alone(self):
+        english = "Call 998 in an emergency, or SEHA on 80050. In 2024, 21 of 24 were caught."
+        self.assertEqual(chat.fix_numbers(english), english)
+        arabic = chat.fix_numbers("اتصلوا بـ 998 أو صحة 80050")
+        self.assertIn(f"{chat.LTR_ISOLATE}998{chat.POP_ISOLATE}", arabic)
+        self.assertIn(f"{chat.LTR_ISOLATE}80050{chat.POP_ISOLATE}", arabic)
+        self.assertEqual(chat.fix_numbers("رقم 050 123 4567 غير مؤكد"), "رقم 050 123 4567 غير مؤكد")
+        once = chat.fix_numbers("هاتف 6294 705 6 971+")
+        self.assertEqual(chat.fix_numbers(once), once)  # running it twice changes nothing
+
+    def test_confirmed_numbers_come_from_confirmed_part_only(self):
+        numbers = chat.confirmed_numbers()
+        for digits in ("97165065542", "80050", "97167056294", "998", "999", "997"):
+            self.assertIn(digits, numbers)
+        for hidden in ("8008877", "80011111", "800725462"):  # all in "Not yet confirmed"
+            self.assertNotIn(hidden, numbers)
+        self.assertNotIn("77881", numbers)  # the FOCP PO Box is not a phone number
 
     def test_strip_section(self):
         text = "# T\n## A\na\n## Sources\n- x\n## B\nb"
@@ -247,9 +284,21 @@ class AskPageTests(unittest.TestCase):
             app.chat_input(key="chat_question").set_value(question).run()
             self.assertFalse(app.exception)
             self.assertIn(booth.translations(lang)["chat_offline"], [i.value for i in app.info])
-            expected = chat.fallback_sections(lang)[chat.match_topic(question)]
+            expected = chat.fix_numbers(chat.fallback_sections(lang)[chat.match_topic(question)])
             self.assertIn(expected, [m.value for m in app.markdown])
             self.assertEqual(len(app.session_state["chat_history"]), 2)
+
+    def test_live_reply_numbers_fixed_on_screen_and_in_history(self):
+        reply = "اتصلوا بالعيادة على 6294 705 6 971+ قريباً."
+        app = self.page("ar")
+        with patch.object(chat, "settings_from", return_value=FAKE), \
+                patch.object(chat, "call_llm", side_effect=lambda *args, **kwargs: iter([reply])):
+            app.chat_input(key="chat_question").set_value("ما رقم العيادة؟").run()
+        self.assertFalse(app.exception)
+        saved = app.session_state["chat_history"][-1]["content"]
+        self.assertEqual(saved, chat.fix_numbers(reply))
+        self.assertIn(f"{chat.LTR_ISOLATE}+971 6 7056294{chat.POP_ISOLATE}", saved)
+        self.assertIn(saved, [m.value for m in app.markdown])
 
     def test_long_message_rejected(self):
         app = self.page()

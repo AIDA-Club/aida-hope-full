@@ -13,17 +13,25 @@ def live_settings() -> chat.Settings | None:
 
 
 def answer(history: list[dict], question: str, settings: chat.Settings | None) -> str:
-    """Stream a live reply; on no key, error or timeout show the matching hand-written answer."""
+    """Stream a live reply; on no key, error or timeout show the matching hand-written answer.
+
+    After streaming, the bubble is redrawn with chat.fix_numbers() applied (reversed
+    phone numbers repaired, numbers kept left-to-right in Arabic), and that fixed text
+    is what goes into the session history.
+    """
     try:
-        reply = st.write_stream(chat.call_llm(history, language(), settings))
+        bubble = st.empty()
+        reply = bubble.write_stream(chat.call_llm(history, language(), settings))
         if isinstance(reply, str) and reply.strip():
-            return reply
+            fixed = chat.fix_numbers(reply)
+            bubble.markdown(fixed)
+            return fixed
         raise chat.ChatUnavailable("empty reply")
     except chat.ChatUnavailable:
         lang = "ar" if chat.is_arabic(question) else language()
         note = translations(lang)["chat_offline"]
         try:
-            fallback = chat.fallback_sections(lang)[chat.match_topic(question)]
+            fallback = chat.fix_numbers(chat.fallback_sections(lang)[chat.match_topic(question)])
         except (OSError, KeyError):
             fallback = translations(lang)["kb_missing"]
         st.info(note)

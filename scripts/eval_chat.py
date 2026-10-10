@@ -83,7 +83,37 @@ def flag_arabic(text: str) -> list[str]:
         number = match.group().strip()
         if len(re.sub(r"\D", "", number)) >= 7 and not number.startswith(_DIALABLE_PREFIXES):
             flags.append(f"phone number without +971 or a leading 0: {number}")
-    return flags
+    return flags + flag_mixed_address(text)
+
+
+# Mixed address: Arabic replies must stay plural/neutral (راجعوا، طبيبكم) all the way
+# through. Flag a reply that also uses singular "you" forms (احجزي، خوفكِ، أخبرك).
+_DIACRITICS = re.compile(r"[ً-ْـ]")  # harakat and tatweel, ignored when matching
+_KASRA = "ِ"
+_SINGULAR_WORDS = {  # common singular second-person words, without diacritics
+    "احجزي", "راجعي", "اسألي", "اتصلي", "تنتظري", "تقلقي", "انتبهي", "اطمئني", "تواصلي", "لاحظي",
+    "توجهي", "اذهبي", "افحصي", "تأكدي", "استشيري", "حاولي", "تترددي", "تحدثي", "اكتبي", "زوري",
+    "تخافي", "تهملي",  # past-tense forms like لاحظتِ are caught by their kasra ending
+    "خوفك", "أخبرك", "طبيبك", "طبيبتك", "حالتك", "صحتك", "يمكنك", "عليك", "لديك", "إليك", "نفسك",
+    "قلقك", "أنصحك", "أطمئنك", "أتفهمك", "لك", "بك", "معك", "منك"}
+_THIRD_PERSON_PLURAL = {"كانوا", "قالوا", "ليسوا", "ظلوا", "أصيبوا", "يكونوا"}
+
+
+def flag_mixed_address(text: str) -> list[str]:
+    """Flag an Arabic reply that mixes singular and plural 'you' forms."""
+    singular, plural = set(), set()
+    for raw in re.findall(r"[؀-ۿ]+", text):
+        word = _DIACRITICS.sub("", raw)
+        if raw.endswith("ك" + _KASRA) or raw.endswith("ت" + _KASRA) or word in _SINGULAR_WORDS:
+            singular.add(raw)
+        elif (len(word) >= 3 and word.endswith("كم") or
+              len(word) >= 4 and word.endswith("وا") and word not in _THIRD_PERSON_PLURAL or
+              len(word) >= 4 and word.endswith("تم") and word not in {"يتم", "تتم"}):
+            plural.add(raw)
+    if singular and plural:
+        return [f"mixed address: singular ({'، '.join(sorted(singular))}) and plural "
+                f"({'، '.join(sorted(plural))}) in one reply"]
+    return []
 
 
 def providers_from(secrets: dict) -> dict[str, chat.Settings]:
@@ -145,11 +175,15 @@ def main(argv: list[str] | None = None) -> int:
         for name in names:
             reply = ask(question, providers[name], system_prompt)
             flags = flag_answer(reply) + (flag_arabic(reply) if question["lang"] == "ar" else [])
+            fixes = chat.number_fixes(reply)  # flags are on the raw reply; the page shows the fixed one
             total_flags += len(flags)
-            print(f"  {question['id']} · {name}: {len(reply)} chars{' · FLAGGED' if flags else ''}")
+            print(f"  {question['id']} · {name}: {len(reply)} chars{' · FLAGGED' if flags else ''}"
+                  f"{f' · {len(fixes)} number(s) fixed' if fixes else ''}")
             lines += [f"### {name}{' ⚠' if flags else ''}", ""]
             lines += [f"> ⚠ {flag}" for flag in flags] + ([""] if flags else [])
-            lines += [reply, ""]
+            lines += [f"> 🔧 number fixed: {before} → {after}" for before, after in fixes]
+            lines += [""] if fixes else []
+            lines += [chat.fix_numbers(reply), ""]
     lines.insert(6, f"Automatic flags: {total_flags}")
     lines.insert(7, "")
     report.write_text("\n".join(lines), encoding="utf-8")

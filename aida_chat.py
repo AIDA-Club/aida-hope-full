@@ -131,6 +131,84 @@ def fallback_sections(lang: str, kb_dir: Path = KB) -> dict[str, str]:
     return sections
 
 
+# ---------------------------------------------------------------------------
+# Phone numbers: repaired in code, not by the prompt
+# ---------------------------------------------------------------------------
+# In Arabic replies the model sometimes writes a number with its groups in the
+# wrong order ("6294 705 6 971+"). fix_numbers() puts any CONFIRMED number back
+# exactly as the KB writes it. Numbers that are not confirmed are left alone.
+EMERGENCY_NUMBERS = ("998", "999", "997")
+LTR_ISOLATE, POP_ISOLATE = "⁦", "⁩"  # keep a number left-to-right inside Arabic
+# A run of digits, allowing +, spaces and hyphens inside, and a stray + at either end.
+_NUMBER_RUN = re.compile(r"\+?\d(?:[\d \-]*\d)?\+?")
+_ARABIC_LETTER = re.compile(r"[؀-ۿ]")
+
+
+def _digits(text: str) -> str:
+    return re.sub(r"\D", "", text)
+
+
+def confirmed_numbers(kb_dir: Path = KB) -> dict[str, str]:
+    """Every phone number in help_uae.md's CONFIRMED part, keyed by its digits.
+
+    The value is the number exactly as the KB writes it. A run counts as a phone
+    number when it has 5+ digits (80050, 8002033, +971 6 506 5542...); 4-digit
+    years and the PO Box are skipped. The emergency numbers are added too.
+    """
+    text = confirmed_help((kb_dir / "help_uae.md").read_text(encoding="utf-8"))
+    numbers = {}
+    for match in _NUMBER_RUN.finditer(text):
+        canonical = match.group().strip(" -").rstrip("+")
+        if len(_digits(canonical)) < 5 or text[max(0, match.start() - 4):match.start()] == "Box ":
+            continue
+        numbers.setdefault(_digits(canonical), canonical)
+    for number in EMERGENCY_NUMBERS:
+        numbers.setdefault(number, number)
+    return numbers
+
+
+def _match_confirmed(run: str, numbers: dict[str, str]) -> str | None:
+    """The canonical number this run is (as written, reversed or with '971+' moved to the end)."""
+    groups = [_digits(group) for group in re.split(r"[ \-]+", run.strip(" -")) if _digits(group)]
+    digits = "".join(groups)
+    candidates = [digits, "".join(reversed(groups)), digits[::-1]]
+    if run.rstrip().endswith("971+") and digits.endswith("971"):
+        candidates.append("971" + digits[:-3])
+    for candidate in candidates:
+        if candidate in numbers:
+            return numbers[candidate]
+    return None
+
+
+def _fix_numbers(text: str, numbers: dict[str, str]) -> tuple[str, list[tuple[str, str]]]:
+    arabic = bool(_ARABIC_LETTER.search(text))
+    text = text.replace(LTR_ISOLATE, "").replace(POP_ISOLATE, "")  # so running it twice is safe
+    fixes = []
+
+    def replace(match: re.Match) -> str:
+        run = match.group()
+        core = run.strip(" -")
+        canonical = _match_confirmed(core, numbers)
+        if canonical is None:
+            return run  # not a confirmed number: leave it exactly as it is
+        if core != canonical:
+            fixes.append((core, canonical))
+        shown = f"{LTR_ISOLATE}{canonical}{POP_ISOLATE}" if arabic else canonical
+        return run.replace(core, shown, 1)
+
+    return _NUMBER_RUN.sub(replace, text), fixes
+
+
+def fix_numbers(text: str, kb_dir: Path = KB) -> str:
+    """Repair confirmed phone numbers; in Arabic text, also wrap them in LTR isolates."""
+    return _fix_numbers(text, confirmed_numbers(kb_dir))[0]
+
+
+def number_fixes(text: str, kb_dir: Path = KB) -> list[tuple[str, str]]:
+    """(before, after) for every number fix_numbers() would change. Used by the eval report."""
+    return _fix_numbers(text, confirmed_numbers(kb_dir))[1]
+
+
 # Very small keyword router: which hand-written answer fits a typed question best.
 _TOPIC_WORDS = {
     "know_signs": ("sign", "symptom", "lump", "pain", "nipple", "discharge", "change", "skin",
