@@ -8,6 +8,7 @@ result and stops if a booth-only file, a secret or a results file slipped in.
 """
 from __future__ import annotations
 
+import re
 import shutil
 import sys
 from pathlib import Path
@@ -33,6 +34,8 @@ FILES = {
 KB = sorted(path.relative_to(ROOT).as_posix() for path in (ROOT / "kb").glob("*.md"))
 FORBIDDEN = ("booth_set", "results.csv", "booth_key", "secrets.toml", "predictions.csv",
              "Challenge", "Tweak", "models/", "gradcam", "print_out", "answer")
+# Anything that looks like a real API key (DeepSeek/OpenAI "sk-...", Google "AIza...").
+KEY_PATTERN = re.compile(r"sk-[A-Za-z0-9]{20,}|AIza[0-9A-Za-z_-]{30,}")
 
 
 def main() -> None:
@@ -50,6 +53,11 @@ def main() -> None:
            and name != ".streamlit/secrets.example.toml"]
     if bad:
         sys.exit(f"Refusing: forbidden files in the public folder: {bad}")
+    leaked = [name for name in copied if (DEST / name).suffix in (".py", ".md", ".toml", ".txt", ".json")
+              and KEY_PATTERN.search((DEST / name).read_text(encoding="utf-8", errors="ignore"))]
+    if leaked:
+        shutil.rmtree(DEST)
+        sys.exit(f"Refusing: something that looks like an API key is in {leaked}. Remove it and rotate the key.")
     print(f"{len(copied)} files in {DEST.relative_to(ROOT)}/:")
     for name in copied:
         print("  " + name)

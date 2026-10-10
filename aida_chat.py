@@ -59,6 +59,33 @@ def settings_from(secrets: Mapping | None) -> Settings | None:
 # ---------------------------------------------------------------------------
 # Knowledge base
 # ---------------------------------------------------------------------------
+# The system prompt is the whole KB, so keep an eye on its size. This is a check
+# (tests fail above it), not a cut: no topic file is ever truncated.
+MAX_SYSTEM_PROMPT_CHARS = 120_000  # about 30,000 tokens at ~4 characters per token
+
+# Fallback headings are written for people; the code matches them to the four buttons.
+FALLBACK_HEADINGS = {"Know the Signs": "know_signs", "Myth or Fact": "myth_fact",
+                     "Explain a Term": "explain_term", "Where to Get Help": "get_help"}
+
+
+def strip_unconfirmed(text: str) -> str:
+    """Remove help_uae.md's "Not yet confirmed" part so the model never sees it.
+
+    Cuts from the '---' line just before '## Not yet confirmed' up to (not including)
+    '## Sources', or to the end if there is no Sources heading. The file on disk is
+    unchanged: the booth team still needs that list.
+    """
+    lines = text.splitlines()
+    start = next((i for i, line in enumerate(lines) if line.startswith("## Not yet confirmed")), None)
+    if start is None:
+        return text
+    rule = next((i for i in range(start - 1, -1, -1) if lines[i].strip() == "---"), None)
+    if rule is not None and all(not line.strip() for line in lines[rule + 1:start]):
+        start = rule
+    end = next((i for i in range(start + 1, len(lines)) if lines[i].startswith("## Sources")), len(lines))
+    return "\n".join(lines[:start] + lines[end:])
+
+
 def build_system_prompt(kb_dir: Path = KB) -> str:
     """system_prompt.md followed by every other kb/*.md except the fallback files."""
     system = (kb_dir / "system_prompt.md").read_text(encoding="utf-8").strip()
@@ -66,15 +93,23 @@ def build_system_prompt(kb_dir: Path = KB) -> str:
     for path in sorted(kb_dir.glob("*.md")):
         if path.name == "system_prompt.md" or path.name.startswith("fallback_"):
             continue
-        parts += ["", f"--- {path.name} ---", path.read_text(encoding="utf-8").strip()]
+        text = path.read_text(encoding="utf-8")
+        if path.name == "help_uae.md":
+            text = strip_unconfirmed(text)
+        parts += ["", f"--- {path.name} ---", text.strip()]
     return "\n".join(parts)
 
 
 def fallback_sections(lang: str, kb_dir: Path = KB) -> dict[str, str]:
-    """Hand-written answers. Stable '## topic' headings are identifiers, not displayed."""
+    """Hand-written answers, keyed by topic. '## Know the Signs' etc. map to the buttons."""
     content = (kb_dir / f"fallback_{lang}.md").read_text(encoding="utf-8")
-    parts = re.split(r"^## ([a-z_]+)\s*$", content, flags=re.MULTILINE)
-    return {parts[i]: parts[i + 1].strip() for i in range(1, len(parts), 2)}
+    parts = re.split(r"^## (.+?)\s*$", content, flags=re.MULTILINE)
+    sections = {}
+    for i in range(1, len(parts), 2):
+        topic = FALLBACK_HEADINGS.get(parts[i])
+        if topic:
+            sections[topic] = parts[i + 1].strip()
+    return sections
 
 
 # Very small keyword router: which hand-written answer fits a typed question best.

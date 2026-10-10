@@ -1,46 +1,63 @@
-<!-- Stable section identifiers are used by the app. Content uses only the verified WHO facts. -->
-## know_signs
-Signs of breast cancer can include:
+## Know the Signs
+Look for anything **new or different for you** in the breast, chest or armpit:
+- a new lump, swelling or thickening, often painless
+- a change in the size or shape of a breast
+- skin dimpling, puckering, redness, or skin that looks like orange peel
+- a nipple that turns inward, changes shape, or has a rash or flaking
+- fluid from the nipple when you are not breastfeeding, especially if it contains blood
+- a lump or swelling under the arm or near the collarbone
 
-- A lump or thickening in the breast, often without pain
-- A change in the size, shape or look of a breast
-- Dimpling, redness, pitting or other skin changes
-- A change in the nipple or the skin around it
-- Unusual or bloody fluid from the nipple
+Men can have these signs too.
 
-Most breast lumps are not cancer, but any unusual lump is worth checking with a doctor, even if it doesn't hurt. Men can get breast cancer too (rare).
+Most breast lumps are not cancer, and breast pain on its own is not usually a sign. Still, **any new change should be checked by a doctor soon**. Don't wait for it to go away, even if your last mammogram was normal.
 
-[Learn more: National Cancer Institute](https://www.cancer.gov/types/breast/symptoms)
+A rare type called inflammatory breast cancer causes fast redness and swelling, often with no lump.
 
-## myth_fact
-**Myth: If nobody in my family had breast cancer, I'm safe.**
+UAE health authorities encourage a monthly self-check from age 20 so you know what is normal for you.
 
-**Fact:** Most women diagnosed with breast cancer have no known family history. Having no family history does not mean low risk.
+*Sources: WHO, NHS, American Cancer Society, CDC, Emirates Health Services.*
 
-**Myth: A lump that doesn't hurt is nothing to worry about.**
+## Myth or Fact
+Here are some common beliefs:
+- **"Deodorants cause breast cancer."** Myth. Large studies found no link.
+- **"Men can't get breast cancer."** Myth. About 0.5–1% of breast cancers occur in men.
+- **"I'm too young to worry."** Myth. It is less common at a young age, but in the UAE it is often diagnosed 10–15 years younger than in Europe or North America.
+- **"No family history means no risk."** Myth. Most people diagnosed have no family history.
+- **"Mammogram radiation causes cancer."** Myth. The dose is very low, and the benefits outweigh the risk.
+- **"Breast cancer is a death sentence."** Myth. When it is found early, 5-year relative survival is over 99% (US data).
+- **"Herbal remedies can cure it."** Myth. None has been shown to cure cancer, and some can interfere with treatment.
+- **"Breastfeeding lowers risk."** Fact. The effect is modest, and it grows the longer you breastfeed.
 
-**Fact:** Breast cancer lumps are often painless. See a doctor about any unusual lump, even if it doesn't hurt.
+Heard something else? Ask me and I'll tell you what the evidence says.
 
-**Myth: Men can't get breast cancer.**
+*Sources: NCI, American Cancer Society, WHO, PLOS ONE 2021.*
 
-**Fact:** Men can get it too, although it is rare: about 0.5–1% of breast cancers occur in men.
+## Explain a Term
+I can explain medical words in plain English or Arabic. Some common ones:
+- **Benign:** not cancer. It does not spread.
+- **Malignant:** cancer. The cells can grow and spread.
+- **Mammogram:** a low-dose x-ray of the breast.
+- **Breast ultrasound:** pictures made with sound waves, with no radiation. It is often the first test for a lump in women under 30.
+- **Biopsy:** taking a small tissue sample to look at under a microscope. It is the only way to confirm cancer.
+- **BI-RADS:** a 0–6 scale radiologists use to report results:
+  - 0: more pictures needed
+  - 1–2: normal or benign
+  - 3: probably benign, with a short follow-up
+  - 4–5: suspicious, and a biopsy is advised
+  - 6: cancer already confirmed
+- **Metastasis:** cancer that has spread to another part of the body.
 
-[Learn more: National Cancer Institute](https://www.cancer.gov/types/breast/symptoms)
+Type any word you have heard and I'll explain it. I can explain words, but I can't interpret your own results. Your doctor can.
 
-## explain_term
-**Benign:** not cancer.
+*Sources: NCI Dictionary of Cancer Terms, American Cancer Society, RadiologyInfo, ACR.*
 
-**Malignant:** cancer that can grow into nearby tissue and spread.
+## Where to Get Help
+- **Ajman University students, faculty and staff:** University Health Clinic, Student Hub Building, Ground Floor. Phone +971 6 7056294. Open Monday–Thursday 9AM–5PM and Friday 9AM–1PM. Services are free.
+- **Feeling worried or anxious:** AU Counseling Unit, J2 block B, first floor. Phone 067056813 (9am–3pm), or email Counseling@ajman.ac.ae.
+- **Anywhere in the UAE:** Friends of Cancer Patients (based in Sharjah) runs the nationwide Pink Caravan free screening campaign and offers patient support. Phone +971 6 506 5542, website focp.ae.
+- **Abu Dhabi and Al Ain:** book screening with a partner provider. SEHA 80050 (seha.ae), Burjeel 80055, Mediclinic 8002033, M42 800204, NMC 8001122.
+- **Dubai:** the Dubai Health Authority has announced that the basic Dubai health insurance plan covers breast cancer screening. Ask your clinic or insurer; see dha.gov.ae.
+- **Ajman, Sharjah, Umm Al Quwain, Ras Al Khaimah and Fujairah:** public care is run by Emirates Health Services (ehs.gov.ae). Visit your nearest EHS health centre. Al Hamidiya Health Centre in Ajman has a 3D mammogram unit.
+- **Screening in the UAE:** a mammogram every 2 years from age 40. Ask your doctor what's right for you.
 
-**Biopsy:** taking a small tissue sample. It is how doctors confirm whether a lump is benign or malignant.
-
-**Screening:** looking for cancer in healthy people before any symptoms appear. For breast cancer this usually means mammography for women aged about 50–69.
-
-[Screening: National Cancer Institute](https://www.cancer.gov/types/breast/screening) · [Diagnosis: National Cancer Institute](https://www.cancer.gov/types/breast/diagnosis)
-
-## get_help
-If you notice a change in your breast, see a doctor or your local clinic soon. Finding cancer early, while it is small and has not spread, makes successful treatment more likely.
-
-The booth team can help you find local services. Please don't share personal health details in this demonstration.
-
-[How breast changes are assessed: National Cancer Institute](https://www.cancer.gov/types/breast/diagnosis)
+If you notice any change or feel worried, please see a doctor; in an emergency call 998.

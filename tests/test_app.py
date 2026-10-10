@@ -11,6 +11,7 @@ from unittest.mock import patch
 from PIL import Image  # Installed by Streamlit; used only to verify PNG assets.
 from streamlit.testing.v1 import AppTest
 
+import aida_chat
 import booth
 
 ROOT = booth.ROOT
@@ -171,7 +172,8 @@ class BoothTests(unittest.TestCase):
             app.radio(key="language_choice").set_value(lang).run()
             for topic in ("know_signs", "myth_fact", "explain_term", "get_help"):
                 self.button(app, booth.translations(lang)[topic])
-                self.assertTrue(any("cancer.gov" in entry.value for entry in app.markdown))
+                expected = aida_chat.fallback_sections(lang)[topic]
+                self.assertIn(expected, [entry.value for entry in app.markdown])
 
     def test_coming_soon_and_live_model(self):
         is_file = Path.is_file

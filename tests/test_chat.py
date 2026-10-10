@@ -103,6 +103,46 @@ class ChatLogicTests(unittest.TestCase):
         self.assertEqual(module.flag_answer("About 0.5–1% of cases; ages 50–69; 2.4 million in 2024."), [])
 
 
+class KnowledgeBaseTests(unittest.TestCase):
+    KB_FILES = ("signs.md", "risk.md", "myths.md", "terms.md", "screening.md", "help_uae.md",
+                "about_booth.md", "fallback_en.md", "fallback_ar.md", "system_prompt.md")
+
+    def test_kb_files_exist_and_are_not_empty(self):
+        for name in self.KB_FILES:
+            path = chat.KB / name
+            self.assertTrue(path.is_file(), name)
+            self.assertTrue(path.read_text(encoding="utf-8").strip(), name)
+
+    def test_fallbacks_have_exactly_the_four_headings(self):
+        for lang in ("en", "ar"):
+            text = (chat.KB / f"fallback_{lang}.md").read_text(encoding="utf-8")
+            headings = [line[3:].strip() for line in text.splitlines() if line.startswith("## ")]
+            self.assertEqual(headings, list(chat.FALLBACK_HEADINGS), lang)
+            sections = chat.fallback_sections(lang)
+            self.assertEqual(list(sections), list(chat.TOPICS), lang)
+            self.assertTrue(all(sections.values()), lang)
+
+    def test_prompt_hides_unconfirmed_contacts(self):
+        prompt = chat.build_system_prompt()
+        for hidden in ("## Not yet confirmed", "800 8877", "80011111", "Marsa Ajman",
+                       "info@pinkcaravan.ae", "Sakina"):
+            self.assertNotIn(hidden, prompt)
+        for shown in ("998", "+971 6 506 5542", "80050"):
+            self.assertIn(shown, prompt)
+        self.assertIn("CONFIRMED sections of help_uae.md", prompt)
+        # The full list stays on disk for the booth team.
+        self.assertIn("Marsa Ajman", (chat.KB / "help_uae.md").read_text(encoding="utf-8"))
+
+    def test_strip_unconfirmed(self):
+        text = "keep 1\n\n---\n\n## Not yet confirmed\nsecret\n\n## Sources\n- a"
+        self.assertEqual(chat.strip_unconfirmed(text), "keep 1\n\n## Sources\n- a")
+        self.assertEqual(chat.strip_unconfirmed("a\n## Not yet confirmed\nsecret"), "a")
+        self.assertEqual(chat.strip_unconfirmed("nothing to cut"), "nothing to cut")
+
+    def test_prompt_size_under_cap(self):
+        self.assertLess(len(chat.build_system_prompt()), chat.MAX_SYSTEM_PROMPT_CHARS)
+
+
 class AskPageTests(unittest.TestCase):
     def setUp(self):
         # Never reach a real provider from tests, even if secrets.toml exists.
@@ -124,7 +164,8 @@ class AskPageTests(unittest.TestCase):
             app.chat_input(key="chat_question").set_value(question).run()
             self.assertFalse(app.exception)
             self.assertIn(booth.translations(lang)["chat_offline"], [i.value for i in app.info])
-            self.assertTrue(any("cancer.gov/types/breast/symptoms" in m.value for m in app.markdown))
+            expected = chat.fallback_sections(lang)[chat.match_topic(question)]
+            self.assertIn(expected, [m.value for m in app.markdown])
             self.assertEqual(len(app.session_state["chat_history"]), 2)
 
     def test_long_message_rejected(self):

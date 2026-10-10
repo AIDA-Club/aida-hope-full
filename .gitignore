@@ -15,3 +15,5 @@ models/*.pt
 # Smoke-test screenshots (scripts/smoke_test.py)
 smoke_out/
 public_deploy/
+kb_backup_*/
+kb_ready/
