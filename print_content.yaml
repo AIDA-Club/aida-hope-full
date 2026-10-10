@@ -79,10 +79,10 @@ folders:
     verdict_subtitle: "The AI was 91% sure it was benign. It was cancer."
     consequences:
       - "False reassurance: the patient is told not to worry."
-      - "Diagnosis is delayed by months."
-      - "In that time the cancer may grow or spread."
-      - "It may be found at a later stage, with fewer treatment options."
-      - "Confidence is not truth: 91% sure is not 91% right."
+      - "Diagnosis is delayed."
+      - "In the meantime the cancer may grow or spread."
+      - "It may be found later, when treatment is less likely to succeed."
+      - "Confidence is not truth."
     human_safeguard:
       - "Compares this scan with the patient's previous scans."
       - "A second radiologist reads the images independently."
@@ -114,7 +114,7 @@ folders:
       - "False reassurance: the patient goes home thinking all is well."
       - "Diagnosis is delayed."
       - "The cancer may grow or spread in the meantime."
-      - "It may be found at a later stage, with fewer options."
+      - "It may be found later, when treatment is less likely to succeed."
     human_safeguard:
       - "Checks that the area of concern was actually looked at."
       - "A second reader reviews the images."
@@ -178,9 +178,9 @@ folders:
     verdict: "FALSE POSITIVE"
     verdict_subtitle: "The AI raised the alarm. It was not cancer."
     consequences:
-      - "Days or weeks of fear and anxiety for the patient and family."
+      - "Fear and anxiety for the patient and family."
       - "Extra scans and an unnecessary biopsy."
-      - "Cost and lost time from work or study."
+      - "Cost and lost time."
       - "Busier clinics: every false alarm takes time from other patients."
     human_safeguard:
       - "Compares with previous scans to see whether anything has changed."
@@ -243,8 +243,8 @@ folders:
     verdict: "AI GOT IT RIGHT"
     verdict_subtitle: "Right answer, right place: 99% malignant, heatmap on the tumor."
     consequences:
-      - "AI can help: it flagged the cancer quickly and pointed to the right area."
-      - "Fast, consistent highlighting helps doctors decide where to look first."
+      - "AI can help: it flagged the cancer and pointed to the right area."
+      - "A highlight like this can help doctors decide where to look first."
       - "Cancers found early are more likely to be treated successfully."
       - "Even here, the biopsy, not the AI, confirmed the diagnosis."
     human_safeguard:
@@ -267,7 +267,7 @@ tips_card:
     title: "How to read a breast ultrasound"
     subtitle: "Five simple clues for the challenge"
     tips:
-      - "The image is a slice through the breast. Dark areas are fluid or masses; brighter areas are tissue."
+      - "The image is a slice through the breast. Dark areas can be fluid, fat or a mass; brighter areas are denser tissue."
       - "A dark blob may be a mass. Many masses are benign (not cancer)."
       - "Smooth, oval edges, and wider than tall: more often benign."
       - "Irregular or spiky edges, taller than wide, or a dark shadow underneath: more suspicious."
@@ -279,7 +279,7 @@ tips_card:
     title: "كيف تقرأ صورة الموجات فوق الصوتية للثدي"
     subtitle: "خمسة مفاتيح بسيطة للتحدي"
     tips:
-      - "الصورة شريحة عبر الثدي. المناطق الداكنة سوائل أو كتل، والمناطق الأفتح أنسجة."
+      - "الصورة شريحة عبر الثدي. المناطق الداكنة قد تكون سوائل أو دهوناً أو كتلة، والمناطق الأفتح أنسجة أكثر كثافة."
       - "البقعة الداكنة قد تكون كتلة. كثير من الكتل حميدة (ليست سرطاناً)."
       - "حواف ناعمة بيضاوية، والعرض أكبر من الطول: غالباً حميدة."
       - "حواف غير منتظمة أو مسنّنة، أو الطول أكبر من العرض، أو ظل داكن تحتها: أكثر إثارة للشك."
@@ -349,6 +349,7 @@ poster:
     model_note: "وأعطى أيضاً 3 إنذارات كاذبة. 68 صورة اختبار صغير، فتعامل مع هذه الأرقام بحذر."
     theme: "لكل قصة تفرّدها، ولكل رحلة أهميتها. (شهر التوعية بسرطان الثدي 2026، منظمة الصحة العالمية)"
     disclaimer: "عرض توضيحي تعليمي فقط. ليس للتشخيص."
+  qr_label: "Ask AIDA: breast cancer questions, in English and Arabic"
   credits_heading: "Credits"
   organisers: "AIDA Club × IEEE AU Student Cabinet · Hope Fair, Ajman University, 15 October 2026"
 

@@ -144,5 +144,6 @@
   "about_credits_heading": "مصادر البيانات",
   "about_credits": "- Curated BUSI dataset (Aumente-Maestro, Díez, Remeseiro, Universidad de Oviedo, 2025), based on: Al-Dhabyani W, Gomaa M, Khaled H, Fahmy A. Dataset of breast ultrasound images. Data in Brief. 2020;28:104863. doi:10.1016/j.dib.2019.104863\n- Wolberg W, Mangasarian O, Street N, Street W. Breast Cancer Wisconsin (Diagnostic). UCI Machine Learning Repository, 1993. doi:10.24432/C5DW2B (تُستخدم في تجربة القياسات)",
   "about_metrics_missing": "تعذّرت قراءة ملف نتائج النموذج (data/reports/metrics.json). اطلب من الفريق التحقّق منه.",
-  "credits_short": "الصور: مجموعة BUSI المنقّحة (جامعة أوفييدو، 2025)، المبنية على Al-Dhabyani وزملائه 2020 · تجربة القياسات: Breast Cancer Wisconsin (Diagnostic)، UCI 1993."
+  "credits_short": "الصور: مجموعة BUSI المنقّحة (جامعة أوفييدو، 2025)، المبنية على Al-Dhabyani وزملائه 2020 · تجربة القياسات: Breast Cancer Wisconsin (Diagnostic)، UCI 1993.",
+  "public_home_intro": "اسأل AIDA يجيب عن أسئلة عامة حول سرطان الثدي: العلامات التحذيرية وعوامل الخطر والمفاهيم الخاطئة وأين تجد المساعدة. هو مساعد تعليمي وليس طبيباً. يمكنك أيضاً قراءة كيف بنينا نموذج الصور وما مدى نجاحه."
 }

@@ -8,7 +8,7 @@ Outputs go to print_out/:
     answer_key.pdf       A4 staff-only answer table
     folders.pdf          6 fictional patient folders, 6 A4 pages each
     tips_card.pdf        A5 "how to read an ultrasound" card, English front, Arabic back
-    takehome_cards.pdf   85 x 55 mm cards, 10 per A4 sheet with crop marks
+    takehome_cards.pdf   85 x 55 mm cards, 10 per A4 sheet, 3 mm gutter, crop marks per card
     poster_A2.pdf        A2 portrait poster
     previews/*.png       page 1 of each PDF + every page of folder 1
 
@@ -247,7 +247,8 @@ def build_case_cards(content: dict, booth: list[dict]) -> Path:
         # Large image, full width inside the margins.
         image_mm = (width - 2 * margin) / mm
         top = height - margin - 22 * mm
-        place_image(c, DATA / case["print_image"], margin, top - image_mm * mm, image_mm)
+        # data/images has no burned-in label; image_300dpi() Lanczos-upscales it to 300 dpi.
+        place_image(c, DATA / case["image"], margin, top - image_mm * mm, image_mm)
         draw_text(c, content["case_cards"]["prompt"], margin, top - image_mm * mm - 9 * mm,
                   width - 2 * margin, SANS_BOLD, 12, INK, align="center")
         footer(c, width, content["meta"]["footer"], y=margin + 1 * mm)
@@ -281,14 +282,17 @@ def build_answer_key(content: dict, booth: list[dict]) -> Path:
     for index, case in enumerate(sorted(booth, key=lambda item: item["case_id"]), start=1):
         confidence = case["ai_probs"][case["ai_pred"]]
         shown = ">99%" if confidence >= 0.995 else f"{confidence * 100:.0f}%"
-        correct = "Yes" if case["correct"] else {
-            "false_negative": "No: missed cancer", "false_positive": "No: false alarm",
-            "other_confusion": "No"}.get(case["error_type"], "No")
+        if case["truth"] == "normal" and case["ai_pred"] == "benign":
+            correct = "No: saw a lump that isn't there"
+        else:
+            correct = "Yes" if case["correct"] else {
+                "false_negative": "No: missed cancer", "false_positive": "No: false alarm",
+                "other_confusion": "No"}.get(case["error_type"], "No")
         rows.append([case["case_id"], case["truth"].capitalize(), case["ai_pred"].capitalize(),
                      shown, correct, overlap_label(case)])
         if not case["correct"]:
             wrong_rows.append(index)
-    table = Table(rows, colWidths=[16 * mm, 26 * mm, 30 * mm, 28 * mm, 38 * mm, 42 * mm],
+    table = Table(rows, colWidths=[14 * mm, 22 * mm, 26 * mm, 24 * mm, 52 * mm, 42 * mm],
                   rowHeights=[9 * mm] + [7.4 * mm] * (len(rows) - 1))
     style = [("FONT", (0, 0), (-1, 0), SANS_BOLD, 9), ("FONT", (0, 1), (-1, -1), SANS, 10),
              ("FONT", (0, 1), (0, -1), SANS_BOLD, 10),
@@ -660,18 +664,19 @@ def build_tips_card(content: dict) -> Path:
 
 
 # ---------------------------------------------------------------------------
-# 5. Take-home cards (85 x 55 mm, 10 per A4 with crop marks)
+# 5. Take-home cards (85 x 55 mm, 10 per A4, 3 mm gutter, crop marks on every card)
 # ---------------------------------------------------------------------------
 CARD_W, CARD_H = 85 * mm, 55 * mm
+GUTTER = 3 * mm  # space between cards: each card gets its own crop marks inside it
 
 
-def qr_image(url: str) -> ImageReader:
-    """A QR code rendered at 300 dpi for a 20 mm square."""
+def qr_image(url: str, size_mm: float = 20) -> ImageReader:
+    """A QR code rendered at 300 dpi for a square of size_mm."""
     qr = qrcode.QRCode(error_correction=qrcode.constants.ERROR_CORRECT_M, border=1)
     qr.add_data(url)
     qr.make(fit=True)
     image = qr.make_image(fill_color="black", back_color="white").convert("RGB")
-    pixels = round(20 / 25.4 * DPI)
+    pixels = round(size_mm / 25.4 * DPI)
     image = image.resize((pixels, pixels), Image.NEAREST)
     buffer = BytesIO()
     image.save(buffer, "PNG", dpi=(DPI, DPI))
@@ -717,20 +722,17 @@ def draw_card(c: Canvas, x: float, y: float, text: dict, takehome: dict, qr: Ima
     c.drawCentredString(x + CARD_W / 2, y + 2.4 * mm, credit)
 
 
-def crop_marks(c: Canvas, x0: float, y0: float, cols: int, rows: int) -> None:
-    """Short cut lines outside the card grid, one per cut, offset so they never touch a card."""
-    offset, length = 2 * mm, 6 * mm
+def crop_marks(c: Canvas, x: float, y: float) -> None:
+    """Four pairs of short cut lines around one card, drawn inside the gutter."""
+    gap, length = 0.6 * mm, 2 * mm  # the lines stay 0.6 mm clear of the card and 2 mm long
     c.setStrokeColor(INK)
     c.setLineWidth(0.25)
-    grid_w, grid_h = cols * CARD_W, rows * CARD_H
-    for col in range(cols + 1):
-        x = x0 + col * CARD_W
-        c.line(x, y0 - offset, x, y0 - offset - length)
-        c.line(x, y0 + grid_h + offset, x, y0 + grid_h + offset + length)
-    for row in range(rows + 1):
-        y = y0 + row * CARD_H
-        c.line(x0 - offset, y, x0 - offset - length, y)
-        c.line(x0 + grid_w + offset, y, x0 + grid_w + offset + length, y)
+    for cx in (x, x + CARD_W):
+        for cy, direction in ((y, -1), (y + CARD_H, 1)):  # vertical tick above / below the corner
+            c.line(cx, cy + direction * gap, cx, cy + direction * (gap + length))
+    for cy in (y, y + CARD_H):
+        for cx, direction in ((x, -1), (x + CARD_W, 1)):  # horizontal tick left / right of the corner
+            c.line(cx + direction * gap, cy, cx + direction * (gap + length), cy)
 
 
 def build_takehome(content: dict) -> Path:
@@ -740,15 +742,19 @@ def build_takehome(content: dict) -> Path:
     qr = qr_image(takehome["qr_url"])
     cols, rows = 2, 5
     # Centred grid, so the Arabic page lines up when printed double-sided.
-    x0, y0 = (width - cols * CARD_W) / 2, (height - rows * CARD_H) / 2
+    step_x, step_y = CARD_W + GUTTER, CARD_H + GUTTER
+    grid_w, grid_h = cols * CARD_W + (cols - 1) * GUTTER, rows * CARD_H + (rows - 1) * GUTTER
+    x0, y0 = (width - grid_w) / 2, (height - grid_h) / 2
     c = Canvas(str(path), pagesize=A4)
     c.setTitle("Know Your Normal take-home cards")
     for lang in ("en", "ar"):
         for row in range(rows):
             for col in range(cols):
-                draw_card(c, x0 + col * CARD_W, y0 + row * CARD_H, takehome[lang], takehome, qr,
-                          lang == "ar", content["meta"]["footer"])
-        crop_marks(c, x0, y0, cols, rows)
+                # Arabic back mirrors the columns so each card lines up when flipped on the long edge.
+                x = x0 + (cols - 1 - col if lang == "ar" else col) * step_x
+                y = y0 + row * step_y
+                draw_card(c, x, y, takehome[lang], takehome, qr, lang == "ar", content["meta"]["footer"])
+                crop_marks(c, x, y)
         c.setFont(SANS, 6)
         c.setFillColor(GREY)
         side = "Front (English)" if lang == "en" else "Back (Arabic DRAFT)"
@@ -853,13 +859,16 @@ def build_poster(content: dict, booth: list[dict]) -> Path:
     c.setStrokeColor(RULE)
     c.setLineWidth(1)
     c.line(margin, y, width - margin, y)
-    y = draw_text(c, en["theme"], margin, y - 11 * mm, body_w, SANS_BOLD, 18, INK, align="center")
+    y = draw_text(c, en["theme"], margin, y - 8 * mm, body_w, SANS_BOLD, 18, INK, align="center")
     y = draw_text(c, ar["theme"], margin, y - 1 * mm, body_w, AR, 16 * AR_SCALE, INK, align="center", arabic=True)
 
     # --- Credits and disclaimer along the bottom ----------------------------------
-    credits_h = 58 * mm
-    if y < credits_h + 4 * mm:
-        sys.exit(f"Poster content overlaps the credits band by {(credits_h + 4 * mm - y) / mm:.0f} mm")
+    credits_h = 60 * mm
+    qr_mm = 26
+    qr_col_w = 80 * mm  # right-hand column: QR code and its label
+    credits_w = body_w - qr_col_w - 10 * mm
+    if y < credits_h + 2 * mm:
+        sys.exit(f"Poster content overlaps the credits band by {(credits_h + 2 * mm - y) / mm:.0f} mm")
     c.setFillColor(GREY_LIGHT)
     c.rect(0, 0, width, credits_h, stroke=0, fill=1)
     cy = credits_h - 11 * mm
@@ -868,7 +877,17 @@ def build_poster(content: dict, booth: list[dict]) -> Path:
     c.drawString(margin, cy, poster["credits_heading"].upper() + ":  " + poster["organisers"])
     cy -= 8 * mm
     for citation in content["credits"]["full"]:
-        cy = draw_text(c, citation, margin, cy, body_w, SANS, 11.5, GREY) - 2 * mm
+        cy = draw_text(c, citation, margin, cy, credits_w, SANS, 11.5, GREY) - 2 * mm
+    # QR code to Ask AIDA beside the credits (URL comes from print_content.yaml takehome.qr_url).
+    qr_x = width - margin - qr_mm * mm
+    qr_y = 28 * mm
+    c.drawImage(qr_image(content["takehome"]["qr_url"], qr_mm), qr_x, qr_y, qr_mm * mm, qr_mm * mm)
+    label_y = draw_text(c, poster["qr_label"], width - margin - qr_col_w, qr_y - 4.5 * mm, qr_col_w,
+                        SANS_BOLD, 10.5, INK, align="right", leading=4.6 * mm)
+    if content["takehome"]["qr_url"].startswith("["):  # still a placeholder: say so in print
+        c.setFont(SANS_BOLD, 10)
+        c.setFillColor(PINK)
+        c.drawRightString(width - margin, qr_y + qr_mm * mm + 2.2 * mm, content["takehome"]["placeholder_label"])
     c.setFont(SANS_BOLD, 15)
     c.setFillColor(PINK)
     c.drawString(margin, 10 * mm, en["disclaimer"])

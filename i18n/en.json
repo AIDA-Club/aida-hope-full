@@ -143,5 +143,6 @@
   "about_credits_heading": "Dataset credits",
   "about_credits": "- Curated BUSI dataset (Aumente-Maestro, Díez, Remeseiro, Universidad de Oviedo, 2025), based on: Al-Dhabyani W, Gomaa M, Khaled H, Fahmy A. Dataset of breast ultrasound images. Data in Brief. 2020;28:104863. doi:10.1016/j.dib.2019.104863\n- Wolberg W, Mangasarian O, Street N, Street W. Breast Cancer Wisconsin (Diagnostic). UCI Machine Learning Repository, 1993. doi:10.24432/C5DW2B (used by Tweak the Tumor)",
   "about_metrics_missing": "The model results file (data/reports/metrics.json) could not be read. Ask staff to check it.",
-  "credits_short": "Images: Curated BUSI (Univ. of Oviedo, 2025), based on Al-Dhabyani et al. 2020 · Tweak the Tumor: Breast Cancer Wisconsin (Diagnostic), UCI 1993."
+  "credits_short": "Images: Curated BUSI (Univ. of Oviedo, 2025), based on Al-Dhabyani et al. 2020 · Tweak the Tumor: Breast Cancer Wisconsin (Diagnostic), UCI 1993.",
+  "public_home_intro": "Ask AIDA answers general questions about breast cancer: the warning signs, risk factors, myths and where to find help. It is an educational assistant, not a doctor. You can also read how our image model was built and how well it did."
 }

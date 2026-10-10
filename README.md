@@ -232,3 +232,11 @@ It checks the bilingual flow, both answer paths, reveal ordering, reset,
 CSV idempotency/retry, fake assets/schema, offline topics, and model integration.
 Test CSVs and model fixtures live in temporary folders; no booth results are
 created by tests.
+
+
+## Public deployment (Ask AIDA + About only)
+
+`public_app.py` serves only Ask AIDA and About: no Challenge, no Tweak the Tumor, no `booth_set.json`, no answer key, no `results.csv`.
+Run `.venv\Scripts\python.exe scripts\export_public.py` to copy exactly the files it needs into `public_deploy/` (git-ignored), then push that folder
+as its own public repo and deploy `public_app.py` on Streamlit Community Cloud. Put the API key in the app's Secrets box
+(same keys as `.streamlit/secrets.example.toml`), never in the repo. Without a key the page answers offline.
