@@ -2,7 +2,9 @@
 # Edit wording here, then rebuild with:  .venv\Scripts\python.exe scripts\build_print.py
 #
 # Rules for this file:
-# - Medical facts come ONLY from the "Verified facts" list in OVERNIGHT_TASKS.md.
+# - Medical facts come ONLY from approved sources: the "Verified facts" list in
+#   OVERNIGHT_TASKS.md, and the researched knowledge base in kb/*.md. For
+#   kb/help_uae.md only its CONFIRMED sections count, never "Not yet confirmed".
 # - Model numbers come ONLY from data/reports/metrics.json (68 test images).
 # - Never add real contact details. Use [TO VERIFY: ...] until the owner checks them.
 # - Every Arabic string is a DRAFT and must be reviewed by a native speaker

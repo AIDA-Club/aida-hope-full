@@ -5,6 +5,8 @@ Run from the project folder (Windows):
 
 The list below is an allowlist: nothing else is copied. The script then scans the
 result and stops if a booth-only file, a secret or a results file slipped in.
+kb/help_uae.md is written with its "Not yet confirmed" part and its Sources list
+removed (aida_chat.confirmed_help), the same text the chatbot sees.
 """
 from __future__ import annotations
 
@@ -15,6 +17,8 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 DEST = ROOT / "public_deploy"
+sys.path.insert(0, str(ROOT))
+from aida_chat import confirmed_help  # noqa: E402
 
 # source (relative to the project) -> destination (relative to public_deploy/)
 FILES = {
@@ -32,32 +36,44 @@ FILES = {
     "requirements-public.txt": "requirements.txt",
 }
 KB = sorted(path.relative_to(ROOT).as_posix() for path in (ROOT / "kb").glob("*.md"))
+# Files rewritten on the way out instead of copied as they are.
+TRANSFORMS = {"kb/help_uae.md": confirmed_help}
 FORBIDDEN = ("booth_set", "results.csv", "booth_key", "secrets.toml", "predictions.csv",
-             "Challenge", "Tweak", "models/", "gradcam", "print_out", "answer")
+             "Challenge", "Tweak", "models/", "gradcam", "print_out", "answer", "docs/")
 # Anything that looks like a real API key (DeepSeek/OpenAI "sk-...", Google "AIza...").
 KEY_PATTERN = re.compile(r"sk-[A-Za-z0-9]{20,}|AIza[0-9A-Za-z_-]{30,}")
 
 
-def main() -> None:
-    if DEST.exists():
-        shutil.rmtree(DEST)
+def export(dest: Path = DEST) -> list[str]:
+    """Build dest/ from the allowlist and return the copied paths. Exits on any problem."""
+    if dest.exists():
+        shutil.rmtree(dest)
     plan = dict(FILES) | {name: name for name in KB}
     for source, target in plan.items():
         source_path = ROOT / source
         if not source_path.is_file():
             sys.exit(f"Missing file: {source}")
-        (DEST / target).parent.mkdir(parents=True, exist_ok=True)
-        shutil.copy2(source_path, DEST / target)
-    copied = sorted(path.relative_to(DEST).as_posix() for path in DEST.rglob("*") if path.is_file())
+        (dest / target).parent.mkdir(parents=True, exist_ok=True)
+        if source in TRANSFORMS:
+            text = TRANSFORMS[source](source_path.read_text(encoding="utf-8"))
+            (dest / target).write_text(text, encoding="utf-8")
+        else:
+            shutil.copy2(source_path, dest / target)
+    copied = sorted(path.relative_to(dest).as_posix() for path in dest.rglob("*") if path.is_file())
     bad = [name for name in copied if any(word in name for word in FORBIDDEN)
            and name != ".streamlit/secrets.example.toml"]
     if bad:
         sys.exit(f"Refusing: forbidden files in the public folder: {bad}")
-    leaked = [name for name in copied if (DEST / name).suffix in (".py", ".md", ".toml", ".txt", ".json")
-              and KEY_PATTERN.search((DEST / name).read_text(encoding="utf-8", errors="ignore"))]
+    leaked = [name for name in copied if (dest / name).suffix in (".py", ".md", ".toml", ".txt", ".json")
+              and KEY_PATTERN.search((dest / name).read_text(encoding="utf-8", errors="ignore"))]
     if leaked:
-        shutil.rmtree(DEST)
+        shutil.rmtree(dest)
         sys.exit(f"Refusing: something that looks like an API key is in {leaked}. Remove it and rotate the key.")
+    return copied
+
+
+def main() -> None:
+    copied = export()
     print(f"{len(copied)} files in {DEST.relative_to(ROOT)}/:")
     for name in copied:
         print("  " + name)

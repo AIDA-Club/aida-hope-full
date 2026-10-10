@@ -86,6 +86,25 @@ def strip_unconfirmed(text: str) -> str:
     return "\n".join(lines[:start] + lines[end:])
 
 
+def strip_section(text: str, heading: str) -> str:
+    """Remove one '## heading' section, up to the next '## ' heading or the end."""
+    lines = text.splitlines()
+    start = next((i for i, line in enumerate(lines) if line.strip() == heading), None)
+    if start is None:
+        return text
+    end = next((i for i in range(start + 1, len(lines)) if lines[i].startswith("## ")), len(lines))
+    return "\n".join(lines[:start] + lines[end:])
+
+
+def confirmed_help(text: str) -> str:
+    """help_uae.md as the chatbot and the public repo see it: CONFIRMED parts only.
+
+    Its Sources list goes too, because it links the news articles behind the
+    unconfirmed items. Other KB files keep their Sources.
+    """
+    return strip_section(strip_unconfirmed(text), "## Sources").rstrip() + "\n"
+
+
 def build_system_prompt(kb_dir: Path = KB) -> str:
     """system_prompt.md followed by every other kb/*.md except the fallback files."""
     system = (kb_dir / "system_prompt.md").read_text(encoding="utf-8").strip()
@@ -95,7 +114,7 @@ def build_system_prompt(kb_dir: Path = KB) -> str:
             continue
         text = path.read_text(encoding="utf-8")
         if path.name == "help_uae.md":
-            text = strip_unconfirmed(text)
+            text = confirmed_help(text)
         parts += ["", f"--- {path.name} ---", text.strip()]
     return "\n".join(parts)
 

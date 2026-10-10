@@ -1,6 +1,7 @@
 """Ask AIDA tests. No test ever calls a real API: settings are patched to None or a fake client is used."""
 import importlib.util
 import subprocess
+import tempfile
 import unittest
 from pathlib import Path
 from types import SimpleNamespace
@@ -141,6 +142,52 @@ class KnowledgeBaseTests(unittest.TestCase):
 
     def test_prompt_size_under_cap(self):
         self.assertLess(len(chat.build_system_prompt()), chat.MAX_SYSTEM_PROMPT_CHARS)
+
+    def test_prompt_drops_help_sources_only(self):
+        # risk.md keeps its Sources, which cite one Gulf News article for a UAE statistic.
+        # That exact URL is allowed; no other news link may reach the prompt.
+        allowed = "https://gulfnews.com/uae/health/uae-breast-cancer-rate-hits-94-per-100000-women-1.500330567"
+        prompt = chat.build_system_prompt()
+        for link in ("gulfnews.com", "sharjah24.ae", "emirates247.com"):
+            self.assertNotIn(link, prompt.replace(allowed, ""))
+        help_part = prompt.split("--- help_uae.md ---")[1].split("\n--- ")[0]
+        self.assertNotIn("## Sources", help_part)
+        for name in ("signs.md", "risk.md", "myths.md", "terms.md", "screening.md", "about_booth.md"):
+            part = prompt.split(f"--- {name} ---")[1].split("\n--- ")[0]
+            self.assertIn("## Sources", part, name)
+
+    def test_strip_section(self):
+        text = "# T\n## A\na\n## Sources\n- x\n## B\nb"
+        self.assertEqual(chat.strip_section(text, "## Sources"), "# T\n## A\na\n## B\nb")
+        self.assertEqual(chat.strip_section("no heading", "## Sources"), "no heading")
+
+
+class PublicExportTests(unittest.TestCase):
+    def export(self):
+        spec = importlib.util.spec_from_file_location("export_public", ROOT / "scripts" / "export_public.py")
+        module = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(module)
+        temp = tempfile.TemporaryDirectory()
+        self.addCleanup(temp.cleanup)
+        dest = Path(temp.name) / "public_deploy"
+        return dest, module.export(dest)
+
+    def test_public_help_file_is_confirmed_only(self):
+        dest, _ = self.export()
+        text = (dest / "kb" / "help_uae.md").read_text(encoding="utf-8")
+        for shown in ("+971 6 506 5542", "80050"):
+            self.assertIn(shown, text)
+        for hidden in ("## Not yet confirmed", "Marsa Ajman", "800 8877", "gulfnews.com"):
+            self.assertNotIn(hidden, text)
+
+    def test_export_skips_private_files(self):
+        _, copied = self.export()
+        for name in copied:
+            for private in ("docs/", "booth_set", "results.csv", "1_Challenge", "2_Tweak", "secrets.toml"):
+                if name != ".streamlit/secrets.example.toml":
+                    self.assertNotIn(private, name)
+        self.assertEqual([name for name in copied if name.startswith("data/")],
+                         ["data/reports/confusion_matrix.png", "data/reports/metrics.json"])
 
 
 class AskPageTests(unittest.TestCase):
