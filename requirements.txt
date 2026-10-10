@@ -2,6 +2,7 @@ streamlit>=1.65,<2
 scikit-learn==1.6.1
 # Ask AIDA chatbot (OpenAI-compatible client for DeepSeek / Gemini)
 openai>=3.27,<4
+markdown-it-py==4.0.0
 PyYAML>=6.0
 # Print materials (scripts/build_print.py)
 reportlab>=5.0,<6

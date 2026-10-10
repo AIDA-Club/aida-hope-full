@@ -57,14 +57,28 @@ edit it by hand; change the main project and export again.
 - Main file: `public_app.py`
 - Python version: **3.12** (choose it under Advanced settings; this is the version it was tested with)
 - Dependencies: `requirements.txt`
-- Secrets (Advanced settings > Secrets), same keys as `.streamlit/secrets.example.toml`:
+- Secrets (Advanced settings > Secrets): paste this **flat, top-level TOML**
+  layout, which matches the local `.streamlit/secrets.toml`. Do not put these
+  keys under a section heading. Replace only the placeholder key with your key:
 
   ```toml
   PROVIDER = "deepseek"
-  API_KEY = "your key"
+  API_KEY = "PASTE_YOUR_KEY_HERE"
   MODEL = "deepseek-chat"
+  BASE_URL = "https://api.deepseek.com"
   DAILY_CALL_CAP = 1500
   ```
+
+`BASE_URL` is optional for `PROVIDER = "deepseek"` (the same endpoint is the
+default), and `DAILY_CALL_CAP` defaults to 1500. The three required local keys
+are `PROVIDER`, `API_KEY`, and `MODEL`. Cloud secrets must be set separately in
+the app's Secrets box; the local secrets file is never exported or committed.
+
+Each chat fallback writes exactly one safe reason line to the server's stderr:
+`no secrets`, `missing API_KEY`, `missing MODEL/BASE_URL`, `auth error (401)`,
+`timeout`, `network`, `daily cap`, or an exception class name. No key, request,
+response, or exception message is logged. Use these lines in Cloud logs to
+identify the cause; the UI remains educational and continues to work offline.
 
 Without a key the app still works, using the prepared offline answers. After
 `DAILY_CALL_CAP` live answers in one day (UAE time) it switches to the offline

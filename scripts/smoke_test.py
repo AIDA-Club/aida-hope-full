@@ -85,6 +85,41 @@ def play_round(page, text: dict, case_id: str, first: str) -> None:
     assert page.get_by_text(text["learn_heading"], exact=True).count() == 1
 
 
+def check_cross_language_chat(page, ui_lang: str, results: dict) -> None:
+    """Both new bubbles and the offline notice follow the message, including lists."""
+    original_viewport = page.viewport_size
+    page.set_viewport_size({"width": 1600, "height": 1800})
+    reply_lang = "ar" if ui_lang == "en" else "en"
+    question = ("ماذا افعل انا رجل واحس بورم في صدري" if reply_lang == "ar"
+                else "I am a man and feel a lump in my chest. What should I do?")
+    text = translations(reply_lang)
+    box = page.locator('[data-testid="stChatInputTextArea"]')
+    box.fill(question)
+    box.press("Enter")
+    messages = page.locator('[data-testid="stChatMessage"]')
+    assistant = messages.last
+    assistant.get_by_text(text["chat_symptom_guidance"].split("998")[0], exact=False).wait_for()
+    direction, align = ("rtl", "right") if reply_lang == "ar" else ("ltr", "left")
+    for message in (messages.nth(messages.count() - 2), assistant):
+        for container in message.locator(".aida-message").all():
+            assert container.get_attribute("dir") == direction
+            actual = container.evaluate("e => [getComputedStyle(e).direction, getComputedStyle(e).textAlign]")
+            assert actual == [direction, align], f"chat container: {actual}"
+    assert assistant.locator(".aida-offline-notice").get_attribute("dir") == direction
+    lists = assistant.locator(".aida-message ul, .aida-message ol")
+    assert lists.count() > 0, "Signs answer lost its lists"
+    for listing in lists.all():
+        assert listing.get_attribute("dir") == direction
+        assert listing.evaluate("e => getComputedStyle(e).direction") == direction
+        for item in listing.locator("li").all():
+            assert item.evaluate("e => getComputedStyle(e).textAlign") == align
+    name = f"{ui_lang}_ui_{reply_lang}_message"
+    # Streamlit scrolls its own main panel; include both the question and reply.
+    messages.nth(messages.count() - 2).evaluate("e => e.scrollIntoView({block:'start'})")
+    check_page(page, name, ui_lang, results)
+    page.set_viewport_size(original_viewport)
+
+
 def run_language(page, lang: str, results: dict) -> None:
     text = translations(lang)
     page.goto(URL)
@@ -115,6 +150,7 @@ def run_language(page, lang: str, results: dict) -> None:
     page.get_by_text(text["chat_offline"], exact=True).first.wait_for()
     assert page.get_by_text(text["chat_disclaimer"], exact=True).count() == 1
     check_page(page, f"{lang}_ask_no_key", lang, results)
+    check_cross_language_chat(page, lang, results)
 
     nav(page, text["about_title"])
     page.locator('[data-testid="stMetric"]').first.wait_for()
@@ -143,6 +179,7 @@ def main() -> int:
                 overflow = phone.evaluate("document.documentElement.scrollWidth > window.innerWidth + 1")
                 assert not overflow, "Ask AIDA scrolls sideways on a phone"
                 check_page(phone, "phone_ask", "en", results)
+                assert not results.get("browser_errors"), "Browser reported a JavaScript error"
                 browser.close()
             results["status"] = "PASS"
         except Exception as exc:  # report and keep the summary

@@ -330,9 +330,12 @@ class AskPageTests(unittest.TestCase):
             self.assertIn(booth.translations(lang)["chat_disclaimer"], [w.value for w in app.warning])
             app.chat_input(key="chat_question").set_value(question).run()
             self.assertFalse(app.exception)
-            self.assertIn(booth.translations(lang)["chat_offline"], [i.value for i in app.info])
-            expected = chat.fix_numbers(chat.fallback_sections(lang)[chat.match_topic(question)])
-            self.assertIn(expected, [m.value for m in app.markdown])
+            self.assertIn(chat.message_html(booth.translations(lang)["chat_offline"], notice=True),
+                          [i.proto.body for i in app.get("html")])
+            expected = chat.fix_numbers(chat.offline_answer(question, booth.translations(lang)))
+            self.assertIn(chat.message_html(expected), [m.proto.body for m in app.get("html")])
+            # The unchanged Signs section is still shown, after the new safety guidance.
+            self.assertTrue(expected.endswith(chat.fix_numbers(chat.fallback_sections(lang)["know_signs"])))
             self.assertEqual(len(app.session_state["chat_history"]), 2)
 
     def test_live_reply_numbers_fixed_on_screen_and_in_history(self):
@@ -345,7 +348,7 @@ class AskPageTests(unittest.TestCase):
         saved = app.session_state["chat_history"][-1]["content"]
         self.assertEqual(saved, chat.fix_numbers(reply))
         self.assertIn(f"{chat.LTR_ISOLATE}+971 6 7056294{chat.POP_ISOLATE}", saved)
-        self.assertIn(saved, [m.value for m in app.markdown])
+        self.assertIn(chat.message_html(saved), [m.proto.body for m in app.get("html")])
 
     def test_long_message_rejected(self):
         app = self.page()

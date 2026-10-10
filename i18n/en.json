@@ -114,6 +114,8 @@
   "chat_heading": "Ask your own question",
   "chat_placeholder": "Type a question about breast health (English or Arabic)",
   "chat_offline": "The assistant is offline right now, so here is a prepared answer instead.",
+  "chat_symptom_guidance": "Please see a doctor soon about any new change. Most lumps are not cancer, but only a doctor can check. Men can get breast cancer too. In an emergency call 998.",
+  "chat_offline_generic": "The assistant is offline right now. I can help with breast health signs, myths, terms, and where to get help; please use the topic buttons above. See a doctor for any concern. In an emergency call 998.",
   "chat_too_long": "Please keep your question under {limit} characters.",
   "chat_empty": "Please type a question first.",
   "chat_turn_limit": "You have reached the question limit for this session. The topic buttons above still work, and the booth team is happy to help.",

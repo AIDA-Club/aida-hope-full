@@ -6,12 +6,16 @@ Privacy: nothing here writes chat contents to disk or to any log.
 from __future__ import annotations
 
 import re
+import sys
 import threading
 import time
+import unicodedata
 from collections.abc import Iterator, Mapping
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
+
+from markdown_it import MarkdownIt
 
 ROOT = Path(__file__).resolve().parent
 KB = ROOT / "kb"
@@ -34,7 +38,7 @@ TOPICS = ("know_signs", "myth_fact", "explain_term", "get_help")
 @dataclass(frozen=True)
 class Settings:
     provider: str
-    api_key: str
+    api_key: str = field(repr=False)
     model: str
     base_url: str
     daily_cap: int = DEFAULT_DAILY_CALL_CAP
@@ -44,21 +48,56 @@ class ChatUnavailable(RuntimeError):
     """The live assistant cannot answer: no key, an API error or a timeout."""
 
 
+def exception_category(exc: Exception) -> str:
+    """Return only a safe category, never an exception's potentially private message."""
+    if getattr(exc, "status_code", None) == 401:
+        return "auth error (401)"
+    if isinstance(exc, TimeoutError) or type(exc).__name__ == "APITimeoutError":
+        return "timeout"
+    if isinstance(exc, ConnectionError) or type(exc).__name__ == "APIConnectionError":
+        return "network"
+    if type(exc).__name__ == "StreamlitSecretNotFoundError":
+        return "no secrets"
+    return type(exc).__name__
+
+
+def log_fallback(reason: str) -> None:
+    """One stderr line per fallback; reject anything other than categories/class names."""
+    categories = {"no secrets", "missing API_KEY", "missing MODEL/BASE_URL",
+                  "auth error (401)", "timeout", "network", "daily cap"}
+    safe = reason if reason in categories or re.fullmatch(r"[A-Za-z_][A-Za-z_0-9]*", reason) else "ChatUnavailable"
+    print(safe, file=sys.stderr, flush=True)
+
+
 # ---------------------------------------------------------------------------
 # Settings
 # ---------------------------------------------------------------------------
-def settings_from(secrets: Mapping | None) -> Settings | None:
-    """Read PROVIDER / API_KEY / MODEL (and optional BASE_URL). None when not configured."""
+def _read_settings(secrets: Mapping | None) -> tuple[Settings | None, str | None]:
+    """The local and Cloud layout is flat, with uppercase keys at the TOML root."""
     try:
-        provider = str(secrets.get("PROVIDER", "")).strip().lower()
-        api_key = str(secrets.get("API_KEY", "")).strip()
-        model = str(secrets.get("MODEL", "")).strip()
-        base_url = str(secrets.get("BASE_URL", "") or BASE_URLS.get(provider, "")).strip()
-    except Exception:  # missing secrets.toml, wrong type, etc.
-        return None
-    if not api_key or not model or not base_url or api_key.startswith("PASTE"):
-        return None
-    return Settings(provider, api_key, model, base_url, daily_cap_from(secrets))
+        if not secrets:
+            return None, "no secrets"
+        provider = str(secrets.get("PROVIDER") or "").strip().lower()
+        api_key = str(secrets.get("API_KEY") or "").strip()
+        model = str(secrets.get("MODEL") or "").strip()
+        base_url = str(secrets.get("BASE_URL") or BASE_URLS.get(provider, "")).strip()
+        if not api_key or api_key.upper().startswith("PASTE"):
+            return None, "missing API_KEY"
+        if not model or not base_url:
+            return None, "missing MODEL/BASE_URL"
+        return Settings(provider, api_key, model, base_url, daily_cap_from(secrets)), None
+    except Exception as exc:
+        return None, exception_category(exc)
+
+
+def settings_from(secrets: Mapping | None) -> Settings | None:
+    """Read flat PROVIDER / API_KEY / MODEL and optional BASE_URL / DAILY_CALL_CAP."""
+    return _read_settings(secrets)[0]
+
+
+def configuration_reason(secrets: Mapping | None) -> str | None:
+    """Diagnose unavailable settings without emitting anything on normal page reruns."""
+    return _read_settings(secrets)[1]
 
 
 def daily_cap_from(secrets: Mapping) -> int:
@@ -281,6 +320,52 @@ def is_arabic(text: str) -> bool:
     return bool(re.search(r"[؀-ۿ]", text))
 
 
+def is_mainly_arabic(text: str) -> bool:
+    """Arabic has a majority of letters; digits, punctuation and URLs do not vote."""
+    text = re.sub(r"https?://\S+|[\w.+-]+@[\w.-]+\.[A-Za-z]+", "", text)
+    letters = [char for char in text if unicodedata.category(char).startswith("L")]
+    arabic = sum("ARABIC" in unicodedata.name(char, "") for char in letters)
+    return arabic > len(letters) / 2
+
+
+def message_html(text: str, *, notice: bool = False) -> str:
+    """Safe Markdown in a real directional container, including directional lists.
+
+    Raw HTML is escaped and unsafe link protocols are rejected by MarkdownIt.
+    Streamlit's st.html supplies its own DOMPurify sanitization as well.
+    """
+    direction = "rtl" if is_mainly_arabic(text) else "ltr"
+    alignment = "right" if direction == "rtl" else "left"
+    body = MarkdownIt("commonmark", {"html": False}).render(text)
+    body = re.sub(r"<(ul|ol|li)>", rf'<\1 dir="{direction}">', body)
+    classes = "aida-message aida-offline-notice" if notice else "aida-message"
+    return (f'<div class="{classes}" dir="{direction}" '
+            f'style="direction:{direction};text-align:{alignment}">{body}</div>')
+
+
+_SYMPTOMS_EN = re.compile(
+    r"\b(?:lumps?|swelling|swollen|pain\w*|discharg\w*|nipples?|skin\s+changes?|"
+    r"skin|symptoms?|signs?|mass(?:es)?|tumou?rs?|thicken\w*|dimpl\w*|redness|rash\w*)\b", re.I)
+_SYMPTOMS_AR = ("ورم", "كتل", "تورم", "افراز", "حلم", "جلد", "اعراض", "علامات",
+                "تغير", "احمرار", "طفح", "انكماش", "انتفاخ", "وجع", "اوجاع")
+_PAIN_AR = re.compile(r"(?<!\w)[وفبلك]?(?:ال)?(?:الم|الام)(?!\w)")
+
+
+def mentions_symptom(text: str) -> bool:
+    normalized = "".join(char for char in text if unicodedata.category(char) != "Mn")
+    normalized = normalized.translate(str.maketrans("أإآى", "اااي"))
+    return (bool(_SYMPTOMS_EN.search(text)) or bool(_PAIN_AR.search(normalized))
+            or any(word in normalized for word in _SYMPTOMS_AR))
+
+
+def offline_answer(question: str, strings: Mapping, kb_dir: Path = KB) -> str:
+    """Free text uses symptom-first guidance or a generic answer, never topic scoring."""
+    if not mentions_symptom(question):
+        return strings["chat_offline_generic"]
+    lang = "ar" if is_mainly_arabic(question) else "en"
+    return strings["chat_symptom_guidance"] + "\n\n" + fallback_sections(lang, kb_dir)["know_signs"]
+
+
 def check_message(text: str) -> str | None:
     """Return an i18n error key when a message breaks a limit, else None."""
     if not text.strip():
@@ -319,16 +404,16 @@ def call_llm(history: list[dict], ui_lang: str, settings: Settings | None,
     then shows a fallback.
     """
     if settings is None:
-        raise ChatUnavailable("not configured")
+        raise ChatUnavailable("no secrets")
     if not take_daily_call(settings.daily_cap):
-        raise ChatUnavailable("daily cap reached")
-    if client is None:
-        from openai import OpenAI  # imported lazily so the page works without the package
-        client = OpenAI(api_key=settings.api_key, base_url=settings.base_url,
-                        timeout=TIMEOUT_SECONDS, max_retries=0)
-    messages = build_messages(history, ui_lang, system_prompt or build_system_prompt())
-    deadline = time.monotonic() + TIMEOUT_SECONDS
+        raise ChatUnavailable("daily cap")
     try:
+        if client is None:
+            from openai import OpenAI  # imported lazily so the page works without the package
+            client = OpenAI(api_key=settings.api_key, base_url=settings.base_url,
+                            timeout=TIMEOUT_SECONDS, max_retries=0)
+        messages = build_messages(history, ui_lang, system_prompt or build_system_prompt())
+        deadline = time.monotonic() + TIMEOUT_SECONDS
         stream = client.chat.completions.create(model=settings.model, messages=messages,
                                                 max_tokens=MAX_OUTPUT_TOKENS, temperature=0.3,
                                                 stream=True)
@@ -340,4 +425,4 @@ def call_llm(history: list[dict], ui_lang: str, settings: Settings | None,
     except ChatUnavailable:
         raise
     except Exception as exc:  # any SDK, network or provider error; never log the content
-        raise ChatUnavailable(type(exc).__name__) from None
+        raise ChatUnavailable(exception_category(exc)) from None
