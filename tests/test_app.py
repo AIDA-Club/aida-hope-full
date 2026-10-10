@@ -133,7 +133,7 @@ class BoothTests(unittest.TestCase):
         self.button(app, "Change my answer")
         app.radio(key="language_choice").set_value("ar").run()
         self.button(app, "خبيث")
-        self.button(app, "اكشف الحقيقة")
+        self.button(app, booth.translations("ar")["reveal_truth"])
         row = self.rows()[0]
         self.assertEqual((row["case_id"], row["first_answer"], row["ai_pred"], row["final_answer"], row["truth"]),
                          ("17", "benign", "benign", "malignant", "malignant"))

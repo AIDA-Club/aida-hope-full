@@ -1,5 +1,6 @@
 # Dependencies for public_app.py (Streamlit Community Cloud).
+# Pinned to the exact versions tested in a fresh Python 3.12 venv (10 Oct 2026).
 # scripts/export_public.py copies this file to requirements.txt in the public repo.
-streamlit>=1.65,<2
+streamlit==1.65.0
 # Ask AIDA live answers (OpenAI-compatible client for DeepSeek / Gemini)
-openai>=3.27,<4
+openai==3.28.0

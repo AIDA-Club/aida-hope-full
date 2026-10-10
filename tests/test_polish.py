@@ -1,5 +1,6 @@
 """Task 5 polish: closing panel, About page, footer and Arabic review flag."""
 import json
+import re
 import tempfile
 import unittest
 from pathlib import Path
@@ -34,6 +35,17 @@ class PolishTests(unittest.TestCase):
 
     def markdown_text(self, app):
         return " ".join(entry.value for entry in app.markdown)
+
+    def test_arabic_ui_uses_plural_address(self):
+        """Arabic UI text addresses visitors in the plural (اختاروا، إجابتكم), never the singular."""
+        # Only forms that cannot be read another way. Words like اكتشف، تعلّم، شاهد، غيّر are left
+        # out on purpose: they are also past tense ("the model detected / learned").
+        singular = {"اختر", "اكتب", "اكشف", "اطلب", "اضغط", "استكشف", "انظر", "اطرح", "أعد", "اسأل",
+                    "جرّب", "إجابتك", "سؤالك", "حالتك", "لصحتك", "إليك", "وصلت", "أنت", "تريد",
+                    "أحتفظ", "أغيّر", "أحصل", "فاتك", "تفوقت", "بمساعدتك"}
+        for key, value in booth.translations("ar").items():
+            found = singular & set(re.findall(r"[؀-ۿ]+", value))
+            self.assertFalse(found, f"{key}: singular form {sorted(found)} in {value!r}")
 
     def test_closing_panel_only_after_truth(self):
         for lang in ("en", "ar"):
