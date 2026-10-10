@@ -52,6 +52,12 @@ def wait_for_server(server: subprocess.Popen) -> None:
 def check_page(page, name: str, lang: str, results: dict) -> None:
     """No Streamlit exception, the right text direction, the footer, then a screenshot."""
     page.wait_for_timeout(600)
+    # The footer is drawn last (after the page script finishes), so wait for it rather
+    # than trusting a fixed pause: the Tweak page loads its model first and can be slow.
+    try:
+        page.locator(".booth-footer").first.wait_for(timeout=15000)
+    except Exception:
+        pass  # the assert below reports it
     assert page.locator('[data-testid="stException"]').count() == 0, f"{name}: exception on page"
     direction = page.evaluate("getComputedStyle(document.querySelector('.stApp')).direction")
     assert direction == ("rtl" if lang == "ar" else "ltr"), f"{name}: direction {direction}"
