@@ -298,6 +298,18 @@ class GeneralTests(unittest.TestCase):
         for url in about["images"].values():
             self.assertEqual(client().get(url).status_code, 200)
 
+    @unittest.skipUnless((ROOT / "frontend" / "dist" / "index.html").is_file(), "frontend not built")
+    def test_built_site_routes_refresh_and_api_paths_stay_api(self):
+        web = client()
+        for path in ("/", "/beat", "/tweak?lang=ar", "/ask", "/about", "/no/such/page"):
+            reply = web.get(path)
+            self.assertEqual((reply.status_code, reply.headers["content-type"].split(";")[0]), (200, "text/html"), path)
+        for path in ("/api", "/api/", "/api/no-such-route"):
+            reply = web.get(path)
+            self.assertEqual((reply.status_code, reply.headers["content-type"]), (404, "application/json"), path)
+        art = web.get("/art/mascot-wave.webp")
+        self.assertEqual((art.status_code, art.headers["content-type"]), (200, "image/webp"))
+
     def test_home_cards_are_booth_originals(self):
         web = client()
         for url in web.get("/api/home").json()["cards"]:

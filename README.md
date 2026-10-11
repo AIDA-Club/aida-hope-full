@@ -86,6 +86,27 @@ Ask AIDA's live assistant is optional. The API reads the same settings as Stream
 needs no environment variables; `AIDA_API_URL` optionally changes the API address the
 Vite dev server proxies to (default `http://127.0.0.1:8000`).
 
+### Docker (one container, e.g. a Render Web Service)
+
+The `Dockerfile` builds the website with Node (`npm ci` from `frontend/package-lock.json`),
+installs `requirements-web.txt` on Python 3.12, copies only the runtime files (code, `i18n/`,
+`kb/`, the model, the 30 booth cases and their images, folder 6, About images, microscope
+images) and starts `uvicorn api.main:app` on `0.0.0.0:$PORT` (default 10000). Frontend routes
+such as `/beat` survive a browser refresh; every `/api` path stays an API route.
+
+```powershell
+docker build -t aida-hope .
+docker run --rm -p 10000:10000 aida-hope
+```
+
+Open http://localhost:10000; health check: `/api/health`. Pass the optional live-assistant
+settings at run time (`-e AIDA_PROVIDER=... -e AIDA_API_KEY=... -e AIDA_MODEL=...`); never put
+keys in the image. `.dockerignore` keeps `.streamlit/`, `.env` files, `.venv/`,
+`node_modules/` and development folders out of the build. The image runs one worker on
+purpose: visitor sessions live in memory, so run a single instance. Without Docker,
+`.\.venv\Scripts\python.exe scripts\check_docker_context.py` checks that every file the
+Dockerfile copies exists, is committed and is not excluded.
+
 ## Active real data and preserved demo
 
 `data/booth_set.json` now contains the **30 real exported cases**, numbered

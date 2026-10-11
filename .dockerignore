@@ -1,0 +1,72 @@
+# Build context for the Dockerfile. The Dockerfile copies an explicit list of runtime files;
+# this keeps secrets, local environments and large unused folders out of the context entirely.
+
+# Secrets and local configuration — API keys belong in Render environment variables.
+.streamlit/
+**/.env
+**/.env.*
+**/*.env
+**/secrets.toml
+**/*.pem
+**/*.key
+
+# Version control, editors, agent settings
+.git/
+.gitignore
+.gitattributes
+.claude/
+.vscode/
+.idea/
+
+# Virtual environments and caches
+.venv/
+venv/
+env/
+**/__pycache__/
+**/*.py[cod]
+.pytest_cache/
+.mypy_cache/
+
+# Node: dependencies and build output are recreated inside the image
+**/node_modules/
+frontend/dist/
+
+# Design inputs, screenshots, reports and print/booth-only material
+design/
+artifacts/
+smoke_out/
+public_deploy/
+print_out/
+data/print/
+data/demo/
+data/booth_set_demo.json
+data/results.csv
+assets/
+*.zip
+Datasets/
+data_raw/
+outputs/
+export/
+kb_backup_*/
+kb_ready/
+docs/
+models/*_old.*
+models/*.pt
+busi_pipeline.ipynb
+outputs_*
+real_data_activation_*
+MORNING_REPORT.md
+OVERNIGHT_TASKS.md
+IMPLEMENTATION_REPORT.md
+DESIGN_MAP.md
+REDESIGN_PROGRESS.md
+
+# Development-only code (the Streamlit pages and scripts are not part of the web image)
+tests/
+scripts/
+pages/
+Home.py
+public_app.py
+booth_keyboard.py
+train_wdbc.py
+print_content.yaml

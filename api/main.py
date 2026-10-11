@@ -11,6 +11,7 @@ from __future__ import annotations
 
 import json
 import math
+import mimetypes
 import os
 import random
 import tomllib
@@ -39,6 +40,8 @@ ABOUT_IMAGES = {"original": ROOT / "data" / "reports" / "gradcam_all" / "origina
                 "heatmap": ROOT / "data" / "reports" / "gradcam_all" / "heatmaps" / "malignant_id_153.png",
                 "confusion-matrix": ROOT / "data" / "reports" / "confusion_matrix.png"}
 HOME_CARDS = ("01", "09", "21")
+# The website's artwork is WebP; slim Linux images have no /etc/mime.types to say so.
+mimetypes.add_type("image/webp", ".webp")
 
 app = FastAPI(title="AIDA × Hope API", docs_url="/api/docs", openapi_url="/api/openapi.json")
 sessions = SessionStore()
@@ -546,7 +549,7 @@ if FRONTEND.is_dir():
 
     @app.get("/{path:path}", include_in_schema=False)
     def website(path: str) -> FileResponse:
-        if path.startswith("api/"):
+        if path == "api" or path.startswith("api/"):  # unknown API paths stay JSON 404s
             raise HTTPException(404)
         candidate = (FRONTEND / path).resolve()
         if path and candidate.is_relative_to(FRONTEND.resolve()) and candidate.is_file():
