@@ -26,6 +26,8 @@ FILES = {
     "public_app.py": "public_app.py",
     "booth.py": "booth.py",              # shared helpers (language, theme, footer, public mode)
     "aida_chat.py": "aida_chat.py",
+    "challenge_logic.py": "challenge_logic.py",  # Challenge rules (shared with api/)
+    "tweak_logic.py": "tweak_logic.py",            # Tweak the Tumor rules (shared with api/)
     "slide_image.py": "slide_image.py",  # Tweak the Tumor's microscope view
     "pages/1_Challenge_Reveal.py": "pages/1_Challenge_Reveal.py",
     "pages/2_Tweak_the_Tumor.py": "pages/2_Tweak_the_Tumor.py",

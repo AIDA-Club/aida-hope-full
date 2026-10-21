@@ -12,3 +12,10 @@ qrcode>=8.0
 pypdfium2>=5.0
 # Print checks (scripts/check_print.py decodes every QR code)
 opencv-python-headless>=5.0
+# Web redesign API (api/main.py) and its tests (tests/test_api.py uses FastAPI's TestClient)
+fastapi==0.143.0
+uvicorn[standard]==0.54.0
+httpx==0.28.1
+# Redesign screenshots and browser flows (scripts/redesign_screens.py);
+# then run: .venv\Scripts\python.exe -m playwright install chromium
+playwright==1.63.0

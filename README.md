@@ -26,6 +26,87 @@ two requested Markdown files.
 On macOS/Linux, substitute `python3.11 -m venv .venv`, then use
 `.venv/bin/python` in place of `.\.venv\Scripts\python.exe`.
 
+## Web redesign (React + FastAPI)
+
+A redesigned visitor website lives alongside the Streamlit apps, which are unchanged and
+still run as above. It has a React + TypeScript frontend (`frontend/`, Vite) and a thin
+FastAPI layer (`api/main.py`) that calls the same Python functions as the Streamlit pages
+(`booth.py`, `challenge_logic.py`, `tweak_logic.py`, `aida_chat.py`, `slide_image.py`).
+Like the public Streamlit site, it never writes visitor data to disk. Design notes:
+`DESIGN_MAP.md`; architecture, tests and known differences: `IMPLEMENTATION_REPORT.md`.
+
+Install once (Python 3.12 venv as above, plus Node.js 20 or newer):
+
+```powershell
+.\.venv\Scripts\python.exe -m pip install -r requirements.txt
+.\.venv\Scripts\python.exe -m playwright install chromium   # only for the screenshot/flow script
+npm --prefix frontend install
+```
+
+Development (two terminals; backend on port 8000, frontend on port 5173, which proxies `/api`):
+
+```powershell
+.\.venv\Scripts\python.exe -m uvicorn api.main:app --host 127.0.0.1 --port 8000
+npm --prefix frontend run dev
+```
+
+Open http://localhost:5173. Add `?lang=ar` to open in Arabic; the EN / العربية toggle
+remembers the choice in the browser.
+
+Single port (production build served by the API):
+
+```powershell
+npm --prefix frontend run build
+.\.venv\Scripts\python.exe -m uvicorn api.main:app --host 127.0.0.1 --port 8000
+```
+
+Open http://localhost:8000. Restart the API after rebuilding, so it picks up `frontend/dist`.
+
+Checks:
+
+```powershell
+.\.venv\Scripts\python.exe -m unittest discover -s tests -v    # includes tests/test_api.py (API parity)
+npm --prefix frontend run typecheck
+npm --prefix frontend test
+npm --prefix frontend run build
+.\.venv\Scripts\python.exe scripts\redesign_screens.py        # needs both dev servers running
+```
+
+`scripts/redesign_screens.py` saves screenshots to `artifacts/screenshots/` (desktop
+1536 × 1024, tablet 768 × 1024, mobile 390 × 844, English and Arabic, plus side-by-side
+comparisons with `design/reference/`) and runs the browser flows; results go to
+`artifacts/screenshots/flow_results.json`. Use `--base http://localhost:8000` to check the
+single-port build. `scripts/prepare_web_art.py` regenerates `frontend/public/art/` from
+`design/assets/`.
+
+Ask AIDA's live assistant is optional. The API reads the same settings as Streamlit from
+`.streamlit/secrets.toml`, or from these environment variables (which take precedence):
+`AIDA_PROVIDER`, `AIDA_API_KEY`, `AIDA_MODEL`, and optionally `AIDA_BASE_URL` and
+`AIDA_DAILY_CALL_CAP`. Without them, typed questions get the offline answers. The frontend
+needs no environment variables; `AIDA_API_URL` optionally changes the API address the
+Vite dev server proxies to (default `http://127.0.0.1:8000`).
+
+### Docker (one container, e.g. a Render Web Service)
+
+The `Dockerfile` builds the website with Node (`npm ci` from `frontend/package-lock.json`),
+installs `requirements-web.txt` on Python 3.12, copies only the runtime files (code, `i18n/`,
+`kb/`, the model, the 30 booth cases and their images, folder 6, About images, microscope
+images) and starts `uvicorn api.main:app` on `0.0.0.0:$PORT` (default 10000). Frontend routes
+such as `/beat` survive a browser refresh; every `/api` path stays an API route.
+
+```powershell
+docker build -t aida-hope .
+docker run --rm -p 10000:10000 aida-hope
+```
+
+Open http://localhost:10000; health check: `/api/health`. Pass the optional live-assistant
+settings at run time (`-e AIDA_PROVIDER=... -e AIDA_API_KEY=... -e AIDA_MODEL=...`); never put
+keys in the image. `.dockerignore` keeps `.streamlit/`, `.env` files, `.venv/`,
+`node_modules/` and development folders out of the build. The image runs one worker on
+purpose: visitor sessions live in memory, so run a single instance. Without Docker,
+`.\.venv\Scripts\python.exe scripts\check_docker_context.py` checks that every file the
+Dockerfile copies exists, is committed and is not excluded.
+
 ## Active real data and preserved demo
 
 `data/booth_set.json` now contains the **30 real exported cases**, numbered

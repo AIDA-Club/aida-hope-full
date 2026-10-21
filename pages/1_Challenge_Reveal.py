@@ -4,20 +4,16 @@ On the public website (booth.public_mode()): visitors play a 5-case round or typ
 number. No staff controls, no answer key, no logging, nothing written to disk.
 """
 import html
-import json
 import random
 
 import streamlit as st
 
-from booth import (ROOT, BoothError, CLASSES, PUBLIC_ASSET_FIELDS, asset_path, booth_set_note, card_case_id,
+from booth import (BoothError, CLASSES, PUBLIC_ASSET_FIELDS, asset_path, booth_set_note, card_case_id,
                    choose_answer, keep_answer, load_cases, next_visitor, public_mode, save_round, set_phase,
                    start_round, t, zoomable_image)
-
-ROUND_SIZE = 5
-# The six patient folders (print_content.yaml), in folder order: four real AI errors, one
-# right-for-the-wrong-reason case and one it got right. Folders 1-5 are booth cards; folder 6
-# is not, so its data lives in data/folders/folder6.json. Texts: the wrong_<id>_* keys.
-FOLDER_CASES = ("17", "25", "26", "28", "04", "folder6")
+from challenge_logic import (FOLDER_CASES, ROUND_SIZE, explanation_key, explanation_percent, folder_case,
+                             outcome_key, overlap_label)
+from challenge_logic import score as score_answers
 
 
 def what_we_learned(stacked: bool = False) -> None:
@@ -52,19 +48,10 @@ def confidence_bars(case: dict) -> None:
 
 
 def result_box(case: dict, answer: str) -> None:
-    visitor_right, ai_right = answer == case["truth"], case["correct"]
-    message = ("both_right" if visitor_right and ai_right else "visitor_right" if visitor_right
-               else "ai_right" if ai_right else "both_wrong")
+    message = outcome_key(case, answer)
     st.markdown('<div class="booth-result" role="status"><div class="booth-result-truth">'
                 + html.escape(t("truth_heading", truth=t(case["truth"]))) + '</div>' + html.escape(t(message))
                 + '</div>', unsafe_allow_html=True)
-
-
-def overlap_label(case: dict) -> str | None:
-    overlap = case["cam_mask_overlap"]
-    if case["truth"] == "normal" or overlap is None:
-        return None
-    return "overlap_yes" if overlap >= 0.3 else "overlap_partly" if overlap >= 0.1 else "overlap_no"
 
 
 def heatmap_disclaimer() -> None:
@@ -78,31 +65,10 @@ def honesty_note() -> None:
         st.caption(note)
 
 
-def heatmap_target(case: dict) -> str:
-    """For an AI mistake: "_off_target" (overlap under 0.1), "_on_target" (0.5 or more), else ""."""
-    overlap = case["cam_mask_overlap"]
-    if case["truth"] == "normal" or overlap is None:
-        return ""
-    return "_off_target" if overlap < 0.1 else "_on_target" if overlap >= 0.5 else ""
-
-
 def explanation(case: dict) -> str:
-    """One line on what this case shows about the AI."""
-    pred, truth = t(case["ai_pred"]), t(case["truth"])
-    percent = case["ai_probs"][case["ai_pred"]] * 100
-    if case["error_type"] == "false_negative":
-        key = "explain_missed" + heatmap_target(case)
-    elif case["error_type"] == "false_positive":
-        key = "explain_false_alarm" + heatmap_target(case)
-    elif not case["correct"]:
-        key = "explain_saw_lump" if case["truth"] == "normal" else "explain_mixed"
-    elif case["truth"] == "normal":
-        key = "explain_right_normal"
-    else:
-        # "Right answer, wrong reason" only from a measured overlap under 0.1 (never for normal tissue).
-        key = {"overlap_yes": "explain_right_on_target", "overlap_partly": "explain_right_partly",
-               "overlap_no": "explain_right_wrong_place", None: "explain_right"}[overlap_label(case)]
-    return t(key, pred=pred, truth=truth, percent=percent)
+    """One line on what this case shows about the AI (rules in challenge_logic.py)."""
+    return t(explanation_key(case), pred=t(case["ai_pred"]), truth=t(case["truth"]),
+             percent=explanation_percent(case))
 
 
 # ---------------------------------------------------------------------------
@@ -244,9 +210,7 @@ def end_public_round() -> None:
 
 
 def score(state: dict) -> tuple[int, int, int]:
-    played = state["cases"][:len(state["answers"])]
-    you = sum(answer == case["truth"] for answer, case in zip(state["answers"], played))
-    return you, sum(case["correct"] for case in played), len(played)
+    return score_answers(state["cases"], state["answers"])
 
 
 def public_start(cases: dict) -> None:
@@ -272,12 +236,6 @@ def public_start(cases: dict) -> None:
                 start_public_round([cid], cases)
                 st.rerun()
     wrong_cases(cases)
-
-
-def folder_case(cid: str, cases: dict) -> dict:
-    if cid in cases:
-        return cases[cid]
-    return json.loads((ROOT / "data" / "folders" / f"{cid}.json").read_text(encoding="utf-8"))
 
 
 def wrong_cases(cases: dict) -> None:
