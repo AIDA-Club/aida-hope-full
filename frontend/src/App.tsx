@@ -18,7 +18,7 @@ export default function App() {
 
   useEffect(() => {
     const key = TITLES[location.pathname];
-    document.title = key && ready ? `${t(key)} · AIDA × Hope` : "AIDA × Hope";
+    document.title = key && ready ? `${t(key)} · PinkAI` : "PinkAI";
   }, [location.pathname, ready, t]);
 
   // After a client-side navigation, move focus to the new page (not on first load, so the

@@ -17,9 +17,9 @@ export function Wordmark() {
       <svg className="wordmark-rays" viewBox="0 0 20 24" aria-hidden="true">
         <path d="M13 4.5 16.5 1.5M10.5 9.5H16M13 14.5l3.5 3" />
       </svg>
-      <span className="wordmark-aida">AIDA</span>
-      <span className="wordmark-x">×</span>
-      <span className="wordmark-hope">Hope</span>
+      <span className="wordmark-name">
+        <span className="wordmark-pink">Pink</span><span className="wordmark-ai">AI</span>
+      </span>
     </span>
   );
 }
@@ -103,13 +103,38 @@ interface HeroProps {
   mascot: string;
   ribbon: string;
   mascotAlt?: string;
+  /** A still image for visitors who prefer reduced motion (when `mascot` is animated). */
+  mascotStill?: string;
   children?: ReactNode;
   className?: string;
   sparkles?: "pink" | "peach" | "both";
 }
 
+/**
+ * Shows the still frame at once, then swaps in the animation when it has fully downloaded,
+ * so the hero is never empty. With "reduce motion" on, the animation is never downloaded.
+ */
+function AnimatedMascot({ animated, still }: { animated: string; still: string }) {
+  const [source, setSource] = useState(still);
+  useEffect(() => {
+    const query = window.matchMedia?.("(prefers-reduced-motion: reduce)");
+    if (query?.matches) return;
+    let live = true;
+    const loader = new Image();
+    loader.onload = () => live && setSource(animated);
+    loader.src = animated;
+    const onChange = (event: MediaQueryListEvent) => event.matches && setSource(still);
+    query?.addEventListener?.("change", onChange);
+    return () => {
+      live = false;
+      query?.removeEventListener?.("change", onChange);
+    };
+  }, [animated, still]);
+  return <img className="hero-mascot hero-mascot-animated" src={source} alt="" data-animated={source === animated} />;
+}
+
 /** Page header: eyebrow chip, big title, subtitle, and the mascot with its ribbon (decorative). */
-export function Hero({ title, sub, mascot, ribbon, children, className = "", sparkles = "both" }: HeroProps) {
+export function Hero({ title, sub, mascot, mascotStill, ribbon, children, className = "", sparkles = "both" }: HeroProps) {
   const { t } = useI18n();
   return (
     <section className={`hero ${className}`}>
@@ -125,7 +150,8 @@ export function Hero({ title, sub, mascot, ribbon, children, className = "", spa
         <img className="hero-rays" src="/art/decoration-three-rays.webp" alt="" />
         {sparkles !== "peach" && <img className="hero-spark hero-spark-pink" src="/art/decoration-sparkle-raspberry.webp" alt="" />}
         {sparkles !== "pink" && <img className="hero-spark hero-spark-peach" src="/art/decoration-sparkle-peach.webp" alt="" />}
-        <img className="hero-mascot" src={mascot} alt="" />
+        {mascotStill ? <AnimatedMascot animated={mascot} still={mascotStill} />
+          : <img className="hero-mascot" src={mascot} alt="" />}
       </div>
     </section>
   );

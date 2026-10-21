@@ -7,7 +7,7 @@ import { Cta, IconBadge } from "../components/ui";
 import { useI18n } from "../i18n";
 
 export default function Home() {
-  const { t } = useI18n();
+  const { t, tn } = useI18n();
   const [cards, setCards] = useState<string[]>([]);
   useEffect(() => {
     homeApi.get().then((home) => setCards(home.cards)).catch(() => setCards([]));
@@ -17,9 +17,13 @@ export default function Home() {
     <div className="page page-home">
       <Hero
         className="hero-home"
-        title={<><span className="line">{t("home_headline_1")}</span> <span className="line">{t("home_headline_2")}</span></>}
+        title={<>
+          <span className="line">{tn("home_headline_1", { pink: <span className="title-pink">{t("home_headline_pink")}</span> })}</span>{" "}
+          <span className="line">{t("home_headline_2")}</span>
+        </>}
         sub={t("home_sub")}
-        mascot="/art/mascot-wave.webp"
+        mascot="/art/mascot-home.webp"
+        mascotStill="/art/mascot-home-still.webp"
         ribbon="/art/ribbon-home.webp"
       >
         <Cta size="lg" className="hero-cta" onClick={() => document.getElementById("activities")?.scrollIntoView({ behavior: "smooth" })}>

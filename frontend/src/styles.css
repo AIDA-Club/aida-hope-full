@@ -1,4 +1,4 @@
-/* AIDA × Hope — one token system extracted from the eight reference screenshots (1536 × 1024).
+/* PinkAI — one token system extracted from the eight reference screenshots (1536 × 1024).
    Layout uses logical properties throughout, so Arabic (dir="rtl") mirrors without overrides. */
 
 :root {
@@ -90,9 +90,10 @@ main:focus-visible { outline: none; }
 .wordmark { display: inline-flex; align-items: baseline; gap: 10px; font-family: "Lexend Variable", "Outfit Variable", sans-serif; }
 .wordmark-rays { width: 20px; height: 26px; stroke: var(--hot); stroke-width: 2.6; stroke-linecap: round; fill: none;
   align-self: center; margin-inline-end: -8px; transform: translateY(-4px); }
-.wordmark-aida { font-size: 38px; font-weight: 750; letter-spacing: -0.03em; color: var(--ink); }
-.wordmark-x { font-size: 24px; color: var(--hot); font-weight: 500; }
-.wordmark-hope { font-size: 36px; font-weight: 650; letter-spacing: -0.02em; color: var(--hot); }
+.wordmark-name { font-size: 38px; font-weight: 750; letter-spacing: -0.035em; }
+.wordmark-pink { color: var(--hot); }
+.wordmark-ai { color: var(--ink); }
+.title-pink { color: var(--hot); }
 
 .site-nav { margin-inline: auto; }
 .site-nav ul { list-style: none; margin: 0; padding: 6px; display: flex; gap: 4px; background: rgba(255, 255, 255, 0.72);
@@ -576,7 +577,7 @@ input[type="range"]::-moz-range-thumb { width: 18px; height: 18px; border-radius
 /* ------------------------------------------------------------------ tablet */
 @media (max-width: 1180px) {
   .site-nav a { padding: 10px 16px; font-size: 16.5px; }
-  .wordmark-aida { font-size: 32px; } .wordmark-hope { font-size: 30px; }
+  .wordmark-name { font-size: 32px; }
   .lab { grid-template-columns: 1fr 1fr; }
   .lab-output { grid-column: 1 / -1; }
   .howto { grid-template-columns: 1fr; }
@@ -628,7 +629,7 @@ input[type="range"]::-moz-range-thumb { width: 18px; height: 18px; border-radius
 
 @media (max-width: 600px) {
   body { font-size: 16px; }
-  .wordmark-aida { font-size: 25px; } .wordmark-hope { font-size: 24px; } .wordmark-x { font-size: 16px; }
+  .wordmark-name { font-size: 26px; }
   .wordmark-rays { width: 14px; height: 18px; }
   .lang-toggle { padding: 3px; }
   .wordmark { gap: 6px; }
