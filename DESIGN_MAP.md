@@ -60,7 +60,7 @@ cleared before trimming; edges were inspected over dark and pink backgrounds wit
 
 | Where | Mascot | Ribbon |
 |---|---|---|
-| Home | `mascot-home` (animated, see below; `mascot-home-still` first / for reduced motion) | `ribbon-home` |
+| Home | `mascot-wave` | `ribbon-home` |
 | Beat intro | `mascot-holding-card` | `ribbon-challenge` |
 | Choose | `mascot-thinking` | `ribbon-choice` |
 | AI reveal | `mascot-reveal-thinking`; `mascot-compare-mini` beside the speech bubble | `ribbon-reveal` |
@@ -81,21 +81,14 @@ repository, so the wordmark is live text plus an SVG ray mark (`Shell.tsx → Wo
 The About thumbnails are a real test-set image and its real Grad-CAM heatmap (patient
 folder 6, which is not a booth card, so it cannot spoil one).
 
-## Brand update (PinkAI) and animated Home mascot
+## Brand update (PinkAI)
 
 - The wordmark is now **PinkAI** ("Pink" in `--hot`, "AI" in `--ink`, with the ray mark), also in
   the page `<title>` and description. The Home headline is **"Think Pink, Ask AI"**, with "Pink"
   in `--hot` (`.title-pink`); the coloured word is a separate translation value
   (`home_headline_pink`), so the Arabic line colours its own word ("بالوردي", draft wording).
-- The Home mascot comes from the supplied clip `pink_mascot_refined_openeyes_wink_loop_hd.mp4`
-  (MPEG-4 Part 2, 1418 × 1108, 5 s, 30 fps, flat near-white background, white outline baked in).
-  Browsers cannot play that codec and MP4 has no transparency, so
-  `scripts/prepare_mascot_animation.py` cuts out the background and the baked-in outline and
-  writes `frontend/public/art/mascot-home.webp` (animated WebP with alpha, 640 px, 20 fps, loops,
-  ~3.8 MB; plays in Chrome, Edge, Firefox and Safari) and `mascot-home-still.webp` (59 KB).
-  The hero shows the still at once and swaps in the animation when it has downloaded; with
-  "reduce motion" on, only the still is loaded. The outermost white fur tips are trimmed by a
-  few pixels where they merged with the white outline. Other pages keep their static mascots.
+- An animated Home mascot (from a supplied video) was tried in `7ff38e6` and reverted at the
+  owner's request; Home uses the static `mascot-wave` artwork again.
 
 ## Responsive and right-to-left
 

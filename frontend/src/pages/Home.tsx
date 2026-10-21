@@ -22,8 +22,7 @@ export default function Home() {
           <span className="line">{t("home_headline_2")}</span>
         </>}
         sub={t("home_sub")}
-        mascot="/art/mascot-home.webp"
-        mascotStill="/art/mascot-home-still.webp"
+        mascot="/art/mascot-wave.webp"
         ribbon="/art/ribbon-home.webp"
       >
         <Cta size="lg" className="hero-cta" onClick={() => document.getElementById("activities")?.scrollIntoView({ behavior: "smooth" })}>

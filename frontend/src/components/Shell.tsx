@@ -103,38 +103,13 @@ interface HeroProps {
   mascot: string;
   ribbon: string;
   mascotAlt?: string;
-  /** A still image for visitors who prefer reduced motion (when `mascot` is animated). */
-  mascotStill?: string;
   children?: ReactNode;
   className?: string;
   sparkles?: "pink" | "peach" | "both";
 }
 
-/**
- * Shows the still frame at once, then swaps in the animation when it has fully downloaded,
- * so the hero is never empty. With "reduce motion" on, the animation is never downloaded.
- */
-function AnimatedMascot({ animated, still }: { animated: string; still: string }) {
-  const [source, setSource] = useState(still);
-  useEffect(() => {
-    const query = window.matchMedia?.("(prefers-reduced-motion: reduce)");
-    if (query?.matches) return;
-    let live = true;
-    const loader = new Image();
-    loader.onload = () => live && setSource(animated);
-    loader.src = animated;
-    const onChange = (event: MediaQueryListEvent) => event.matches && setSource(still);
-    query?.addEventListener?.("change", onChange);
-    return () => {
-      live = false;
-      query?.removeEventListener?.("change", onChange);
-    };
-  }, [animated, still]);
-  return <img className="hero-mascot hero-mascot-animated" src={source} alt="" data-animated={source === animated} />;
-}
-
 /** Page header: eyebrow chip, big title, subtitle, and the mascot with its ribbon (decorative). */
-export function Hero({ title, sub, mascot, mascotStill, ribbon, children, className = "", sparkles = "both" }: HeroProps) {
+export function Hero({ title, sub, mascot, ribbon, children, className = "", sparkles = "both" }: HeroProps) {
   const { t } = useI18n();
   return (
     <section className={`hero ${className}`}>
@@ -150,8 +125,7 @@ export function Hero({ title, sub, mascot, mascotStill, ribbon, children, classN
         <img className="hero-rays" src="/art/decoration-three-rays.webp" alt="" />
         {sparkles !== "peach" && <img className="hero-spark hero-spark-pink" src="/art/decoration-sparkle-raspberry.webp" alt="" />}
         {sparkles !== "pink" && <img className="hero-spark hero-spark-peach" src="/art/decoration-sparkle-peach.webp" alt="" />}
-        {mascotStill ? <AnimatedMascot animated={mascot} still={mascotStill} />
-          : <img className="hero-mascot" src={mascot} alt="" />}
+        <img className="hero-mascot" src={mascot} alt="" />
       </div>
     </section>
   );
