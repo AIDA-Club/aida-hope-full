@@ -2,61 +2,43 @@ import { ButtonHTMLAttributes, ReactNode, useEffect, useId, useRef, useState } f
 import { Link } from "react-router-dom";
 import { ApiError } from "../api";
 import { useI18n } from "../i18n";
-import { Icon, IconName } from "./Icon";
+import { Icon } from "./Icon";
 
-type Tone = "pink" | "lilac" | "peach" | "blue";
+/** The design's button: rose fill with a plum offset shadow; `ghost` and `link` variants. */
+export function Btn({ children, to, variant = "solid", className = "", ...rest }:
+  { children: ReactNode; to?: string; variant?: "solid" | "ghost" | "link"; className?: string }
+  & ButtonHTMLAttributes<HTMLButtonElement>) {
+  const classes = `btn${variant === "solid" ? "" : ` ${variant}`} ${className}`.trim();
+  if (to) return <Link to={to} className={classes}>{children}</Link>;
+  return <button type="button" className={classes} {...rest}>{variant === "link" ? <span>{children}</span> : children}</button>;
+}
 
-/** A pastel circle with a line icon and the little "rays" accent from the references. */
-export function IconBadge({ icon, tone = "pink", size = "md", rays = true }:
-  { icon: IconName; tone?: Tone; size?: "sm" | "md" | "lg"; rays?: boolean }) {
+/** Italic, rose emphasis with the hand-drawn underline. */
+export const Em = ({ children }: { children: ReactNode }) => <span className="em">{children}</span>;
+
+/** A handwritten margin note with the curved arrow. */
+export function Note({ children, className = "" }: { children: ReactNode; className?: string }) {
   return (
-    <span className={`badge badge-${tone} badge-${size}`} aria-hidden="true">
-      <Icon name={icon} />
-      {rays && <span className={`badge-rays rays-${tone}`} />}
-    </span>
-  );
-}
-
-interface CtaProps {
-  children: ReactNode;
-  to?: string;
-  arrow?: "circle" | "plain" | false;
-  variant?: "primary" | "outline" | "soft";
-  size?: "md" | "lg";
-  className?: string;
-}
-
-/** The burgundy-pink pill button. Renders a router link when `to` is given. */
-export function Cta({ children, to, arrow = "circle", variant = "primary", size = "md", className = "",
-  ...rest }: CtaProps & ButtonHTMLAttributes<HTMLButtonElement>) {
-  const classes = `cta cta-${variant} cta-${size} ${arrow === "circle" ? "has-arrow" : ""} ${className}`;
-  const inner = (
-    <>
-      <span className="cta-label">{children}</span>
-      {arrow === "circle" && <span className="cta-arrow"><Icon name="arrow" size={22} /></span>}
-      {arrow === "plain" && <Icon name="arrow" size={24} className="cta-plain-arrow" />}
-    </>
-  );
-  if (to) return <Link to={to} className={classes}>{inner}</Link>;
-  return <button type="button" className={classes} {...rest}>{inner}</button>;
-}
-
-export function ProbabilityBar({ label, value, emphasis = false }: { label: string; value: number; emphasis?: boolean }) {
-  const percent = Math.max(0, Math.min(100, value * 100));
-  return (
-    <div className={`prob${emphasis ? " prob-strong" : ""}`}>
-      <div className="prob-label">{label}</div>
-      <div className="prob-track" role="progressbar" aria-label={label} aria-valuemin={0} aria-valuemax={100}
-        aria-valuenow={Math.round(percent)}>
-        <div className="prob-fill" style={{ width: `${Math.max(percent, 1.2)}%` }} />
-      </div>
+    <div className={`note ${className}`}>
+      <svg viewBox="0 0 46 34" aria-hidden="true">
+        <path d="M4 4c8 20 20 26 38 22" fill="none" stroke="#C63D76" strokeWidth="2.5" strokeLinecap="round" />
+        <path d="M35 22l7 5-8 4" fill="none" stroke="#C63D76" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
+      </svg>
+      <span className="hand">{children}</span>
     </div>
   );
 }
 
-/** An image that opens full screen; Escape, the close button or a click closes it. */
-export function ZoomImage({ src, alt, caption, className = "", hint = true }:
-  { src: string; alt: string; caption?: ReactNode; className?: string; hint?: boolean }) {
+export const Stamp = ({ children, className = "" }: { children: ReactNode; className?: string }) =>
+  <span className={`stamp ${className}`}>{children}</span>;
+
+/**
+ * A pinned photo (white border, tape, handwritten caption). Click/tap opens it full screen;
+ * Escape, the close button or a click closes it. `alt` describes the image.
+ */
+export function Photo({ src, alt, caption, tilt, tape = true, stamp, className = "", zoom = true }:
+  { src: string; alt: string; caption?: ReactNode; tilt?: "l" | "r"; tape?: boolean; stamp?: ReactNode;
+    className?: string; zoom?: boolean }) {
   const { t } = useI18n();
   const [open, setOpen] = useState(false);
   const dialog = useRef<HTMLDialogElement>(null);
@@ -67,31 +49,42 @@ export function ZoomImage({ src, alt, caption, className = "", hint = true }:
     if (open && !element.open) element.showModal?.();
     if (!open && element.open) element.close?.();
   }, [open]);
+  const image = <img src={src} alt={alt} />;
   return (
-    <figure className={`zoom ${className}`}>
-      <button ref={trigger} type="button" className="zoom-trigger" onClick={() => setOpen(true)}
-        aria-label={t("enlarge_image", { caption: alt })}>
-        <img src={src} alt={alt} />
-      </button>
-      {(caption || hint) && (
-        <figcaption className="zoom-caption">
-          {caption}
-          {hint && (
-            <button type="button" className="zoom-hint" onClick={() => setOpen(true)} tabIndex={-1}>
-              {t("tap_enlarge")} <Icon name="expand" size={16} />
-            </button>
-          )}
-        </figcaption>
+    <figure className={`photo${tilt ? ` tilt-${tilt}` : ""} ${className}`}>
+      {tape && <div className="tape-bit" aria-hidden="true" />}
+      {zoom ? (
+        <button ref={trigger} type="button" className="photo-zoom" onClick={() => setOpen(true)}
+          aria-label={t("enlarge_image", { caption: alt })}>{image}</button>
+      ) : image}
+      {caption && <figcaption className="cap">{caption}</figcaption>}
+      {stamp}
+      {zoom && (
+        <dialog ref={dialog} className="lightbox" aria-label={alt}
+          onClose={() => { setOpen(false); trigger.current?.focus(); }}
+          onClick={(event) => event.target === event.currentTarget && setOpen(false)}>
+          {open && <img src={src} alt={alt} onClick={() => setOpen(false)} />}
+          <button type="button" className="lightbox-close" onClick={() => setOpen(false)} aria-label={t("close")}>
+            <Icon name="close" />
+          </button>
+        </dialog>
       )}
-      <dialog ref={dialog} className="lightbox" aria-label={alt}
-        onClose={() => { setOpen(false); trigger.current?.focus(); }}
-        onClick={(event) => event.target === event.currentTarget && setOpen(false)}>
-        {open && <img src={src} alt={alt} onClick={() => setOpen(false)} />}
-        <button type="button" className="lightbox-close" onClick={() => setOpen(false)} aria-label={t("close")}>
-          <Icon name="close" />
-        </button>
-      </dialog>
     </figure>
+  );
+}
+
+/** A tick or a cross for the result ledger. */
+export function Tick({ ok }: { ok: boolean | null }) {
+  const { t } = useI18n();
+  if (ok === null) return <span className="tick" aria-hidden="true" />;
+  return ok ? (
+    <svg className="tick" viewBox="0 0 30 30" role="img" aria-label={t("right")}>
+      <path d="M5 16l7 7 13-16" fill="none" stroke="#1F2A33" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  ) : (
+    <svg className="tick" viewBox="0 0 30 30" role="img" aria-label={t("wrong")}>
+      <path d="M7 7l16 16M23 7L7 23" fill="none" stroke="#B02F66" strokeWidth="3" strokeLinecap="round" />
+    </svg>
   );
 }
 
@@ -122,7 +115,7 @@ export function ErrorBox({ error, onRetry }: { error: unknown; onRetry?: () => v
     <div className="state-box state-error" role="alert">
       <Icon name="alert" />
       <span>{errorText(t, error)}</span>
-      {onRetry && <button type="button" className="link-button" onClick={onRetry}>{t("try_again")}</button>}
+      {onRetry && <button type="button" className="btn link" onClick={onRetry}><span>{t("try_again")}</span></button>}
     </div>
   );
 }
@@ -135,3 +128,6 @@ export function errorText(t: (key: string, values?: Record<string, string | numb
   }
   return t("error_generic");
 }
+
+/** "- one\n- two" (the Markdown lists in i18n/*.json) as plain lines. */
+export const bullets = (text: string) => text.split("\n").map((line) => line.replace(/^- /, "").trim()).filter(Boolean);

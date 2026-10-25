@@ -12,8 +12,9 @@
   },
   "dependencies": {
     "@fontsource-variable/cairo": "^5.3.0",
-    "@fontsource-variable/lexend": "^5.3.0",
-    "@fontsource-variable/outfit": "^5.3.0",
+    "@fontsource-variable/fraunces": "^5.3.0",
+    "@fontsource-variable/source-sans-3": "^5.3.1",
+    "@fontsource/caveat": "^5.3.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-router-dom": "^6.28.0"

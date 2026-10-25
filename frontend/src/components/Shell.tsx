@@ -1,7 +1,5 @@
-import { ReactNode, useEffect, useRef, useState } from "react";
-import { Link, NavLink, useLocation } from "react-router-dom";
+import { NavLink, Link } from "react-router-dom";
 import { useI18n } from "../i18n";
-import { Icon } from "./Icon";
 
 const NAV = [
   { to: "/", key: "nav_home", end: true },
@@ -11,24 +9,23 @@ const NAV = [
   { to: "/about", key: "nav_about" },
 ];
 
-export function Wordmark() {
+/** The pink awareness ribbon from the PinkAI design. */
+export function Ribbon({ label }: { label?: string }) {
   return (
-    <span className="wordmark" dir="ltr">
-      <svg className="wordmark-rays" viewBox="0 0 20 24" aria-hidden="true">
-        <path d="M13 4.5 16.5 1.5M10.5 9.5H16M13 14.5l3.5 3" />
-      </svg>
-      <span className="wordmark-name">
-        <span className="wordmark-pink">Pink</span><span className="wordmark-ai">AI</span>
-      </span>
-    </span>
+    <svg className="ribbon" viewBox="0 0 34 44" role={label ? "img" : undefined} aria-label={label}
+      aria-hidden={label ? undefined : true}>
+      <path d="M17 2c-6 0-10 5-10 10 0 6 5 10 10 17 5-7 10-11 10-17 0-5-4-10-10-10zm0 5c3 0 5 2.5 5 5 0 3-2.5 6-5 10-2.5-4-5-7-5-10 0-2.5 2-5 5-5z" fill="#C63D76" />
+      <path d="M12 22 4 40c-.6 1.3.3 2.6 1.6 2.4l5.4-1.2L20 24.5 12 22z" fill="#C63D76" />
+      <path d="M22 22l8 18c.6 1.3-.3 2.6-1.6 2.4L23 41.2 14 24.5 22 22z" fill="#7A1F46" />
+    </svg>
   );
 }
 
 function LanguageToggle() {
   const { lang, setLang, t } = useI18n();
   return (
-    <div className="lang-toggle" role="group" aria-label={t("language_switch")}>
-      <button type="button" lang="en" aria-pressed={lang === "en"} onClick={() => setLang("en")}>EN</button>
+    <div className="lang" role="group" aria-label={t("language_switch")}>
+      <button type="button" lang="en" aria-pressed={lang === "en"} onClick={() => setLang("en")}>{t("lang_en")}</button>
       <button type="button" lang="ar" aria-pressed={lang === "ar"} onClick={() => setLang("ar")}>العربية</button>
     </div>
   );
@@ -36,97 +33,34 @@ function LanguageToggle() {
 
 export function Header() {
   const { t } = useI18n();
-  const [open, setOpen] = useState(false);
-  const location = useLocation();
-  const menuButton = useRef<HTMLButtonElement>(null);
-  useEffect(() => setOpen(false), [location.pathname]);
-  useEffect(() => {
-    if (!open) return;
-    const onKey = (event: KeyboardEvent) => {
-      if (event.key === "Escape") {
-        setOpen(false);
-        menuButton.current?.focus();
-      }
-    };
-    window.addEventListener("keydown", onKey);
-    return () => window.removeEventListener("keydown", onKey);
-  }, [open]);
-
   return (
-    <header className="site-header">
-      <Link to="/" className="brand" aria-label={t("brand_home")}>
-        <Wordmark />
-      </Link>
-      <button
-        ref={menuButton}
-        type="button"
-        className="menu-button"
-        aria-expanded={open}
-        aria-controls="site-nav"
-        aria-label={t(open ? "menu_close" : "menu_open")}
-        onClick={() => setOpen((value) => !value)}
-      >
-        <Icon name={open ? "close" : "menu"} />
-      </button>
-      <nav id="site-nav" className={`site-nav${open ? " is-open" : ""}`} aria-label={t("nav_label")}>
-        <ul>
+    <>
+      <div className="tape" aria-hidden="true" />
+      <header className="top">
+        <Link to="/" className="brand" aria-label={t("brand_home")}>
+          <Ribbon />
+          <img src="/pinkai/aida-logo-pink.webp" alt={t("logo_alt")} width={550} height={176} />
+        </Link>
+        <nav className="nav" aria-label={t("nav_label")}>
           {NAV.map((item) => (
-            <li key={item.to}>
-              <NavLink to={item.to} end={item.end}>{t(item.key)}</NavLink>
-            </li>
+            <NavLink key={item.to} to={item.to} end={item.end}
+              className={({ isActive }) => (isActive ? "is-current" : undefined)}>
+              {t(item.key)}
+            </NavLink>
           ))}
-        </ul>
-      </nav>
-      <LanguageToggle />
-    </header>
+        </nav>
+        <LanguageToggle />
+      </header>
+    </>
   );
 }
 
-export function Footer({ credits, extra }: { credits?: ReactNode; extra?: ReactNode }) {
+export function Footer() {
   const { t } = useI18n();
   return (
-    <footer className="site-footer">
-      <div className="footer-rule">
-        <span className="footer-line" aria-hidden="true" />
-        <p className="footer-disclaimer">{t("disclaimer")}</p>
-        <span className="footer-line" aria-hidden="true" />
-        {extra}
-      </div>
-      {credits && <p className="footer-credits">{credits}</p>}
+    <footer className="foot">
+      <span className="warn"><b>{t("footer_brand")}</b>{t("footer_warn")}</span>
+      <span>{t("footer_credits")}</span>
     </footer>
-  );
-}
-
-interface HeroProps {
-  title: ReactNode;
-  sub?: ReactNode;
-  mascot: string;
-  ribbon: string;
-  mascotAlt?: string;
-  children?: ReactNode;
-  className?: string;
-  sparkles?: "pink" | "peach" | "both";
-}
-
-/** Page header: eyebrow chip, big title, subtitle, and the mascot with its ribbon (decorative). */
-export function Hero({ title, sub, mascot, ribbon, children, className = "", sparkles = "both" }: HeroProps) {
-  const { t } = useI18n();
-  return (
-    <section className={`hero ${className}`}>
-      <div className="hero-text">
-        <p className="eyebrow">{t("eyebrow_fair")}</p>
-        <h1 className="hero-title">{title}</h1>
-        {sub && <p className="hero-sub">{sub}</p>}
-        {children}
-      </div>
-      <div className="hero-art" aria-hidden="true">
-        <img className="hero-petal" src="/art/decoration-pink-petal.webp" alt="" />
-        <img className="hero-ribbon" src={ribbon} alt="" />
-        <img className="hero-rays" src="/art/decoration-three-rays.webp" alt="" />
-        {sparkles !== "peach" && <img className="hero-spark hero-spark-pink" src="/art/decoration-sparkle-raspberry.webp" alt="" />}
-        {sparkles !== "pink" && <img className="hero-spark hero-spark-peach" src="/art/decoration-sparkle-peach.webp" alt="" />}
-        <img className="hero-mascot" src={mascot} alt="" />
-      </div>
-    </section>
   );
 }

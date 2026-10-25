@@ -73,11 +73,12 @@ npm --prefix frontend run build
 ```
 
 `scripts/redesign_screens.py` saves screenshots to `artifacts/screenshots/` (desktop
-1536 × 1024, tablet 768 × 1024, mobile 390 × 844, English and Arabic, plus side-by-side
-comparisons with `design/reference/`) and runs the browser flows; results go to
-`artifacts/screenshots/flow_results.json`. Use `--base http://localhost:8000` to check the
-single-port build. `scripts/prepare_web_art.py` regenerates `frontend/public/art/` from
-`design/assets/`.
+1536 × 1024, tablet 768 × 1024, mobile 390 × 844, English and Arabic) and runs the browser
+flows; results go to `artifacts/screenshots/flow_results.json`. Use
+`--base http://localhost:8000` to check the single-port build.
+
+The visual design is the club board's "PinkAI" notebook design (see `DESIGN_MAP.md`); its
+logo and mascot artwork live in `frontend/public/pinkai/`.
 
 Ask AIDA's live assistant is optional. The API reads the same settings as Streamlit from
 `.streamlit/secrets.toml`, or from these environment variables (which take precedence):

@@ -1,4 +1,53 @@
-# AIDA × Hope redesign — design map
+# PinkAI website — design map
+
+## Current design: the PinkAI "annotated notebook" (club board, Oct 2026)
+
+The website now uses the design a member of the club board delivered as `pinkai-site.zip`
+(a static HTML/CSS/JS prototype: dotted paper, washi tape, Fraunces serif headings, Caveat
+handwritten notes, taped photos, stamps, sticky notes and six mascot stickers). It replaces
+the earlier "AIDA × Hope" look described further down, which is kept below for history.
+
+**How it was implemented.** His layouts, tokens (`:root` in `frontend/src/styles.css`),
+type and artwork were carried over into the existing React app, which stays wired to the
+real FastAPI backend. Nothing in the prototype's own logic was used, because it was a
+mock-up: its Tweak the Tumor used a hand-tuned formula instead of the trained model, Beat the
+AI only ever showed card 17 with a fixed answer, and Ask AIDA used hard-coded texts.
+
+| Prototype screen | Route | What is real now |
+|---|---|---|
+| Home | `/` | Card 17 and card 4 originals from the API; "21 of 24 / missed 3 / 3 false alarms" from `metrics.json` |
+| Beat the AI · waiting | `/beat` (no round) | Card-number entry (public site: the visitor enters it) plus "play a round of 5"; the six patient folders |
+| Beat the AI · your call | `/beat`, phase `choose` | Any of the 30 cards; N/B/M keys |
+| *(not in the prototype)* the model's call | `/beat`, phase `ai` | Real prediction, probabilities and heatmap; R/T keys |
+| Beat the AI · the truth | `/beat`, phase `truth` | Real label, overlay, explanation, ticks and running score |
+| *(not in the prototype)* end of round | `/beat`, phase `end` | Score, station message, AI-vs-doctors lessons |
+| Tweak the Tumor | `/tweak` | The trained WDBC model via the API, real ranges/presets, the reshaped microscope image |
+| Ask AIDA | `/ask` | Knowledge-base topics and the real chat (live when a key is set, offline otherwise) |
+| About | `/about` | Every tile, bar and matrix cell from `metrics.json` |
+
+**Deliberate differences from the prototype**
+- The step rail has three steps (your call → the model's call → the truth). The prototype's
+  fourth step, "keep or change", exists only in the staff booth app, not in the public flow.
+- Corrected data: the prototype's About tile said "18 normal · 26 benign · 24 malignant";
+  the real test set is 10 · 34 · 24 (`metrics.json`). The "99% five-year survival" sticky
+  note is kept because it is in the knowledge base (`kb/fallback_en.md`, US data).
+- Kept from the earlier site: the "pink" in the headline is coloured pink (as requested
+  before), full Arabic translations (the prototype only flipped direction), heatmap caveats,
+  credits, the honesty note about the booth cards, and the existing educational notices.
+- Fonts are self-hosted via `@fontsource` instead of Google Fonts (works offline at the booth).
+  Arabic uses Cairo, because Fraunces and Caveat have no Arabic letters.
+- On phones the navigation wraps onto two lines instead of scrolling sideways, so every page
+  link is visible.
+- The prototype's own copies of case images and microscope slides were not used: the site
+  loads the originals from the API.
+
+Artwork from the prototype (`frontend/public/pinkai/`, converted to WebP): the pink AIDA club
+logo and the mascots `m-wave` (Home), `m-photo-point` (Beat waiting), `m-magnify` (your call,
+Tweak), `m-photo` (truth), `m-clipboard` (About, end of round) and `m-open` (Ask).
+
+---
+
+# Earlier design (AIDA × Hope) — kept for history
 
 Reference screenshots (`design/reference/`, 1536 × 1024) mapped to routes and states of the
 React site (`frontend/`). Each implementation screenshot is in `artifacts/screenshots/desktop/`

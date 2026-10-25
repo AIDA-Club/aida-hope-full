@@ -5,24 +5,19 @@
     "detail": "0px"
   },
   {
-    "check": "[desktop] 06-tweak: no horizontal overflow",
+    "check": "[desktop] 07-tweak: no horizontal overflow",
     "ok": true,
     "detail": "0px"
   },
   {
-    "check": "[desktop] 07-ask: no horizontal overflow",
+    "check": "[desktop] 08-ask: no horizontal overflow",
     "ok": true,
     "detail": "0px"
   },
   {
-    "check": "[desktop] 08-about: no horizontal overflow",
+    "check": "[desktop] 09-about: no horizontal overflow",
     "ok": true,
     "detail": "0px"
-  },
-  {
-    "check": "[desktop] reveal AI is locked until an answer is chosen",
-    "ok": true,
-    "detail": ""
   },
   {
     "check": "[desktop] no console errors",
@@ -35,24 +30,19 @@
     "detail": "0px"
   },
   {
-    "check": "[arabic-desktop] 06-tweak: no horizontal overflow",
+    "check": "[arabic-desktop] 07-tweak: no horizontal overflow",
     "ok": true,
     "detail": "0px"
   },
   {
-    "check": "[arabic-desktop] 07-ask: no horizontal overflow",
+    "check": "[arabic-desktop] 08-ask: no horizontal overflow",
     "ok": true,
     "detail": "0px"
   },
   {
-    "check": "[arabic-desktop] 08-about: no horizontal overflow",
+    "check": "[arabic-desktop] 09-about: no horizontal overflow",
     "ok": true,
     "detail": "0px"
-  },
-  {
-    "check": "[arabic-desktop] reveal AI is locked until an answer is chosen",
-    "ok": true,
-    "detail": ""
   },
   {
     "check": "[arabic-desktop] no console errors",
@@ -65,24 +55,19 @@
     "detail": "0px"
   },
   {
-    "check": "[tablet] 06-tweak: no horizontal overflow",
+    "check": "[tablet] 07-tweak: no horizontal overflow",
     "ok": true,
     "detail": "0px"
   },
   {
-    "check": "[tablet] 07-ask: no horizontal overflow",
+    "check": "[tablet] 08-ask: no horizontal overflow",
     "ok": true,
     "detail": "0px"
   },
   {
-    "check": "[tablet] 08-about: no horizontal overflow",
+    "check": "[tablet] 09-about: no horizontal overflow",
     "ok": true,
     "detail": "0px"
-  },
-  {
-    "check": "[tablet] reveal AI is locked until an answer is chosen",
-    "ok": true,
-    "detail": ""
   },
   {
     "check": "[tablet] no console errors",
@@ -95,24 +80,19 @@
     "detail": "0px"
   },
   {
-    "check": "[mobile] 06-tweak: no horizontal overflow",
+    "check": "[mobile] 07-tweak: no horizontal overflow",
     "ok": true,
     "detail": "0px"
   },
   {
-    "check": "[mobile] 07-ask: no horizontal overflow",
+    "check": "[mobile] 08-ask: no horizontal overflow",
     "ok": true,
     "detail": "0px"
   },
   {
-    "check": "[mobile] 08-about: no horizontal overflow",
+    "check": "[mobile] 09-about: no horizontal overflow",
     "ok": true,
     "detail": "0px"
-  },
-  {
-    "check": "[mobile] reveal AI is locked until an answer is chosen",
-    "ok": true,
-    "detail": ""
   },
   {
     "check": "[mobile] no console errors",
@@ -125,24 +105,19 @@
     "detail": "0px"
   },
   {
-    "check": "[arabic-mobile] 06-tweak: no horizontal overflow",
+    "check": "[arabic-mobile] 07-tweak: no horizontal overflow",
     "ok": true,
     "detail": "0px"
   },
   {
-    "check": "[arabic-mobile] 07-ask: no horizontal overflow",
+    "check": "[arabic-mobile] 08-ask: no horizontal overflow",
     "ok": true,
     "detail": "0px"
   },
   {
-    "check": "[arabic-mobile] 08-about: no horizontal overflow",
+    "check": "[arabic-mobile] 09-about: no horizontal overflow",
     "ok": true,
     "detail": "0px"
-  },
-  {
-    "check": "[arabic-mobile] reveal AI is locked until an answer is chosen",
-    "ok": true,
-    "detail": ""
   },
   {
     "check": "[arabic-mobile] no console errors",
@@ -160,7 +135,17 @@
     "detail": ""
   },
   {
+    "check": "nav: current page is marked",
+    "ok": true,
+    "detail": ""
+  },
+  {
     "check": "i18n: Arabic toggle sets dir=rtl and translates the nav",
+    "ok": true,
+    "detail": ""
+  },
+  {
+    "check": "routing: a refresh on /beat serves the site",
     "ok": true,
     "detail": ""
   },
@@ -175,24 +160,34 @@
     "detail": ""
   },
   {
-    "check": "challenge: no AI prediction or truth sent before the AI reveal",
+    "check": "challenge: no AI prediction or truth sent before the model's call",
     "ok": true,
     "detail": ""
   },
   {
-    "check": "challenge: heatmap image refused before the AI reveal",
+    "check": "challenge: heatmap refused before the model's call",
     "ok": true,
-    "detail": "404"
+    "detail": ""
   },
   {
-    "check": "challenge: AI probabilities shown exactly as data/booth_set.json",
+    "check": "challenge: reveal is locked until a call is made",
     "ok": true,
-    "detail": "['Normal · 0%', 'Benign · 35%', 'Malignant · 65%'] vs ['Normal · 0%', 'Benign · 35%', 'Malignant · 65%']"
+    "detail": ""
   },
   {
-    "check": "challenge: AI prediction matches booth_set.json",
+    "check": "keys: M chooses Malignant",
     "ok": true,
-    "detail": "AI prediction: Malignant"
+    "detail": ""
+  },
+  {
+    "check": "challenge: model probabilities equal data/booth_set.json",
+    "ok": true,
+    "detail": "['0%', '35%', '65%'] vs ['0%', '35%', '65%']"
+  },
+  {
+    "check": "challenge: model's call matches booth_set.json",
+    "ok": true,
+    "detail": ""
   },
   {
     "check": "challenge: AI-error note shown for a case the AI got wrong",
@@ -200,59 +195,59 @@
     "detail": ""
   },
   {
-    "check": "challenge: truth overlay refused before the truth reveal",
+    "check": "challenge: overlay refused before the truth",
     "ok": true,
-    "detail": "404"
+    "detail": ""
   },
   {
-    "check": "challenge: dataset label matches booth_set.json",
+    "check": "challenge: the truth matches booth_set.json",
     "ok": true,
-    "detail": "Dataset label:\nBenign"
+    "detail": "The truth\nBenign"
   },
   {
-    "check": "challenge: score counts the visitor and the AI against the label",
+    "check": "challenge: score counts the visitor and the model against the label",
     "ok": true,
-    "detail": "['0 / 1', '0 / 1']"
+    "detail": "['0 of 1', '0 of 1']"
   },
   {
-    "check": "challenge: one-card round ends with the score and station message",
+    "check": "challenge: one-card round ends with the station message",
     "ok": true,
     "detail": ""
   },
   {
     "check": "challenge: random round shows case 1 of 5",
     "ok": true,
-    "detail": "Case 1 of 5 · Card #16"
+    "detail": "Case 1 of 5"
   },
   {
     "check": "challenge: random round shows case 2 of 5",
     "ok": true,
-    "detail": "Case 2 of 5 · Card #18"
+    "detail": "Case 2 of 5"
   },
   {
     "check": "challenge: random round shows case 3 of 5",
     "ok": true,
-    "detail": "Case 3 of 5 · Card #27"
+    "detail": "Case 3 of 5"
   },
   {
     "check": "challenge: random round shows case 4 of 5",
     "ok": true,
-    "detail": "Case 4 of 5 · Card #24"
+    "detail": "Case 4 of 5"
   },
   {
     "check": "challenge: random round shows case 5 of 5",
     "ok": true,
-    "detail": "Case 5 of 5 · Card #5"
+    "detail": "Case 5 of 5"
   },
   {
     "check": "challenge: five distinct cards in a random round",
     "ok": true,
-    "detail": "16,18,27,24,05"
+    "detail": "17,26,01,12,30"
   },
   {
     "check": "challenge: final score equals the data",
     "ok": true,
-    "detail": "['1 / 5', '4 / 5'] expected 1/5, 4/5"
+    "detail": "['1 of 5', '3 of 5']"
   },
   {
     "check": "challenge: folders hidden by default",
@@ -265,22 +260,22 @@
     "detail": ""
   },
   {
-    "check": "tweak: typical malignant preset → model says Malignant",
+    "check": "tweak: typical malignant preset → Malignant",
     "ok": true,
-    "detail": "Malignant"
+    "detail": ""
   },
   {
-    "check": "tweak: typical benign preset → model says Benign",
+    "check": "tweak: typical benign preset → Benign",
     "ok": true,
-    "detail": "Benign"
+    "detail": ""
   },
   {
     "check": "tweak: threshold changes the decision, not the probability",
     "ok": true,
-    "detail": "Malignant · 1% / Malignant · 1%"
+    "detail": "1% / 1%"
   },
   {
-    "check": "tweak: keyboard on a slider updates the microscope caption",
+    "check": "tweak: keyboard on a slider updates the microscope line",
     "ok": true,
     "detail": ""
   },
@@ -290,7 +285,7 @@
     "detail": ""
   },
   {
-    "check": "ask: topic button shows the hand-written Know the Signs answer",
+    "check": "ask: topic shows the hand-written Know the Signs answer",
     "ok": true,
     "detail": ""
   },
@@ -305,12 +300,17 @@
     "detail": "offline"
   },
   {
-    "check": "ask: turns left counted",
+    "check": "ask: questions left counted",
     "ok": true,
     "detail": ""
   },
   {
     "check": "ask: new conversation clears the transcript",
+    "ok": true,
+    "detail": ""
+  },
+  {
+    "check": "ask: ?topic=get_help opens Where to Get Help",
     "ok": true,
     "detail": ""
   }

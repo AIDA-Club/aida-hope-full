@@ -307,7 +307,7 @@ class GeneralTests(unittest.TestCase):
         for path in ("/api", "/api/", "/api/no-such-route"):
             reply = web.get(path)
             self.assertEqual((reply.status_code, reply.headers["content-type"]), (404, "application/json"), path)
-        art = web.get("/art/mascot-wave.webp")
+        art = web.get("/pinkai/m-wave.webp")
         self.assertEqual((art.status_code, art.headers["content-type"]), (200, "image/webp"))
 
     def test_home_cards_are_booth_originals(self):
