@@ -816,3 +816,33 @@ main:focus-visible { outline: none; }
   [dir="rtl"] .pair ul, [dir="rtl"] .answer ul, [dir="rtl"] .limits { padding-right: 0; }
 }
 .result-text { max-width: 600px; }
+
+/* ---- phone: "Beat the AI" before a case fits on one screen (title, intro, the two pinned
+   photos and the card number), so a visitor can enter their card without scrolling ---- */
+@media (max-width: 719px) {
+  .round.waiting .beat-tagline, .round.waiting .beat-steps, .round.waiting .beat-note, .staff .keys { display: none; }
+  .round.waiting { gap: 14px; }
+  .round.waiting > .text { gap: 10px; }
+  .round.waiting .h1-beat { font-size: 40px; }
+  .round.waiting > .text p { font-size: 16px; }
+  .waiting-side { gap: 12px; }
+  .deck { width: min(100%, 290px); }
+  .staff { padding: 14px 16px; gap: 10px; }
+}
+
+/* ---- Ask AIDA: the question box is always on screen, pinned to the bottom ---- */
+.ask-form {
+  position: fixed; left: 0; right: 0; bottom: 0; z-index: 25; gap: 4px;
+  padding: 10px var(--gutter) calc(10px + env(safe-area-inset-bottom));
+  background: rgba(255, 241, 246, .97); border-top: 2px solid var(--dot); box-shadow: 0 -8px 18px rgba(122, 31, 70, .1);
+}
+.ask-form > * { width: 100%; max-width: 980px; margin-inline: auto; }
+.ask-form .small { font-size: 13px; text-align: center; }
+#ask { padding-bottom: 130px; }
+body:has(.ask-form) footer { padding-bottom: 110px; }
+@media (max-width: 719px) { body:has(.ask-form) footer { padding-bottom: 96px; } }
+@media (max-width: 719px) {
+  /* above the phone tab bar */
+  .ask-form { bottom: calc(66px + env(safe-area-inset-bottom)); padding-bottom: 10px; }
+  .askbox .btn { padding-inline: 16px; }
+}

@@ -10,13 +10,27 @@ const NAV = [
   { to: "/about", key: "nav_about", icon: <><circle cx="12" cy="12" r="9" /><path d="M12 11v6M12 7.5v.5" /></> },
 ];
 
-/** The pink awareness ribbon from the PinkAI design. */
+/** The pink awareness ribbon: one flat pink, a gap where the strands cross, notched tails. */
 export function Ribbon() {
+  const pink = "#EC5A9B";
   return (
-    <svg viewBox="0 0 34 44" aria-hidden="true">
-      <path d="M17 2c-6 0-10 5-10 10 0 6 5 10 10 17 5-7 10-11 10-17 0-5-4-10-10-10zm0 5c3 0 5 2.5 5 5 0 3-2.5 6-5 10-2.5-4-5-7-5-10 0-2.5 2-5 5-5z" fill="#C63D76" />
-      <path d="M12 22 4 40c-.6 1.3.3 2.6 1.6 2.4l5.4-1.2L20 24.5 12 22z" fill="#C63D76" />
-      <path d="M22 22l8 18c.6 1.3-.3 2.6-1.6 2.4L23 41.2 14 24.5 22 22z" fill="#7A1F46" />
+    <svg viewBox="0 0 100 140" aria-hidden="true">
+      <defs>
+        {/* the front strand cuts a gap through the strand behind it */}
+        <mask id="ribbon-gap" maskUnits="userSpaceOnUse">
+          <rect width="100" height="140" fill="#fff" />
+          <path d="M38 54 L80 130" stroke="#000" strokeWidth="21" />
+        </mask>
+        {/* V-shaped notches in both tails */}
+        <mask id="ribbon-tails" maskUnits="userSpaceOnUse">
+          <rect width="100" height="140" fill="#fff" />
+          <path d="M10.5 121.9 L25.4 119.9 L31.5 133.5 Z M89.5 121.9 L74.6 119.9 L68.5 133.5 Z" fill="#000" />
+        </mask>
+      </defs>
+      <g mask="url(#ribbon-tails)" fill="none" stroke={pink} strokeWidth="15">
+        <path mask="url(#ribbon-gap)" d="M50 8 C74 8 72 36 62 54 L22 126" />
+        <path d="M50 8 C26 8 28 36 38 54 L78 126" />
+      </g>
     </svg>
   );
 }

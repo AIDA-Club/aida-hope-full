@@ -56,7 +56,7 @@ export default function About() {
           </li>
           <li className="card tile">
             <div className="k">{t("tile_caught")}</div>
-            <div className="v" dir="ltr">{data.caught} <small>{t("home_of", { total: data.malignant_total })}</small></div>
+            <div className="v" dir="ltr">{data.caught}<small>{t("home_of", { total: data.malignant_total })}</small></div>
             <div className="bar" aria-hidden="true"><span style={{ width: share(data.caught, data.malignant_total), background: "var(--rose)" }} /></div>
             <div className="small">{t("tile_caught_small", { missed: data.missed })}</div>
           </li>

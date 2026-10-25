@@ -53,7 +53,7 @@ export default function Home() {
       {about && (
         <div className="result">
           <div className="big" dir="ltr">
-            <CountUp to={about.caught} /><small> {t("home_of", { total: about.malignant_total })}</small>
+            <CountUp to={about.caught} /><small>{t("home_of", { total: about.malignant_total })}</small>
             <svg viewBox="0 0 236 86" preserveAspectRatio="none" aria-hidden="true">
               <path d="M34 12C110 2 226 4 228 40c2 34-70 44-140 40C20 76 2 56 8 36c4-14 22-22 52-26" pathLength="1" fill="none" stroke="#C63D76" strokeWidth="3" strokeLinecap="round" />
             </svg>

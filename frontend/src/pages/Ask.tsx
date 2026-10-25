@@ -166,7 +166,7 @@ export default function Ask() {
           </div>
 
           <form className="ask-form" onSubmit={submit}>
-            <label htmlFor="chat-input"><h3>{t("ask_own")}</h3></label>
+            <label htmlFor="chat-input" className="sr-only">{t("ask_own")}</label>
             <div className="askbox">
               <input id="chat-input" ref={input} value={message} dir="auto" autoComplete="off"
                 maxLength={state?.max_chars ?? 500} placeholder={t("chat_placeholder")} disabled={limitReached || !state}

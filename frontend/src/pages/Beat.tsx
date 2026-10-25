@@ -137,17 +137,17 @@ function Waiting({ info, act, busy }: { info: ChallengeInfo | null; act: Act; bu
     <>
       <div className="round waiting" data-phase="waiting">
         <div className="text stack-gap">
-          <div className="tagline"><span className="tag">{t("tag")}</span>
+          <div className="tagline beat-tagline"><span className="tag">{t("tag")}</span>
             <span className="eyebrow">{t("beat_eyebrow", { n: cards })}</span></div>
           <h1 className="h1-beat">{t("beat_h1_a")} <Em>{t("beat_h1_em")}</Em></h1>
           <p>{t("beat_intro")}</p>
-          <ol className="steps">
+          <ol className="steps beat-steps">
             {[1, 2, 3].map((n) => (
               <li className="step" key={n}><span className="n" aria-hidden="true">{n}</span>
                 <h3>{t(`beat_step${n}`)}</h3><p className="small">{t(`beat_step${n}_text`)}</p></li>
             ))}
           </ol>
-          <Note>{t("beat_note")}</Note>
+          <Note className="beat-note">{t("beat_note")}</Note>
         </div>
 
         <div className="waiting-side">
