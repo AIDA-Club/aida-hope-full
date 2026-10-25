@@ -242,12 +242,12 @@
   {
     "check": "challenge: five distinct cards in a random round",
     "ok": true,
-    "detail": "12,04,28,09,19"
+    "detail": "09,18,22,08,11"
   },
   {
     "check": "challenge: final score equals the data",
     "ok": true,
-    "detail": "['1 of 5', '3 of 5']"
+    "detail": "['2 of 5', '5 of 5']"
   },
   {
     "check": "challenge: folders hidden by default",

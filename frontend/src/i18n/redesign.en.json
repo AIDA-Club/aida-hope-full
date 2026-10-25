@@ -155,7 +155,7 @@
   "tile_caught": "Cancers caught",
   "tile_caught_small": "missed {missed} cancers",
   "tile_alarms": "False alarms",
-  "tile_alarms_small": "of {n} non-cancer images called cancer",
+  "tile_alarms_small": "non-cancer images called cancer",
   "the_model": "The model",
   "split_train": "training",
   "split_val": "checking",

@@ -61,9 +61,10 @@ export default function About() {
             <div className="small">{t("tile_caught_small", { missed: data.missed })}</div>
           </li>
           <li className="card tile">
-            <div className="k">{t("tile_alarms")}</div><div className="v" dir="ltr">{data.false_alarms}</div>
+            <div className="k">{t("tile_alarms")}</div>
+            <div className="v" dir="ltr">{data.false_alarms}<small>{t("home_of", { total: nonCancer })}</small></div>
             <div className="bar" aria-hidden="true"><span style={{ width: share(data.false_alarms, nonCancer || 1), background: "var(--gold)" }} /></div>
-            <div className="small">{t("tile_alarms_small", { n: nonCancer })}</div>
+            <div className="small">{t("tile_alarms_small")}</div>
           </li>
         </ul>
       </div>
