@@ -77,6 +77,7 @@
   "rail_2": "The model's call",
   "rail_3": "The truth",
   "step_of": "Step {n} of 3",
+  "step_named": "Step {n} of 3: {step}",
   "choose_h1_a": "What is your",
   "choose_h1_em": "first call?",
   "choose_p": "Choose before the model does. Then see what it thinks.",

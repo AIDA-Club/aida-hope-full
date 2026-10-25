@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { About, aboutApi } from "../api";
-import { CountUp, Em, Note, Photo, Stamp } from "../components/ui";
+import { CountUp, Em, Photo, Stamp } from "../components/ui";
 import { useI18n } from "../i18n";
 
 // Booth cards shown on the pinned photos. Card 17 is a real missed cancer (patient folder 1),
@@ -27,7 +27,6 @@ export default function Home() {
             <Em>{t("home_h1_b")}</Em>
           </h1>
           <p>{t("pink_intro")}</p>
-          <Note>{t("home_note")}</Note>
         </div>
         <div className="stack" role="group" aria-label={t("home_stack")}>
           <div className="sheet" aria-hidden="true" />

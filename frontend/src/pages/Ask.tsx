@@ -26,9 +26,13 @@ export default function Ask() {
   const [inputError, setInputError] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
   const [activeTopic, setActiveTopic] = useState<string | null>(null);
+  const [menuOpen, setMenuOpen] = useState(false);
   const log = useRef<HTMLDivElement>(null);
   const input = useRef<HTMLInputElement>(null);
+  const menu = useRef<HTMLDivElement>(null);
+  const menuButton = useRef<HTMLButtonElement>(null);
   const errorId = useId();
+  const menuId = useId();
 
   const run = async (work: () => Promise<ChatState>, question?: string) => {
     setBusy(true);
@@ -44,21 +48,31 @@ export default function Ask() {
       setBusy(false);
     }
   };
-  const card = useRef<HTMLDivElement>(null);
-  const openTopic = async (topic: string) => {
+  const openTopic = (topic: string) => {
+    setMenuOpen(false);
     setActiveTopic(topic);
-    await run(() => askAida.topic(topic, lang));
-    const element = card.current;
-    if (!element) return;
-    // the design: a new answer slides in, and on a phone the card is brought into view
-    element.classList.remove("swap");
-    void element.offsetWidth;
-    element.classList.add("swap");
-    if (window.matchMedia("(max-width: 1099px)").matches) {
-      const still = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-      element.scrollIntoView({ behavior: still ? "auto" : "smooth", block: "start" });
-    }
+    return run(() => askAida.topic(topic, lang));
   };
+
+  // the topics menu closes on a click outside it or on Escape
+  useEffect(() => {
+    if (!menuOpen) return;
+    const onPointer = (event: PointerEvent) => {
+      if (!menu.current?.contains(event.target as Node)) setMenuOpen(false);
+    };
+    const onKey = (event: KeyboardEvent) => {
+      if (event.key !== "Escape") return;
+      setMenuOpen(false);
+      menuButton.current?.focus();
+    };
+    document.addEventListener("pointerdown", onPointer);
+    document.addEventListener("keydown", onKey);
+    menu.current?.querySelector<HTMLButtonElement>(".topic")?.focus();
+    return () => {
+      document.removeEventListener("pointerdown", onPointer);
+      document.removeEventListener("keydown", onKey);
+    };
+  }, [menuOpen]);
 
   const load = () => {
     setLoadError(null);
@@ -100,86 +114,92 @@ export default function Ask() {
 
   return (
     <section className="screen" id="ask">
-      <div className="ask">
-        <div className="stack-gap">
+      <div className="ask-head">
+        <img className="mascot" src="/pinkai/m-open.webp" alt={t("mascot_open_alt")} />
+        <div>
           <h1 className="h1-step">{t("ask_h1_a")} <Em>{t("ask_h1_em")}</Em></h1>
-          <p>{t("ask_p")}</p>
-          <div className="topics" role="group" aria-label={t("topics_label")}>
-            {TOPICS.map((topic) => (
-              <button key={topic} type="button" className="topic" aria-pressed={activeTopic === topic}
-                disabled={busy || !state} onClick={() => openTopic(topic)}>
-                <TopicIcon topic={topic} />{t(topic)}
-              </button>
-            ))}
-          </div>
-          <div className="mascot-note">
-            <img className="mascot" src="/pinkai/m-open.webp" alt={t("mascot_open_alt")} />
-            <span className="hand">{t("chat_disclaimer")}</span>
-          </div>
-        </div>
-
-        <div className="stack-gap answer-side">
-          <div className="card answer-card" id="answer-card" ref={card}>
-            <div className="tape-bit" aria-hidden="true" />
-            <div className="answer-head">
-              <h2>{t("answer_title")}</h2><span className="hand">{t("answer_sub")}</span>
-              {state && state.transcript.length > 0 && (
-                <Btn variant="link" className="new-chat" disabled={busy}
-                  onClick={() => { setActiveTopic(null); run(askAida.reset).then(() => input.current?.focus()); }}>
-                  {t("new_conversation")}
-                </Btn>
-              )}
-            </div>
-            {loadError ? <ErrorBox error={loadError} onRetry={load} /> : !state ? <Loading /> : (
-              <div className="answer conversation" ref={log} role="log" aria-label={t("chat_label")} aria-live="polite">
-                {state.transcript.length === 0 && !pending && (
-                  <>
-                    <p>{t("answer_empty")}</p>
-                    <div className="chips" role="group" aria-label={t("suggestions_label")}>
-                      {["suggest_1", "suggest_2", "suggest_3"].map((key) => (
-                        <button key={key} type="button" className="chip" disabled={busy || limitReached}
-                          onClick={() => ask(t(key))}>{t(key)}</button>
-                      ))}
-                    </div>
-                  </>
-                )}
-                {state.transcript.map((entry, index) => (
-                  <div key={index} className={`entry entry-${entry.role}`}>
-                    {entry.role === "topic" && <h3>{t(entry.topic!)}</h3>}
-                    {entry.role === "user" && <span className="eyebrow">{t("you_asked")}</span>}
-                    {/* Rendered by aida_chat.message_html: Markdown with raw HTML escaped. */}
-                    <div dangerouslySetInnerHTML={{ __html: entry.html }} />
-                  </div>
-                ))}
-                {pending && (
-                  <>
-                    <div className="entry entry-user"><span className="eyebrow">{t("you_asked")}</span><p dir="auto">{pending}</p></div>
-                    <div className="entry typing" role="status"><span /><span /><span /><span className="sr-only">{t("aida_typing")}</span></div>
-                  </>
-                )}
-              </div>
-            )}
-            <div className="answer-foot">
-              <span className="hand">{t("answer_foot")}</span>
-              {state && <span className="small src">{t(state.live ? "live_note" : "offline_note")}</span>}
-            </div>
-          </div>
-
-          <form className="ask-form" onSubmit={submit}>
-            <label htmlFor="chat-input" className="sr-only">{t("ask_own")}</label>
-            <div className="askbox">
-              <input id="chat-input" ref={input} value={message} dir="auto" autoComplete="off"
-                maxLength={state?.max_chars ?? 500} placeholder={t("chat_placeholder")} disabled={limitReached || !state}
-                aria-invalid={inputError ? true : undefined} aria-describedby={errorId}
-                onChange={(event) => { setMessage(event.target.value); setInputError(null); }} />
-              <Btn type="submit" disabled={busy || limitReached || !state}>{t("ask_button")}</Btn>
-            </div>
-            <p id={errorId} className="field-error" aria-live="assertive">{inputError}</p>
-            {limitReached && <p className="small">{t("chat_turn_limit")}</p>}
-            {asked && <p className="small">{t("chat_turns_left", { left: state!.turns_left })}</p>}
-          </form>
+          <span className="hand">{t("chat_disclaimer")}</span>
         </div>
       </div>
+
+      {/* the conversation fills the rest of the screen and scrolls inside itself */}
+      <div className="card answer-card" id="answer-card">
+        <div className="tape-bit" aria-hidden="true" />
+        <div className="answer-head">
+          <h2>{t("answer_title")}</h2><span className="hand">{t("answer_sub")}</span>
+          {state && state.transcript.length > 0 && (
+            <Btn variant="link" className="new-chat" disabled={busy}
+              onClick={() => { setActiveTopic(null); run(askAida.reset).then(() => input.current?.focus()); }}>
+              {t("new_conversation")}
+            </Btn>
+          )}
+        </div>
+        {loadError ? <ErrorBox error={loadError} onRetry={load} /> : !state ? <Loading /> : (
+          <div className="answer conversation" ref={log} role="log" aria-label={t("chat_label")} aria-live="polite">
+            {state.transcript.length === 0 && !pending && (
+              <>
+                <p>{t("ask_p")}</p>
+                <div className="chips" role="group" aria-label={t("suggestions_label")}>
+                  {["suggest_1", "suggest_2", "suggest_3"].map((key) => (
+                    <button key={key} type="button" className="chip" disabled={busy || limitReached}
+                      onClick={() => ask(t(key))}>{t(key)}</button>
+                  ))}
+                </div>
+              </>
+            )}
+            {state.transcript.map((entry, index) => (
+              <div key={index} className={`entry entry-${entry.role}`}>
+                {entry.role === "topic" && <h3>{t(entry.topic!)}</h3>}
+                {entry.role === "user" && <span className="eyebrow">{t("you_asked")}</span>}
+                {/* Rendered by aida_chat.message_html: Markdown with raw HTML escaped. */}
+                <div dangerouslySetInnerHTML={{ __html: entry.html }} />
+              </div>
+            ))}
+            {pending && (
+              <>
+                <div className="entry entry-user"><span className="eyebrow">{t("you_asked")}</span><p dir="auto">{pending}</p></div>
+                <div className="entry typing" role="status"><span /><span /><span /><span className="sr-only">{t("aida_typing")}</span></div>
+              </>
+            )}
+          </div>
+        )}
+        <div className="answer-foot">
+          <span className="hand">{t("answer_foot")}</span>
+          {state && <span className="small src">{t(state.live ? "live_note" : "offline_note")}</span>}
+        </div>
+      </div>
+
+      {/* the question bar sits at the bottom of the screen; the topics open from its start side */}
+      <form className="ask-form" onSubmit={submit}>
+        <label htmlFor="chat-input" className="sr-only">{t("ask_own")}</label>
+        <div className="askbox">
+          <div className="topic-menu" ref={menu}>
+            <button ref={menuButton} type="button" className="topic-toggle" aria-label={t("topics_label")}
+              aria-expanded={menuOpen} aria-controls={menuId} disabled={busy || !state}
+              onClick={() => setMenuOpen((open) => !open)}>
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 15l6-6 6 6" /></svg>
+            </button>
+            {menuOpen && (
+              <div className="topics" id={menuId} role="group" aria-label={t("topics_label")}>
+                {TOPICS.map((topic) => (
+                  <button key={topic} type="button" className="topic" aria-pressed={activeTopic === topic}
+                    onClick={() => openTopic(topic)}>
+                    <TopicIcon topic={topic} />{t(topic)}
+                  </button>
+                ))}
+              </div>
+            )}
+          </div>
+          <input id="chat-input" ref={input} value={message} dir="auto" autoComplete="off"
+            maxLength={state?.max_chars ?? 500} placeholder={t("chat_placeholder")} disabled={limitReached || !state}
+            aria-invalid={inputError ? true : undefined} aria-describedby={errorId}
+            onChange={(event) => { setMessage(event.target.value); setInputError(null); }} />
+          <Btn type="submit" disabled={busy || limitReached || !state}>{t("ask_button")}</Btn>
+        </div>
+        <p id={errorId} className="field-error" aria-live="assertive">{inputError}</p>
+        {limitReached && <p className="small">{t("chat_turn_limit")}</p>}
+        {asked && !limitReached && <p className="small">{t("chat_turns_left", { left: state!.turns_left })}</p>}
+      </form>
     </section>
   );
 }

@@ -242,12 +242,12 @@
   {
     "check": "challenge: five distinct cards in a random round",
     "ok": true,
-    "detail": "13,26,06,12,01"
+    "detail": "12,04,28,09,19"
   },
   {
     "check": "challenge: final score equals the data",
     "ok": true,
-    "detail": "['1 of 5', '4 of 5']"
+    "detail": "['1 of 5', '3 of 5']"
   },
   {
     "check": "challenge: folders hidden by default",
@@ -281,6 +281,11 @@
   },
   {
     "check": "tweak: the microscope cell is drawn (canvas has nuclei over the slide)",
+    "ok": true,
+    "detail": ""
+  },
+  {
+    "check": "ask: topics menu closes after picking one",
     "ok": true,
     "detail": ""
   },

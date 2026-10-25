@@ -238,23 +238,23 @@ function WrongCases({ info }: { info: ChallengeInfo | null }) {
 }
 
 // ---------------------------------------------------------------------------
-// The round: rail, your call, the model's call, the truth, the end
+// The round: your call, the model's call, the truth, the end
 // ---------------------------------------------------------------------------
-function Rail({ round, step }: { round: Round; step: 1 | 2 | 3 }) {
+/** The card number (and the case count in a set), pinned to the corner of the photo. */
+function CardPin({ round }: { round: Round }) {
   const { t } = useI18n();
   return (
-    <div className="rail">
+    <div className="rail card-pin">
       <span className="case">{t("rail_case", { card: round.case!.card })}</span>
       {round.total > 1 && <span className="round-count">{t("rail_round", { current: round.index + 1, total: round.total })}</span>}
-      <ol className="rail-steps" aria-label={t("rail_label")}>
-        {[1, 2, 3].map((n) => (
-          <li key={n} className={`s${n === step ? " on" : ""}${n < step ? " done" : ""}`} aria-current={n === step ? "step" : undefined}>
-            {n > 1 && <span className="dots" aria-hidden="true" />}<i>{n}</i>{t(`rail_${n}`)}
-          </li>
-        ))}
-      </ol>
     </div>
   );
+}
+
+/** "Step 1 of 3: Your call" */
+function StepLabel({ step }: { step: 1 | 2 | 3 }) {
+  const { t } = useI18n();
+  return <span className="eyebrow step-label">{t("step_named", { n: step, step: t(`rail_${step}`) })}</span>;
 }
 
 function Choose({ round, act, busy }: { round: Round; act: Act; busy: boolean }) {
@@ -268,14 +268,14 @@ function Choose({ round, act, busy }: { round: Round; act: Act; busy: boolean })
   };
   return (
     <div className="phase" data-phase="choose">
-      <Rail round={round} step={1} />
       <div className="round">
         <div className="photo-wrap">
           <Photo src={item.image} alt={t("original_image")} tilt="l" caption={t("photo_look", { card: item.card })} />
           <img className="mascot magnify" src="/pinkai/m-magnify.webp" alt="" aria-hidden="true" />
+          <CardPin round={round} />
         </div>
         <div className="stack-gap">
-          <span className="eyebrow">{t("step_of", { n: 1 })}</span>
+          <StepLabel step={1} />
           <h1 className="h1-step">{t("choose_h1_a")} <Em>{t("choose_h1_em")}</Em></h1>
           <p>{t("choose_p")}</p>
           <div className="choices" role="radiogroup" aria-label={t("choose_group")}>
@@ -325,14 +325,16 @@ function ModelCall({ round, act, busy }: { round: Round; act: Act; busy: boolean
   const item = round.case!;
   return (
     <div className="phase" data-phase="ai">
-      <Rail round={round} step={2} />
       <div className="round">
         <div className="stack-gap">
-          <Photo src={item.heatmap!} alt={t("heatmap_image")} tilt="r" caption={t("photo_heat")} />
+          <div className="photo-wrap">
+            <Photo src={item.heatmap!} alt={t("heatmap_image")} tilt="r" caption={t("photo_heat")} />
+            <CardPin round={round} />
+          </div>
           <Note>{t("heatmap_disclaimer")}</Note>
         </div>
         <div className="stack-gap">
-          <span className="eyebrow">{t("step_of", { n: 2 })}</span>
+          <StepLabel step={2} />
           <h1 className="h1-step">{t("ai_h1_a")} <Em>{t(item.ai_pred!)}.</Em></h1>
           <div className="ledger">
             <div className="row"><span>{t("ledger_your_call")}</span><b>{t(round.answer!)}</b><Tick ok={null} /></div>
@@ -461,15 +463,18 @@ function Truth({ round, act, busy }: { round: Round; act: Act; busy: boolean }) 
 
   return (
     <div className="phase" data-phase="truth">
-      <Rail round={round} step={3} />
       <div className="round">
         <div className="t-left stack-gap">
+          <StepLabel step={3} />
           <h1 className="h1-step">{t("truth_h1_a")} <Em>{t(item.truth!).toLocaleLowerCase()}.</Em></h1>
-          <div className="three" ref={strip} onScroll={onScroll}>
-            <Photo src={item.image} alt={t("original_image")} tilt="l" caption={t("photo_saw")} />
-            <Photo src={item.heatmap!} alt={t("heatmap_image")} tilt="r" tape={false} caption={t("photo_heat")} stamp={stampFor(item, t)} />
-            <Photo src={item.overlay!} alt={t("truth_overlay")} tilt="l"
-              caption={item.truth === "normal" ? t("nothing_to_outline") : t("photo_outline")} />
+          <div className="photo-wrap three-wrap">
+            <CardPin round={round} />
+            <div className="three" ref={strip} onScroll={onScroll}>
+              <Photo src={item.image} alt={t("original_image")} tilt="l" caption={t("photo_saw")} />
+              <Photo src={item.heatmap!} alt={t("heatmap_image")} tilt="r" tape={false} caption={t("photo_heat")} stamp={stampFor(item, t)} />
+              <Photo src={item.overlay!} alt={t("truth_overlay")} tilt="l"
+                caption={item.truth === "normal" ? t("nothing_to_outline") : t("photo_outline")} />
+            </div>
           </div>
           <div className="pager" role="group" aria-label={t("pager_label")}>
             {["pager_saw", "pager_heat", "pager_outline"].map((key, index) => (

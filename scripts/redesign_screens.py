@@ -218,8 +218,10 @@ def flow_ask(page: Page, base: str) -> None:
     if page.locator(".new-chat").count():
         page.locator(".new-chat").click()
         page.wait_for_selector(".chips")
-    page.locator(".topic").first.click()
+    page.locator(".topic-toggle").click()
+    page.locator(".topic-menu .topic").first.click()
     page.wait_for_selector(".entry-topic")
+    check("ask: topics menu closes after picking one", page.locator(".topic-menu .topics").count() == 0)
     check("ask: topic shows the hand-written Know the Signs answer", "Know the Signs" in page.locator(".entry-topic h3").inner_text())
     page.locator(".askbox .btn").click()
     expect(page.locator(".field-error")).to_have_text("Please type a question first.")
