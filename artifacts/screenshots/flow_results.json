@@ -182,7 +182,7 @@
   {
     "check": "challenge: model probabilities equal data/booth_set.json",
     "ok": true,
-    "detail": "['0%', '35%', '65%'] vs ['0%', '35%', '65%']"
+    "detail": "['<1%', '35%', '65%'] vs ['<1%', '35%', '65%']"
   },
   {
     "check": "challenge: model's call matches booth_set.json",
@@ -242,12 +242,12 @@
   {
     "check": "challenge: five distinct cards in a random round",
     "ok": true,
-    "detail": "17,26,01,12,30"
+    "detail": "01,23,18,21,27"
   },
   {
     "check": "challenge: final score equals the data",
     "ok": true,
-    "detail": "['1 of 5', '3 of 5']"
+    "detail": "['3 of 5', '5 of 5']"
   },
   {
     "check": "challenge: folders hidden by default",
@@ -280,7 +280,7 @@
     "detail": ""
   },
   {
-    "check": "tweak: microscope image loads from the API",
+    "check": "tweak: the microscope cell is drawn (canvas has nuclei over the slide)",
     "ok": true,
     "detail": ""
   },

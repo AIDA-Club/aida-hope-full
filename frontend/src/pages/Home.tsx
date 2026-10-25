@@ -1,13 +1,13 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { About, aboutApi } from "../api";
-import { Em, Note, Photo, Stamp } from "../components/ui";
+import { CountUp, Em, Note, Photo, Stamp } from "../components/ui";
 import { useI18n } from "../i18n";
 
 // Booth cards shown on the pinned photos. Card 17 is a real missed cancer (patient folder 1),
 // so the "Missed by the model" stamp is true; card 4 is the background photo.
-const FRONT_CARD = 17;
-const BACK_CARD = 4;
+const FRONT_CARD = "17";
+const BACK_CARD = "04";
 
 export default function Home() {
   const { t, tn } = useI18n();
@@ -27,17 +27,17 @@ export default function Home() {
             <Em>{t("home_h1_b")}</Em>
           </h1>
           <p>{t("pink_intro")}</p>
-          <Note className="home-note">{t("home_note")}</Note>
+          <Note>{t("home_note")}</Note>
         </div>
         <div className="stack" role="group" aria-label={t("home_stack")}>
           <div className="sheet" aria-hidden="true" />
-          <Photo className="back" src={`/api/cards/${String(BACK_CARD).padStart(2, "0")}/original`}
-            alt={t("home_case_back", { card: BACK_CARD })} tape={false} zoom={false} />
-          <Photo className="front" src={`/api/cards/${FRONT_CARD}/original`} alt={t("home_case_front", { card: FRONT_CARD })}
+          <Photo className="back" src={`/api/cards/${BACK_CARD}/original`} alt={t("home_case_back", { card: 4 })}
+            tape={false} zoom={false} />
+          <Photo className="front" src={`/api/cards/${FRONT_CARD}/original`} alt={t("home_case_front", { card: 17 })}
             caption={t("home_case_caption")} stamp={<Stamp>{t("stamp_missed")}</Stamp>} zoom={false} />
           <div className="sticky"><b>{t("home_sticky_title")}</b><br />{t("home_sticky")}</div>
           <img className="mascot" src="/pinkai/m-wave.webp" alt={t("mascot_wave_alt")} />
-          <span className="hand hi">{t("home_mascot_hi")}</span>
+          <span className="hand">{t("home_mascot_hi").replace(/\s*[→←]\s*$/, "")}<span className="arrow" aria-hidden="true"> {t("home_mascot_hi").match(/[→←]/)?.[0] ?? ""}</span></span>
         </div>
       </div>
 
@@ -53,9 +53,9 @@ export default function Home() {
       {about && (
         <div className="result">
           <div className="big" dir="ltr">
-            {about.caught}<small> {t("home_of", { total: about.malignant_total })}</small>
+            <CountUp to={about.caught} /><small> {t("home_of", { total: about.malignant_total })}</small>
             <svg viewBox="0 0 236 86" preserveAspectRatio="none" aria-hidden="true">
-              <path d="M34 12C110 2 226 4 228 40c2 34-70 44-140 40C20 76 2 56 8 36c4-14 22-22 52-26" fill="none" stroke="#C63D76" strokeWidth="3" strokeLinecap="round" />
+              <path d="M34 12C110 2 226 4 228 40c2 34-70 44-140 40C20 76 2 56 8 36c4-14 22-22 52-26" pathLength="1" fill="none" stroke="#C63D76" strokeWidth="3" strokeLinecap="round" />
             </svg>
           </div>
           <p className="result-text">

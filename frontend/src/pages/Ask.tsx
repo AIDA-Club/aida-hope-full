@@ -44,9 +44,20 @@ export default function Ask() {
       setBusy(false);
     }
   };
-  const openTopic = (topic: string) => {
+  const card = useRef<HTMLDivElement>(null);
+  const openTopic = async (topic: string) => {
     setActiveTopic(topic);
-    return run(() => askAida.topic(topic, lang));
+    await run(() => askAida.topic(topic, lang));
+    const element = card.current;
+    if (!element) return;
+    // the design: a new answer slides in, and on a phone the card is brought into view
+    element.classList.remove("swap");
+    void element.offsetWidth;
+    element.classList.add("swap");
+    if (window.matchMedia("(max-width: 1099px)").matches) {
+      const still = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      element.scrollIntoView({ behavior: still ? "auto" : "smooth", block: "start" });
+    }
   };
 
   const load = () => {
@@ -108,7 +119,7 @@ export default function Ask() {
         </div>
 
         <div className="stack-gap answer-side">
-          <div className="card answer-card">
+          <div className="card answer-card" id="answer-card" ref={card}>
             <div className="tape-bit" aria-hidden="true" />
             <div className="answer-head">
               <h2>{t("answer_title")}</h2><span className="hand">{t("answer_sub")}</span>

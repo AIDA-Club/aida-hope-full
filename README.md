@@ -77,8 +77,8 @@ npm --prefix frontend run build
 flows; results go to `artifacts/screenshots/flow_results.json`. Use
 `--base http://localhost:8000` to check the single-port build.
 
-The visual design is the club board's "PinkAI" notebook design (see `DESIGN_MAP.md`); its
-logo and mascot artwork live in `frontend/public/pinkai/`.
+The visual design is the club board's PinkAI v2 notebook design (see `DESIGN_MAP.md`); its
+logo, mascot artwork and microscope background live in `frontend/public/pinkai/`.
 
 Ask AIDA's live assistant is optional. The API reads the same settings as Streamlit from
 `.streamlit/secrets.toml`, or from these environment variables (which take precedence):

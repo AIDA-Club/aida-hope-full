@@ -1,49 +1,63 @@
 # PinkAI website — design map
 
-## Current design: the PinkAI "annotated notebook" (club board, Oct 2026)
+## Current design: PinkAI v2 (club board, "PinkAI site.zip", 25 Oct 2026)
 
-The website now uses the design a member of the club board delivered as `pinkai-site.zip`
-(a static HTML/CSS/JS prototype: dotted paper, washi tape, Fraunces serif headings, Caveat
-handwritten notes, taped photos, stamps, sticky notes and six mascot stickers). It replaces
-the earlier "AIDA × Hope" look described further down, which is kept below for history.
+The website uses the second version of the design a member of the club board delivered: the
+"annotated notebook" (dotted paper, washi tape, Fraunces headings, Caveat handwriting, taped
+photos, stamps, sticky notes, six mascot stickers) with v2's additions — nav icons and a phone
+tab bar, the frosted "your case is waiting" deck, an AI-vs-you scoreboard, a "What radiologists
+look for" clue card, the model's probabilities in the ledger, case-specific lessons and quotes,
+a swipeable photo strip on phones, a live-drawn microscope cell with a sticky result strip on
+narrow screens, and a full motion layer (drops, slams, pops, count-ups, draw-ons; all disabled
+with "reduce motion"). It replaces v1 (`pinkai-site.zip`, 24 Oct), which replaced the earlier
+"AIDA × Hope" look kept below for history.
 
-**How it was implemented.** His layouts, tokens (`:root` in `frontend/src/styles.css`),
-type and artwork were carried over into the existing React app, which stays wired to the
-real FastAPI backend. Nothing in the prototype's own logic was used, because it was a
-mock-up: its Tweak the Tumor used a hand-tuned formula instead of the trained model, Beat the
-AI only ever showed card 17 with a fixed answer, and Ask AIDA used hard-coded texts.
+**How it was implemented.** v2's stylesheet is used verbatim as the base of
+`frontend/src/styles.css` (only the font family names changed, for the self-hosted fonts);
+app-specific rules follow it. The pages were rebuilt in React to v2's markup and stay wired to
+the FastAPI backend. v2 already used real data (`cases.js` exported from `booth_set.json`,
+`wdbc.js` holding the trained model's coefficients); here the same data comes from the API, so
+nothing is duplicated and the visitor's answers stay spoiler-safe (the prototype loads every
+case's truth into the page).
 
-| Prototype screen | Route | What is real now |
+| Design screen | Route | What drives it |
 |---|---|---|
-| Home | `/` | Card 17 and card 4 originals from the API; "21 of 24 / missed 3 / 3 false alarms" from `metrics.json` |
-| Beat the AI · waiting | `/beat` (no round) | Card-number entry (public site: the visitor enters it) plus "play a round of 5"; the six patient folders |
-| Beat the AI · your call | `/beat`, phase `choose` | Any of the 30 cards; N/B/M keys |
-| *(not in the prototype)* the model's call | `/beat`, phase `ai` | Real prediction, probabilities and heatmap; R/T keys |
-| Beat the AI · the truth | `/beat`, phase `truth` | Real label, overlay, explanation, ticks and running score |
-| *(not in the prototype)* end of round | `/beat`, phase `end` | Score, station message, AI-vs-doctors lessons |
-| Tweak the Tumor | `/tweak` | The trained WDBC model via the API, real ranges/presets, the reshaped microscope image |
+| Home | `/` | Card 17/4 originals; "21 of 24" etc. from `metrics.json` |
+| Beat the AI · waiting | `/beat` (no round) | Card number or random card, plus a round of 5; AI-vs-you from `metrics.json`; clue card; six patient folders |
+| Beat the AI · your call | `/beat`, `choose` | Any of the 30 cards; N/B/M keys |
+| The model's call *(not in the prototype)* | `/beat`, `ai` | Real prediction, probabilities and heatmap; R/T keys |
+| Beat the AI · the truth | `/beat`, `truth` | Real label, overlay, ticks, probabilities, case lesson and quote, score |
+| End of round *(not in the prototype)* | `/beat`, `end` | Score, station message, AI-vs-doctors lessons |
+| Tweak the Tumor | `/tweak` | Predictions from the API (the trained pipeline); the cell drawing is v2's canvas illustration (`frontend/src/pages/cell.ts`) over v2's `slide-bg.jpg` |
 | Ask AIDA | `/ask` | Knowledge-base topics and the real chat (live when a key is set, offline otherwise) |
 | About | `/about` | Every tile, bar and matrix cell from `metrics.json` |
 
-**Deliberate differences from the prototype**
-- The step rail has three steps (your call → the model's call → the truth). The prototype's
-  fourth step, "keep or change", exists only in the staff booth app, not in the public flow.
-- Corrected data: the prototype's About tile said "18 normal · 26 benign · 24 malignant";
-  the real test set is 10 · 34 · 24 (`metrics.json`). The "99% five-year survival" sticky
-  note is kept because it is in the knowledge base (`kb/fallback_en.md`, US data).
-- Kept from the earlier site: the "pink" in the headline is coloured pink (as requested
-  before), full Arabic translations (the prototype only flipped direction), heatmap caveats,
-  credits, the honesty note about the booth cards, and the existing educational notices.
-- Fonts are self-hosted via `@fontsource` instead of Google Fonts (works offline at the booth).
-  Arabic uses Cairo, because Fraunces and Caveat have no Arabic letters.
-- On phones the navigation wraps onto two lines instead of scrolling sideways, so every page
-  link is visible.
-- The prototype's own copies of case images and microscope slides were not used: the site
-  loads the originals from the API.
+**Decisions where v2 and the existing app differ**
+- *Lessons and heat notes.* v2 writes its own case lessons with its own heatmap-overlap
+  thresholds (40% / 15% / 0.5%), which differ from the tested Python rules
+  (`challenge_logic.py`: 30% / 10%, 50% for "right on the lump"). To avoid two contradictory
+  sentences on one screen, the hand-written note under the photos is the existing Python
+  explanation, and v2's lesson wording is chosen from the API's own verdicts (`overlap_key`,
+  `explanation_key`), not from new thresholds.
+- *Probabilities* are written v2's way (never "100%" or "0%": ">99%", "<1%").
+- *The dial* shows the chance of malignant, as in v2; the model's call is the line under it.
+- *Step rail*: three steps (your call → the model's call → the truth); "keep or change" exists
+  only in the staff booth app.
+- *Waiting card*: the public site asks the visitor for their card number (v2: staff field),
+  keeps v2's "or pick one at random", and adds "play a round of 5".
+- *Clue card* ("What radiologists look for": shape, edges, direction, what is behind the lump)
+  is the designer's content and is not in `kb/`; it carries his caveat "clues, not rules: only a
+  biopsy can say for sure". Worth a check by the club's medical reviewer.
+- *Microscope.* The Streamlit app's server-rendered picture (`/api/tweak/slide`) is no longer
+  used by the website; v2's live canvas drawing is. Both are illustrations of the same real
+  benign FNAC patch; the model never sees either. The original-image credits are unchanged.
+- Kept from the earlier site: the "pink" in the headline is pink, full Arabic (v2 only flips
+  direction; all new v2 text has draft Arabic), heatmap caveats, credits, the booth-card
+  honesty note, the live chat, five-case rounds and patient folders.
+- Fonts are self-hosted (no Google Fonts request; works offline). Arabic uses Cairo.
 
-Artwork from the prototype (`frontend/public/pinkai/`, converted to WebP): the pink AIDA club
-logo and the mascots `m-wave` (Home), `m-photo-point` (Beat waiting), `m-magnify` (your call,
-Tweak), `m-photo` (truth), `m-clipboard` (About, end of round) and `m-open` (Ask).
+Artwork (`frontend/public/pinkai/`): the pink AIDA club logo, the six mascots (unchanged from
+v1, converted to WebP) and `slide-bg.jpg` (v2's benign slide with the nuclei painted out).
 
 ---
 

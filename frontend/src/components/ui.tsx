@@ -129,5 +129,50 @@ export function errorText(t: (key: string, values?: Record<string, string | numb
   return t("error_generic");
 }
 
+const reducedMotion = () => window.matchMedia?.("(prefers-reduced-motion: reduce)").matches ?? false;
+
+/** A number that rolls up from 0 when it appears (the design's data-count); instant with reduced motion. */
+export function CountUp({ to }: { to: number }) {
+  const [value, setValue] = useState(() => (reducedMotion() ? to : 0));
+  useEffect(() => {
+    if (reducedMotion()) { setValue(to); return; }
+    let frame = 0;
+    const start = performance.now() + 350;
+    const step = (now: number) => {
+      const k = Math.min(1, Math.max(0, (now - start) / 900));
+      setValue(Math.round(to * (1 - (1 - k) ** 3)));
+      if (k < 1) frame = requestAnimationFrame(step);
+    };
+    frame = requestAnimationFrame(step);
+    return () => cancelAnimationFrame(frame);
+  }, [to]);
+  return <span>{value}</span>;
+}
+
+/** A little burst of the mascot's sparkles around an element (decorative; skipped with reduced motion). */
+export function sparkle(element: Element | null) {
+  if (!element || reducedMotion()) return;
+  const box = element.getBoundingClientRect();
+  const colors = ["var(--rose)", "var(--hl)", "var(--gold)", "var(--plum)"];
+  for (let i = 0; i < 14; i++) {
+    const s = document.createElement("span");
+    const angle = (i / 14) * 2 * Math.PI + Math.random() * 0.4;
+    const distance = 50 + Math.random() * 60;
+    s.className = "spark";
+    s.setAttribute("aria-hidden", "true");
+    s.style.left = `${box.left + box.width * (0.2 + Math.random() * 0.6)}px`;
+    s.style.top = `${box.top + box.height / 2}px`;
+    s.style.setProperty("--dx", `${Math.cos(angle) * distance}px`);
+    s.style.setProperty("--dy", `${Math.sin(angle) * distance * 0.7}px`);
+    s.style.setProperty("--c", colors[i % colors.length]);
+    s.style.animationDelay = `${Math.random() * 0.15}s`;
+    s.addEventListener("animationend", () => s.remove());
+    document.body.append(s);
+  }
+}
+
+/** The design's way of writing a probability: never "100%" or "0%" sure. */
+export const pct = (x: number) => (x >= 0.995 ? ">99%" : x > 0 && x < 0.005 ? "<1%" : `${Math.round(x * 100)}%`);
+
 /** "- one\n- two" (the Markdown lists in i18n/*.json) as plain lines. */
 export const bullets = (text: string) => text.split("\n").map((line) => line.replace(/^- /, "").trim()).filter(Boolean);

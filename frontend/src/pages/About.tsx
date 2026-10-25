@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { About as AboutData, aboutApi } from "../api";
-import { bullets, Em, ErrorBox, Loading, Note } from "../components/ui";
+import { bullets, CountUp, Em, ErrorBox, Loading, Note } from "../components/ui";
 import { roundHalfEven } from "../format";
 import { useI18n } from "../i18n";
 
@@ -24,10 +24,10 @@ export default function About() {
   const splitTotal = sizes.train + sizes.val + sizes.test;
   const { rows_truth_cols_pred: labels, matrix } = data.confusion_matrix;
   const malignantIndex = labels.indexOf("malignant");
-  // Cell styles from the design: the diagonal is filled; false alarms (benign → malignant) and
-  // missed cancers (malignant → benign) are outlined.
+  // Cell styles from the design: correct calls share one quiet colour; the two kinds of mistake
+  // (false alarms: benign → malignant, missed cancers: malignant → benign) are the solid fills.
   const cellClass = (i: number, j: number) =>
-    i === j ? ["ok3", "ok", "ok2"][i] ?? "ok"
+    i === j ? "ok"
       : labels[i] === "benign" && j === malignantIndex ? "fa"
       : i === malignantIndex && labels[j] === "benign" ? "miss" : "";
   const missedToBenign = matrix[malignantIndex]?.[labels.indexOf("benign")] ?? data.missed;
@@ -41,7 +41,7 @@ export default function About() {
         </div>
         <ul className="tiles">
           <li className="card tile">
-            <div className="k">{t("tile_images")}</div><div className="v" dir="ltr">{data.n_test}</div>
+            <div className="k">{t("tile_images")}</div><div className="v" dir="ltr"><CountUp to={data.n_test} /></div>
             <div className="bar" aria-hidden="true">
               <span style={{ width: share(counts.normal, data.n_test), background: "var(--green)" }} />
               <span style={{ width: share(counts.benign, data.n_test), background: "var(--gold)" }} />
@@ -96,7 +96,8 @@ export default function About() {
               {matrix.map((row, i) => (
                 <tr key={labels[i]}>
                   <th scope="row" className="r">{t(labels[i])}</th>
-                  {row.map((count, j) => <td key={j} className={`c ${cellClass(i, j)}`}>{count}</td>)}
+                  {row.map((count, j) => <td key={j} className={`c ${cellClass(i, j)}`}
+                    style={{ "--d": `${0.5 + (i * row.length + j) * 0.06}s` } as React.CSSProperties}>{count}</td>)}
                 </tr>
               ))}
             </tbody>

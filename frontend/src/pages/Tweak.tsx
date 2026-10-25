@@ -1,11 +1,14 @@
 import { useEffect, useId, useMemo, useRef, useState } from "react";
 import { Feature, Prediction, tweak, TweakModel } from "../api";
 import { Icon } from "../components/Icon";
-import { Btn, Em, ErrorBox, Loading, Note, Photo } from "../components/ui";
-import { roundHalfEven } from "../format";
+import { Btn, Em, ErrorBox, Loading, Note } from "../components/ui";
 import { useI18n } from "../i18n";
+import { drawCell } from "./cell";
 
-const STEP = 0.01; // the Streamlit slider's float step
+// The design's slider steps and number formats, per feature (radius, texture, smoothness,
+// concavity, worst concave points); other models fall back to the Streamlit step.
+const STEPS = [0.1, 0.1, 0.001, 0.002, 0.001];
+const DIGITS = [1, 1, 3, 3, 3];
 
 function useDebounced<T>(value: T, delay: number): T {
   const [current, setCurrent] = useState(value);
@@ -15,8 +18,6 @@ function useDebounced<T>(value: T, delay: number): T {
   }, [value, delay]);
   return current;
 }
-
-const shown = (value: number) => (Math.abs(value) >= 1 ? value.toFixed(1) : value.toFixed(2));
 
 export default function Tweak() {
   const { t } = useI18n();
@@ -52,8 +53,11 @@ function Lab({ model }: { model: TweakModel }) {
   const [last, setLast] = useState<string | null>(null);
   const [prediction, setPrediction] = useState<Prediction | null>(null);
   const [error, setError] = useState<unknown>(null);
+  const cell = useRef<HTMLCanvasElement>(null);
+  const mini = useRef<HTMLCanvasElement>(null);
 
-  const query = useDebounced(useMemo(() => ({ values, threshold }), [values, threshold]), 90);
+  // The model's answer always comes from the API (the trained scikit-learn pipeline).
+  const query = useDebounced(useMemo(() => ({ values, threshold }), [values, threshold]), 60);
   useEffect(() => {
     const controller = new AbortController();
     tweak.predict(query.values, query.threshold, controller.signal)
@@ -62,14 +66,35 @@ function Lab({ model }: { model: TweakModel }) {
     return () => controller.abort();
   }, [query]);
 
+  // The microscope illustration is drawn in the browser straight from the slider values.
+  const drawable = model.slide && features.length >= 5;
+  useEffect(() => {
+    if (drawable && cell.current) drawCell(cell.current, values, mini.current);
+  }, [values, drawable]);
+
   const reset = (label: "benign" | "malignant") => {
     setValues([...model.presets![label]]);
     setThreshold(model.default_threshold ?? 0.5);
     setLast(null);
   };
+  const chance = prediction ? Math.round(prediction.malignant * 100) : null;
+  const bad = prediction?.prediction === "malignant";
 
   return (
     <>
+      {drawable && (
+        <div className={`live-mini${bad ? " bad" : ""}`} aria-hidden="true">
+          <div className="frame">
+            <canvas ref={mini} width={1140} height={980} />
+            <div className="badge">
+              <b id="mini-pct" dir="ltr">{chance ?? "–"}%</b>
+              <span>{t("mini_chance")}</span>
+              <span className="call">{t("mini_call")}<b>{prediction ? t(prediction.prediction) : "…"}</b></span>
+              <i id="mini-bar" style={{ "--p": `${chance ?? 0}%` } as React.CSSProperties} />
+            </div>
+          </div>
+        </div>
+      )}
       <p className="small model-note">{t("model_note")}</p>
       <div className="tweak">
         <div className="ledger sliders">
@@ -87,7 +112,29 @@ function Lab({ model }: { model: TweakModel }) {
           </div>
         </div>
 
-        {model.slide && <Microscope values={values} last={last} />}
+        <div className="microscope">
+          <p className="small now" aria-live="polite">
+            {last ? t("slide_now", { name: t(last), look: t(`${last}_look`) }) : t("slide_start")}
+          </p>
+          {drawable && (
+            <figure className="photo tilt-r cell-photo">
+              <div className="tape-bit" aria-hidden="true" />
+              <canvas ref={cell} width={1140} height={980} role="img" aria-label={t("cell_alt")} />
+              <figcaption className="cap">{t("slide_cap")}</figcaption>
+            </figure>
+          )}
+          <img className="mascot" src="/pinkai/m-magnify.webp" alt="" aria-hidden="true" />
+          <Note>{t("slide_note")}</Note>
+          <p className="small">{t("slide_caption")}</p>
+          <details className="compare">
+            <summary>{t("slide_compare")}</summary>
+            <div className="compare-grid">
+              <figure className="compare-fig"><img src="/api/tweak/reference/benign" alt={t("slide_real_benign")} /><figcaption>{t("slide_real_benign")}</figcaption></figure>
+              <figure className="compare-fig"><img src="/api/tweak/reference/malignant" alt={t("slide_real_malignant")} /><figcaption>{t("slide_real_malignant")}</figcaption></figure>
+            </div>
+          </details>
+          <p className="tiny">{t("slide_credits")}</p>
+        </div>
 
         <div className="stack-gap">
           <div className="card output" aria-live="polite">
@@ -114,6 +161,8 @@ function Slider({ feature, value, onChange, index, threshold = false }:
   const label = threshold ? t("decision_threshold") : feature.key ? t(feature.key) : t("measurement_number", { number: index + 1 });
   const helpText = threshold ? t("threshold_note") : feature.key ? t(`${feature.key}_help`) : t("measurement_help");
   const ends = !threshold && feature.key ? t(`${feature.key}_ends`).split("|") : null;
+  const digits = threshold ? 2 : DIGITS[index] ?? 2;
+  const shown = value.toFixed(digits);
   return (
     <div className="s">
       <div className="s-top">
@@ -124,69 +173,40 @@ function Slider({ feature, value, onChange, index, threshold = false }:
             <Icon name="help" size={18} />
           </button>
         )}
-        <output htmlFor={id} dir="ltr">{threshold ? value.toFixed(2) : shown(value)}</output>
+        <output htmlFor={id} dir="ltr">{shown}</output>
       </div>
       <p id={`${id}-help`} className="help-text" hidden={!help}>{helpText}</p>
-      <input id={id} type="range" min={feature.min} max={feature.max} step={STEP} value={value}
-        aria-valuetext={shown(value)} onChange={(event) => onChange(Number(event.target.value))} />
+      <input id={id} type="range" min={feature.min} max={feature.max} step={threshold ? 0.01 : STEPS[index] ?? 0.01}
+        value={value} aria-valuetext={shown} onChange={(event) => onChange(Number(event.target.value))} />
       {ends && ends.length === 2 && <div className="ends" aria-hidden="true"><span>{ends[0]}</span><span>{ends[1]}</span></div>}
-    </div>
-  );
-}
-
-function Microscope({ values, last }: { values: number[]; last: string | null }) {
-  const { t } = useI18n();
-  const url = tweak.slideUrl(useDebounced(values, 220));
-  const [current, setCurrent] = useState(url);
-  const [loading, setLoading] = useState(false);
-  const pending = useRef(url);
-  useEffect(() => {
-    if (url === current) return;
-    pending.current = url;
-    setLoading(true);
-    const image = new Image();
-    image.onload = () => {
-      if (pending.current === url) { setCurrent(url); setLoading(false); }
-    };
-    image.onerror = () => setLoading(false);
-    image.src = url;
-  }, [url, current]);
-
-  return (
-    <div className="microscope">
-      <p className="small now" aria-live="polite">
-        {last ? t("slide_now", { name: t(last), look: t(`${last}_look`) }) : t("slide_start")}
-        {loading && <span className="sr-only"> {t("slide_loading")}</span>}
-      </p>
-      <div className="slide-wrap">
-        <Photo src={current} alt={t("slide_heading")} tilt="r" caption={t("slide_cap")} className={loading ? "is-loading" : ""} />
-        <img className="mascot magnify" src="/pinkai/m-magnify.webp" alt="" aria-hidden="true" />
-      </div>
-      <Note>{t("slide_note")}</Note>
-      <p className="small">{t("slide_caption")}</p>
-      <details className="compare">
-        <summary>{t("slide_compare")}</summary>
-        <div className="compare-grid">
-          <Photo src="/api/tweak/reference/benign" alt={t("slide_real_benign")} caption={t("slide_real_benign")} tape={false} />
-          <Photo src="/api/tweak/reference/malignant" alt={t("slide_real_malignant")} caption={t("slide_real_malignant")} tape={false} />
-        </div>
-      </details>
-      <p className="tiny">{t("slide_credits")}</p>
     </div>
   );
 }
 
 function Output({ prediction }: { prediction: Prediction }) {
   const { t } = useI18n();
-  const percent = prediction.confidence * 100;
+  const chance = Math.round(prediction.malignant * 100);
   const bad = prediction.prediction === "malignant";
+  const call = useRef<HTMLElement>(null);
+  const previous = useRef(prediction.prediction);
+  useEffect(() => {
+    // the model's call pops when it flips
+    if (previous.current !== prediction.prediction && call.current) {
+      call.current.classList.remove("flip");
+      void call.current.offsetWidth;
+      call.current.classList.add("flip");
+    }
+    previous.current = prediction.prediction;
+  }, [prediction.prediction]);
   return (
     <>
-      <div className={`dial${bad ? " bad" : ""}`} style={{ "--p": `${percent}%` } as React.CSSProperties}
-        role="img" aria-label={t("gauge_label", { prediction: t(prediction.prediction), percent })}>
-        <div><div className="pct" dir="ltr">{roundHalfEven(percent, 0)}%</div><div className="lbl">{t(prediction.prediction)}</div></div>
+      <div className={`dial${bad ? " bad" : ""}`} id="dial" style={{ "--p": `${chance}%` } as React.CSSProperties}
+        role="img" aria-label={t("gauge_label", { prediction: t("malignant"), percent: prediction.malignant * 100 })}>
+        <div><div className="pct" dir="ltr">{chance}%</div><div className="lbl">{t("dial_label")}</div></div>
       </div>
-      <p className="small center">{t("dial_note")}</p>
+      <p className="small center">
+        {t("dial_call")} <b id="call" ref={call}>{t(prediction.prediction)}</b><br />{t("dial_rule")}
+      </p>
       <div className="bars">
         {(["benign", "malignant"] as const).map((name) => (
           <div className="b" key={name}>
@@ -194,11 +214,11 @@ function Output({ prediction }: { prediction: Prediction }) {
             <i role="progressbar" aria-label={t(name)} aria-valuemin={0} aria-valuemax={100}
               aria-valuenow={Math.round(prediction[name] * 100)}
               style={{ "--w": `${Math.max(prediction[name] * 100, 1)}%`, "--c": name === "benign" ? "var(--gold)" : "var(--rose)" } as React.CSSProperties} />
-            <b dir="ltr">{roundHalfEven(prediction[name] * 100, 0)}%</b>
+            <b dir="ltr">{Math.round(prediction[name] * 100)}%</b>
           </div>
         ))}
       </div>
-      <p className="small">{t("gauge_note", { threshold: prediction.threshold * 100 })} · {t("gauge_probability_note")}</p>
+      <p className="small">{t("gauge_note", { threshold: prediction.threshold * 100 })}</p>
     </>
   );
 }

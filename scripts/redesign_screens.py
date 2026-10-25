@@ -27,6 +27,11 @@ VIEWPORTS = {"desktop": (1536, 1024), "tablet": (768, 1024), "mobile": (390, 844
 results: list[dict] = []
 
 
+def design_pct(x: float) -> str:
+    """The design's way of writing a probability: never "100%" or "0%" sure."""
+    return ">99%" if x >= 0.995 else "<1%" if 0 < x < 0.005 else f"{round(x * 100)}%"
+
+
 def check(name: str, ok: bool, detail: str = "") -> None:
     results.append({"check": name, "ok": bool(ok), "detail": detail})
     print(("PASS " if ok else "FAIL ") + name + (f" — {detail}" if detail else ""), flush=True)
@@ -75,7 +80,7 @@ def beat_states(page: Page, base: str, folder: str, lang: str) -> None:
     expect(page.locator(".choice[aria-checked=true]")).to_have_count(1)
     shoot(page, folder, "03-beat-your-call")
     page.locator(".stack-gap > .btn.wide").click()
-    page.wait_for_selector(".bars")
+    page.wait_for_selector(".probs-row")
     shoot(page, folder, "04-beat-model-call")
     page.locator(".stack-gap > .btn.wide").click()
     page.wait_for_selector(".three")
@@ -114,7 +119,7 @@ def flow_challenge(page: Page, base: str) -> None:
     leave_round(page)
     page.locator(".staff input").fill("31")
     page.locator(".staff button[type=submit]").click()
-    expect(page.locator(".field-error")).to_contain_text("1 to 30")
+    expect(page.locator("#case-hint")).to_contain_text("1 to 30")
     check("challenge: card 31 rejected with the existing card_invalid message", True)
     page.locator(".staff input").fill("#07")
     page.locator(".staff button[type=submit]").click()
@@ -129,10 +134,10 @@ def flow_challenge(page: Page, base: str) -> None:
     expect(page.locator(".choice[aria-checked=true]")).to_contain_text("Malignant")
     check("keys: M chooses Malignant", True)
     page.keyboard.press("r")  # keyboard shortcut: reveal the model
-    page.wait_for_selector(".bars")
+    page.wait_for_selector(".probs-row")
     case = booth["07"]
-    shown = page.locator(".bars .b b").all_inner_texts()
-    expected = [f"{case['ai_probs'][k] * 100:.0f}%" for k in ("normal", "benign", "malignant")]
+    shown = page.locator(".probs .pb b").all_inner_texts()
+    expected = [design_pct(case["ai_probs"][k]) for k in ("normal", "benign", "malignant")]
     check("challenge: model probabilities equal data/booth_set.json", shown == expected, f"{shown} vs {expected}")
     check("challenge: model's call matches booth_set.json",
           case["ai_pred"].capitalize() in page.locator("h1").inner_text())
@@ -141,7 +146,7 @@ def flow_challenge(page: Page, base: str) -> None:
     check("challenge: overlay refused before the truth", api.get(f"{base}/api/challenge/image/mask_overlay").status == 404)
     page.keyboard.press("t")  # keyboard shortcut: reveal the truth
     page.wait_for_selector(".three")
-    truth_row = page.locator(".ledger .row").nth(2).inner_text()
+    truth_row = page.locator(".t-right .ledger .row").nth(3).inner_text()
     check("challenge: the truth matches booth_set.json", case["truth"].capitalize() in truth_row, truth_row)
     scores = [s.strip() for s in page.locator(".ledger.score .row b").all_inner_texts()]
     you = int(case["truth"] == "malignant")
@@ -164,7 +169,7 @@ def flow_challenge(page: Page, base: str) -> None:
         cards.append(card)
         page.locator(".choice").first.click()
         page.locator(".stack-gap > .btn.wide").click()
-        page.wait_for_selector(".bars")
+        page.wait_for_selector(".probs-row")
         page.locator(".stack-gap > .btn.wide").click()
         page.wait_for_selector(".three")
         you_right += booth[card]["truth"] == "normal"
@@ -184,27 +189,28 @@ def flow_challenge(page: Page, base: str) -> None:
 
 def flow_tweak(page: Page, base: str) -> None:
     goto(page, base, "/tweak")
-    page.wait_for_selector(".dial")
+    page.wait_for_selector("#call")
     page.locator(".presets .btn").nth(1).click()
     page.wait_for_timeout(700)
-    check("tweak: typical malignant preset → Malignant", page.locator(".dial .lbl").inner_text().lower() == "malignant")
+    check("tweak: typical malignant preset → Malignant", page.locator("#call").inner_text().lower() == "malignant")
     page.locator(".presets .btn").nth(0).click()
     page.wait_for_timeout(700)
-    check("tweak: typical benign preset → Benign", page.locator(".dial .lbl").inner_text().lower() == "benign")
+    check("tweak: typical benign preset → Benign", page.locator("#call").inner_text().lower() == "benign")
     before = page.locator(".output .bars .b b").last.inner_text()
     page.locator(".threshold input").evaluate("""(el) => { const set = Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, 'value').set;
         set.call(el, '0'); el.dispatchEvent(new Event('input', { bubbles: true })); }""")
     page.wait_for_timeout(700)
     after = page.locator(".output .bars .b b").last.inner_text()
     check("tweak: threshold changes the decision, not the probability",
-          before == after and page.locator(".dial .lbl").inner_text().lower() == "malignant", f"{before} / {after}")
+          before == after and page.locator("#call").inner_text().lower() == "malignant", f"{before} / {after}")
     page.locator(".sliders input[type=range]").first.focus()
     for _ in range(40):
         page.keyboard.press("ArrowRight")
     page.wait_for_timeout(800)
     check("tweak: keyboard on a slider updates the microscope line", "Nucleus size" in page.locator(".microscope .now").inner_text())
-    check("tweak: microscope image loads from the API",
-          page.locator(".slide-wrap .photo img").evaluate("img => img.naturalWidth > 0"))
+    check("tweak: the microscope cell is drawn (canvas has nuclei over the slide)",
+          page.locator(".cell-photo canvas").evaluate("""c => { const d = c.getContext('2d').getImageData(0, 0, c.width, c.height).data;
+              let dark = 0; for (let i = 0; i < d.length; i += 4 * 97) if (d[i] < 90 && d[i + 2] > d[i + 1]) dark++; return dark > 50; }"""))
 
 
 def flow_ask(page: Page, base: str) -> None:
@@ -246,7 +252,8 @@ def main() -> int:
             for folder, size in VIEWPORTS.items():
                 for lang in (("en", "ar") if folder != "tablet" else ("en",)):
                     target = folder if lang == "en" else f"arabic-{folder}"
-                    context = browser.new_context(viewport={"width": size[0], "height": size[1]})
+                    context = browser.new_context(viewport={"width": size[0], "height": size[1]},
+                                                  reduced_motion="reduce")  # final states, not mid-animation
                     page = context.new_page()
                     errors: list[str] = []
                     page.on("console", lambda m: m.type == "error" and errors.append(m.text))
@@ -254,7 +261,7 @@ def main() -> int:
                     for name, path in (("01-home", "/"), ("07-tweak", "/tweak"), ("08-ask", "/ask"), ("09-about", "/about")):
                         goto(page, base, path, lang)
                         if path == "/tweak":
-                            page.wait_for_selector(".dial")
+                            page.wait_for_selector("#call")
                         shoot(page, target, name)
                         px = overflow(page)
                         check(f"[{target}] {name}: no horizontal overflow", px <= 0, f"{px}px")
