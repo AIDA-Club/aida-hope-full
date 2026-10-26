@@ -217,37 +217,37 @@
   {
     "check": "challenge: random round shows case 1 of 5",
     "ok": true,
-    "detail": "Case 1 of 5"
+    "detail": "1 of 5 in this round"
   },
   {
     "check": "challenge: random round shows case 2 of 5",
     "ok": true,
-    "detail": "Case 2 of 5"
+    "detail": "2 of 5 in this round"
   },
   {
     "check": "challenge: random round shows case 3 of 5",
     "ok": true,
-    "detail": "Case 3 of 5"
+    "detail": "3 of 5 in this round"
   },
   {
     "check": "challenge: random round shows case 4 of 5",
     "ok": true,
-    "detail": "Case 4 of 5"
+    "detail": "4 of 5 in this round"
   },
   {
     "check": "challenge: random round shows case 5 of 5",
     "ok": true,
-    "detail": "Case 5 of 5"
+    "detail": "5 of 5 in this round"
   },
   {
     "check": "challenge: five distinct cards in a random round",
     "ok": true,
-    "detail": "09,18,22,08,11"
+    "detail": "28,01,17,29,07"
   },
   {
     "check": "challenge: final score equals the data",
     "ok": true,
-    "detail": "['2 of 5', '5 of 5']"
+    "detail": "['1 of 5', '2 of 5']"
   },
   {
     "check": "challenge: folders hidden by default",

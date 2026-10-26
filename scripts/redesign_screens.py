@@ -119,12 +119,12 @@ def flow_challenge(page: Page, base: str) -> None:
     leave_round(page)
     page.locator(".staff input").fill("31")
     page.locator(".staff button[type=submit]").click()
-    expect(page.locator("#case-hint")).to_contain_text("1 to 30")
+    expect(page.locator("#case-hint")).to_contain_text("between 1 and 30")
     check("challenge: card 31 rejected with the existing card_invalid message", True)
     page.locator(".staff input").fill("#07")
     page.locator(".staff button[type=submit]").click()
     page.wait_for_selector(".choices")
-    check("challenge: card '#07' starts card 7", page.locator(".rail .case").inner_text().strip() == "Card 7")
+    check("challenge: card '#07' starts card 7", page.locator(".rail .case").inner_text().strip() == "Case 7")
     state = api.get(f"{base}/api/challenge/round").json()["round"]
     check("challenge: no AI prediction or truth sent before the model's call",
           not {"ai_pred", "ai_probs", "truth", "heatmap", "overlay"} & set(state["case"]))
@@ -164,7 +164,7 @@ def flow_challenge(page: Page, base: str) -> None:
     cards, you_right, ai_right = [], 0, 0
     for index in range(5):
         count = page.locator(".rail .round-count").inner_text()
-        check(f"challenge: random round shows case {index + 1} of 5", f"Case {index + 1} of 5" in count, count)
+        check(f"challenge: random round shows case {index + 1} of 5", f"{index + 1} of 5 in this round" in count, count)
         card = "%02d" % int(re.search(r"(\d+)", page.locator(".rail .case").inner_text()).group(1))
         cards.append(card)
         page.locator(".choice").first.click()

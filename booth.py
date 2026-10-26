@@ -49,7 +49,7 @@ def public_mode() -> bool:
 
 
 def card_case_id(text) -> str | None:
-    """A printed card number (1-30, "07", "#7", Arabic-Indic digits) as a case id, else None."""
+    """A case number typed by the visitor (1-30, "07", "#7", Arabic-Indic digits) as a case id, else None."""
     if not isinstance(text, str):
         return None
     text = text.strip().lstrip("#").strip()

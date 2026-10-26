@@ -115,7 +115,7 @@ def i18n(lang: str) -> dict:
 
 @app.get("/api/cards/{cid}/original")
 def card_original(cid: str) -> FileResponse:
-    """A booth card's original ultrasound (printed on the card itself, so never a spoiler)."""
+    """A case's original ultrasound (what the visitor looks at first, so never a spoiler)."""
     case = cases().get(cid)
     if case is None:
         raise problem(404, "card_invalid")
@@ -208,7 +208,7 @@ def get_round(request: Request, response: Response) -> dict:
 
 @app.post("/api/challenge/start")
 def start_round(body: StartRequest, request: Request, response: Response) -> dict:
-    """A random round of five cards, or one card typed by the visitor."""
+    """A random round of five cases, or one case number picked by the visitor."""
     session = visitor(request, response)
     all_cases = cases()
     if body.card is None:
