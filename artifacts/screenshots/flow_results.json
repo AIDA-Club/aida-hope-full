@@ -1,0 +1,322 @@
+[
+  {
+    "check": "[desktop] 01-home: no horizontal overflow",
+    "ok": true,
+    "detail": "0px"
+  },
+  {
+    "check": "[desktop] 07-tweak: no horizontal overflow",
+    "ok": true,
+    "detail": "0px"
+  },
+  {
+    "check": "[desktop] 08-ask: no horizontal overflow",
+    "ok": true,
+    "detail": "0px"
+  },
+  {
+    "check": "[desktop] 09-about: no horizontal overflow",
+    "ok": true,
+    "detail": "0px"
+  },
+  {
+    "check": "[desktop] no console errors",
+    "ok": true,
+    "detail": ""
+  },
+  {
+    "check": "[arabic-desktop] 01-home: no horizontal overflow",
+    "ok": true,
+    "detail": "0px"
+  },
+  {
+    "check": "[arabic-desktop] 07-tweak: no horizontal overflow",
+    "ok": true,
+    "detail": "0px"
+  },
+  {
+    "check": "[arabic-desktop] 08-ask: no horizontal overflow",
+    "ok": true,
+    "detail": "0px"
+  },
+  {
+    "check": "[arabic-desktop] 09-about: no horizontal overflow",
+    "ok": true,
+    "detail": "0px"
+  },
+  {
+    "check": "[arabic-desktop] no console errors",
+    "ok": true,
+    "detail": ""
+  },
+  {
+    "check": "[tablet] 01-home: no horizontal overflow",
+    "ok": true,
+    "detail": "0px"
+  },
+  {
+    "check": "[tablet] 07-tweak: no horizontal overflow",
+    "ok": true,
+    "detail": "0px"
+  },
+  {
+    "check": "[tablet] 08-ask: no horizontal overflow",
+    "ok": true,
+    "detail": "0px"
+  },
+  {
+    "check": "[tablet] 09-about: no horizontal overflow",
+    "ok": true,
+    "detail": "0px"
+  },
+  {
+    "check": "[tablet] no console errors",
+    "ok": true,
+    "detail": ""
+  },
+  {
+    "check": "[mobile] 01-home: no horizontal overflow",
+    "ok": true,
+    "detail": "0px"
+  },
+  {
+    "check": "[mobile] 07-tweak: no horizontal overflow",
+    "ok": true,
+    "detail": "0px"
+  },
+  {
+    "check": "[mobile] 08-ask: no horizontal overflow",
+    "ok": true,
+    "detail": "0px"
+  },
+  {
+    "check": "[mobile] 09-about: no horizontal overflow",
+    "ok": true,
+    "detail": "0px"
+  },
+  {
+    "check": "[mobile] no console errors",
+    "ok": true,
+    "detail": ""
+  },
+  {
+    "check": "[arabic-mobile] 01-home: no horizontal overflow",
+    "ok": true,
+    "detail": "0px"
+  },
+  {
+    "check": "[arabic-mobile] 07-tweak: no horizontal overflow",
+    "ok": true,
+    "detail": "0px"
+  },
+  {
+    "check": "[arabic-mobile] 08-ask: no horizontal overflow",
+    "ok": true,
+    "detail": "0px"
+  },
+  {
+    "check": "[arabic-mobile] 09-about: no horizontal overflow",
+    "ok": true,
+    "detail": "0px"
+  },
+  {
+    "check": "[arabic-mobile] no console errors",
+    "ok": true,
+    "detail": ""
+  },
+  {
+    "check": "a11y: first Tab reaches the skip link",
+    "ok": true,
+    "detail": ""
+  },
+  {
+    "check": "nav: About link routes to /about",
+    "ok": true,
+    "detail": ""
+  },
+  {
+    "check": "nav: current page is marked",
+    "ok": true,
+    "detail": ""
+  },
+  {
+    "check": "i18n: Arabic toggle sets dir=rtl and translates the nav",
+    "ok": true,
+    "detail": ""
+  },
+  {
+    "check": "routing: a refresh on /beat serves the site",
+    "ok": true,
+    "detail": ""
+  },
+  {
+    "check": "challenge: card 31 rejected with the existing card_invalid message",
+    "ok": true,
+    "detail": ""
+  },
+  {
+    "check": "challenge: card '#07' starts card 7",
+    "ok": true,
+    "detail": ""
+  },
+  {
+    "check": "challenge: no AI prediction or truth sent before the model's call",
+    "ok": true,
+    "detail": ""
+  },
+  {
+    "check": "challenge: heatmap refused before the model's call",
+    "ok": true,
+    "detail": ""
+  },
+  {
+    "check": "challenge: reveal is locked until a call is made",
+    "ok": true,
+    "detail": ""
+  },
+  {
+    "check": "keys: M chooses Malignant",
+    "ok": true,
+    "detail": ""
+  },
+  {
+    "check": "challenge: model probabilities equal data/booth_set.json",
+    "ok": true,
+    "detail": "['<1%', '35%', '65%'] vs ['<1%', '35%', '65%']"
+  },
+  {
+    "check": "challenge: model's call matches booth_set.json",
+    "ok": true,
+    "detail": ""
+  },
+  {
+    "check": "challenge: AI-error note shown for a case the AI got wrong",
+    "ok": true,
+    "detail": ""
+  },
+  {
+    "check": "challenge: overlay refused before the truth",
+    "ok": true,
+    "detail": ""
+  },
+  {
+    "check": "challenge: the truth matches booth_set.json",
+    "ok": true,
+    "detail": "The truth\nBenign"
+  },
+  {
+    "check": "challenge: score counts the visitor and the model against the label",
+    "ok": true,
+    "detail": "['0 of 1', '0 of 1']"
+  },
+  {
+    "check": "challenge: one-card round ends with the station message",
+    "ok": true,
+    "detail": ""
+  },
+  {
+    "check": "challenge: random round shows case 1 of 5",
+    "ok": true,
+    "detail": "1 of 5 in this round"
+  },
+  {
+    "check": "challenge: random round shows case 2 of 5",
+    "ok": true,
+    "detail": "2 of 5 in this round"
+  },
+  {
+    "check": "challenge: random round shows case 3 of 5",
+    "ok": true,
+    "detail": "3 of 5 in this round"
+  },
+  {
+    "check": "challenge: random round shows case 4 of 5",
+    "ok": true,
+    "detail": "4 of 5 in this round"
+  },
+  {
+    "check": "challenge: random round shows case 5 of 5",
+    "ok": true,
+    "detail": "5 of 5 in this round"
+  },
+  {
+    "check": "challenge: five distinct cards in a random round",
+    "ok": true,
+    "detail": "28,01,17,29,07"
+  },
+  {
+    "check": "challenge: final score equals the data",
+    "ok": true,
+    "detail": "['1 of 5', '2 of 5']"
+  },
+  {
+    "check": "challenge: folders hidden by default",
+    "ok": true,
+    "detail": ""
+  },
+  {
+    "check": "challenge: six patient folders shown on request",
+    "ok": true,
+    "detail": ""
+  },
+  {
+    "check": "tweak: typical malignant preset → Malignant",
+    "ok": true,
+    "detail": ""
+  },
+  {
+    "check": "tweak: typical benign preset → Benign",
+    "ok": true,
+    "detail": ""
+  },
+  {
+    "check": "tweak: threshold changes the decision, not the probability",
+    "ok": true,
+    "detail": "1% / 1%"
+  },
+  {
+    "check": "tweak: keyboard on a slider updates the microscope line",
+    "ok": true,
+    "detail": ""
+  },
+  {
+    "check": "tweak: the microscope cell is drawn (canvas has nuclei over the slide)",
+    "ok": true,
+    "detail": ""
+  },
+  {
+    "check": "ask: topics menu closes after picking one",
+    "ok": true,
+    "detail": ""
+  },
+  {
+    "check": "ask: topic shows the hand-written Know the Signs answer",
+    "ok": true,
+    "detail": ""
+  },
+  {
+    "check": "ask: empty question refused with the existing chat_empty message",
+    "ok": true,
+    "detail": ""
+  },
+  {
+    "check": "ask: typed symptom question answered (offline guidance when no key)",
+    "ok": true,
+    "detail": "offline"
+  },
+  {
+    "check": "ask: questions left counted",
+    "ok": true,
+    "detail": ""
+  },
+  {
+    "check": "ask: new conversation clears the transcript",
+    "ok": true,
+    "detail": ""
+  },
+  {
+    "check": "ask: ?topic=get_help opens Where to Get Help",
+    "ok": true,
+    "detail": ""
+  }
+]

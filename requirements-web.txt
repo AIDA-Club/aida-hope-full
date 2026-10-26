@@ -1,0 +1,17 @@
+# Runtime dependencies of the web redesign API (api/main.py), installed by the Dockerfile.
+# Pinned to the versions the redesign was tested with (Python 3.12).
+# Development/test tools (pytest, playwright, print tooling) live in requirements.txt.
+fastapi==0.143.0
+uvicorn[standard]==0.54.0
+# booth.py imports Streamlit at module level (its helpers are shared with the Streamlit app).
+streamlit==1.65.0
+# Ask AIDA: Markdown rendering always; the OpenAI-compatible client only when a key is set.
+markdown-it-py==4.0.0
+openai==3.28.0
+# Tweak the Tumor: models/wdbc_model.pkl was saved with scikit-learn 1.6.1; keep the numerical
+# stack identical to requirements-public.txt (scipy also draws the microscope view).
+scikit-learn==1.6.1
+numpy==2.5.3
+scipy==1.18.1
+pandas==3.0.6
+pillow==12.3.0
